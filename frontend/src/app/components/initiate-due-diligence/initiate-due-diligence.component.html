@@ -1,0 +1,2146 @@
+<div class="content-panel initiateDueDiligence">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>Initiate Due Diligence Processing</label>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="alert alert-danger mtop-20" role="alert" *ngIf="isError">
+                {{ errorMessage }}
+            </div>
+            <div class="v-flex">
+                <div class="form-field w-100">
+                    <div class="grid">
+                        <table>
+                            <tr>
+                                <th>Module 1 (M1)</th>
+                                <td>Scrutiny of Application</td>
+                            </tr>
+                            <tr>
+                                <th>Module 2 (M2)</th>
+                                <td>Documentation, Creation of Securities, Insurance and Loan Disbursement</td>
+                            </tr>
+                            <tr>
+                                <th>Module 3 (M3)</th>
+                                <td>Confirmation of Securities Obtained, to be done within 1 month of Loan Disbursement</td>
+                            </tr>
+                            <tr>
+                                <th>Module 4 (M4)</th>
+                                <td>Periodic Monitoring & Follow-up</td>
+                            </tr>
+                            <tr>
+                                <th>Module 5 (M5)</th>
+                                <td>Release of Securities</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <form [formGroup]="initiateDueDiligenceForm" autocomplete="off">
+                    <div class="form-field w-100 v-flex">
+                        <div class="v-flex blockA">
+                            <label>Initiate Due-Diligence of New Loan Application</label>
+                            <mat-radio-group formControlName="dueDeligenceOfNewApp" class="v-flex">
+                                <mat-radio-button value="1">Select Module 1 (M1) for New Loan Application (For Retail OR Commercial Credit)</mat-radio-button>
+                                <!-- <mat-radio-button value="A2">Select Module 1 (M1) for New Loan Application (With Assessment & Appraisal - For Retail Credit Only)</mat-radio-button> -->
+                                <mat-radio-button value="2">Select Module 2 (M2) for Documentation & Disbursement of Loan</mat-radio-button>
+                            <!-- </mat-radio-group> -->
+                        <!-- </div>
+                        <div class="v-flex blockB"> -->
+                            <label>Due-Diligence Processing of Existing Account through Module 3 (M3) / Module 4 (M4) / Module 5 (M5)</label>
+                            <!-- <mat-radio-group formControlName="dueDeligenceOfExistingAccount" class="v-flex"> -->
+                                <mat-radio-button value="3">Select Module 3 (M3) for an Existing Account which has NOT been processed through e2e Module 1 (M1) and Module 2 (M2)</mat-radio-button>
+                                <mat-radio-button value="4">Select Module 4 (M4) for an Existing Account which has NOT been processed through from Module 1 (M1) to Module 3 (M3)</mat-radio-button>
+                                <mat-radio-button value="5">Select Module 4 (M4) for an Existing Account which has been processed through only Module 2 (M2)</mat-radio-button>
+                                <mat-radio-button value="6">Select Module 5 (M5) for an Existing Account which has NOT been processed through Module 1 (M1) to Module 4 (M4)</mat-radio-button>
+                                <mat-radio-button value="7">Select Module 5 (M5) for an Existing Account which has been processed through Module 2 (M2)/Module 3 (M3)/Module 4 (M4)</mat-radio-button>
+                            </mat-radio-group>
+                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h2 class="col-md-12 mbot-20">Preliminary Details</h2>
+                        <div class="form-field w-50">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Loan Application Number</mat-label>
+                                <input matInput placeholder="Loan Application Number" formControlName="loanAppNum">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field w-50">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Loan Application Date</mat-label>
+                                <input matInput placeholder="Loan Application Date" [matDatepicker]="picker1" formControlName="loanAppDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field w-50">
+                            <mat-label>Availability of CIF No.</mat-label>
+                            <mat-radio-group formControlName="availabilityOfCifNum" (change)="cifOnChange($event)">
+                                <mat-radio-button value="Y" >Yes</mat-radio-button>
+                                <mat-radio-button value="N">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="form-field w-50">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Select CIF No.</mat-label>
+                                <mat-select placeholder="Select CIF Number" formControlName="cifNum" [disabled]="isCifYes" (selectionChange)="cifNumChange($event)">
+                                    <mat-option *ngFor="let eachOption of cifOptions"
+                                        [value]="eachOption.cifNum">
+                                        {{eachOption.cifNum}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field w-50">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Applicant's Name</mat-label>
+                                <input matInput placeholder="Applicant's Name" formControlName="boorrowerName" [readonly]="isApplicantNameEnabled">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field w-50">
+                            <mat-label>Select Credit Sector</mat-label>
+                            <mat-radio-group formControlName="selectCreditSector" class="h-flex" (change)="creditSectorChange($event)">
+                                <mat-radio-button value="1">Retail Credit</mat-radio-button>
+                                <mat-radio-button value="2">Commercial Credit</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <!-- <div class="form-field w-50">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Select Existing Loan Account Number (Applicable for Retail Credit Only)</mat-label>
+                                <mat-select placeholder="Select Existing Loan Account Number" formControlName="selectLoanAccNumber">
+                                    <mat-option value="option1">Option 1</mat-option>
+                                    <mat-option value="option2">Option 2</mat-option>
+                                    <mat-option value="option3">Option 3</mat-option>
+                                    <mat-option value="option4">Option 4</mat-option>
+                                    <mat-option value="option5">Option 5</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.selectLoanAccNumber}}</mat-error>
+                        </div> -->
+                        <div class="form-field w-50">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Select Loan Scheme</mat-label>
+                                <mat-select placeholder="Select Loan Scheme" formControlName="selectLoanScheme" (selectionChange)="onLoanSchemeChange($event)">
+                                
+                                    <mat-option *ngFor="let eachOption of loanSchemeOptions"
+                                        [value]="eachOption.loanSchemeId">
+                                        {{eachOption.loanSchemeName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field w-50" *ngIf="!isE2EPresent">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Select Loan Variant</mat-label>
+                                <mat-select placeholder="Select Loan Variant" formControlName="selectLoanVariant" [disabled]="!isLoanSchemeEnabled">
+                                    <mat-option *ngFor="let eachOption of loanVariantOptionFiltered"
+                                        [value]="eachOption.loanVariantId" >
+                                        {{eachOption.loanVariantName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field w-50" *ngIf="isE2EPresent">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Select Loan Variant</mat-label>
+                                <mat-select placeholder="Select Loan Variant" formControlName="selectLoanVariant" >
+                                    <mat-option *ngFor="let eachOption of loanVariantOptions"
+                                        [value]="eachOption.loanVariantId" >
+                                        {{eachOption.loanVariantName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div class="form-field w-50">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Select e2e for existing Loan Account</mat-label>
+                                <mat-select placeholder="Select e2e for existing Loan Account" formControlName="selecte2e">
+                                    <mat-option value="option1">Option 1</mat-option>
+                                    <mat-option value="option2">Option 2</mat-option>
+                                    <mat-option value="option3">Option 3</mat-option>
+                                    <mat-option value="option4">Option 4</mat-option>
+                                    <mat-option value="option5">Option 5</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.selecte2e}}</mat-error>
+                        </div> -->
+                        <div class="form-field w-50">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Assign Unit Maker</mat-label>
+                                <mat-select placeholder="Assign Unit Maker" formControlName="assignBranchMaker">
+                                    <mat-option *ngFor="let eachOption of branchMakerOptions"
+                                        [value]="eachOption.username">
+                                        {{eachOption.fullname}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field w-100">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Comments</mat-label>
+                                <textarea matInput rows="5" placeholder="Type in your comments here..." formControlName="comments"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+                <div class="form-group due-diligence-stepper">
+                    <div class="col-md-12">
+                        <!-- <h2>Module 1 (M1) - Scrutiny of Application</h2> -->
+                        <mat-horizontal-stepper [linear]="false" #stepper (selectionChange) = "selectionChange($event)">
+                            <mat-step [stepControl]="autoGeneratedDetailsForm" label="Auto-generated Details">
+                                <form [formGroup]="autoGeneratedDetailsForm" autocomplete="off">
+                                    <div class="row">
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>e2e Number</mat-label>
+                                                <input matInput placeholder="e2e Number" formControlName="e2eno" readonly>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>e2e Date</mat-label>
+                                                <input matInput placeholder="e2e Date" formControlName="e2edate" readonly>
+                                                <!-- <mat-datepicker-toggle matSuffix [for]="picker2">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker2></mat-datepicker> -->
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>e2e M3 Expected Start Date</mat-label>
+                                                <input matInput placeholder="e2e M3 Expected Start Date"  formControlName="e2em3expectedstartdate" readonly>
+                                                <!-- <mat-datepicker-toggle matSuffix [for]="picker3">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker3></mat-datepicker> -->
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>e2e M4 Expected Start Date</mat-label>
+                                                <input matInput placeholder="e2e M4 Expected Start Date" formControlName="e2em4expectedstartdate" readonly>
+                                                <!-- <mat-datepicker-toggle matSuffix [for]="picker4">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker4></mat-datepicker> -->
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>e2e M4 Review No</mat-label>
+                                                <input matInput placeholder="e2e M4 Review No" formControlName="e2em4reviewno" readonly>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>e2e M4 Review Date</mat-label>
+                                                <input matInput placeholder="e2e M4 Review Date" formControlName="e2em4reviewdate" readonly>
+                                                <!-- <mat-datepicker-toggle matSuffix [for]="picker5">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker5></mat-datepicker> -->
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>e2e M5 Security Release Number</mat-label>
+                                                <input matInput placeholder="e2e M5 Security Release Number" formControlName="e2em5securityreleasenumber" readonly>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>e2e M5 Date</mat-label>
+                                                <input matInput placeholder="e2e M5 Date" formControlName="e2em5date" readonly>
+                                                <!-- <mat-datepicker-toggle matSuffix [for]="picker6">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker6></mat-datepicker> -->
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Branch Name</mat-label>
+                                                <input matInput placeholder="Branch Name" formControlName="branchName">
+                                            </mat-form-field>
+                                        </div> -->
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>IFSC Code</mat-label>
+                                                <input matInput placeholder="IFSC Code" formControlName="ifsccode" readonly>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="stepper-actions">
+                                        <button color="secondary" class="next steps-button" mat-raised-button (click)="performAutoGeneratedSubmit()">
+                                            Next<mat-icon>chevron_right</mat-icon>
+                                        </button>
+                                    </div>
+                                </form>
+                            </mat-step>
+                            <mat-step [stepControl]="administrativeDetailsForm" label="Administrative Details">
+                                <form [formGroup]="administrativeDetailsForm" autocomplete="off">
+                                    <div class="row">
+                                        <div class="form-field w-33">
+                                            <mat-label>Unit Maker</mat-label>
+                                            <input matInput placeholder="Unit Make Name" formControlName="assignUnitMaker" readonly>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill"> 
+                                                <mat-label>Assign Unit Checker</mat-label>
+                                                <mat-select placeholder="Assign Unit Checker" formControlName="unitChecker">
+                                                    <mat-option *ngFor="let eachOption of unitCheckerOptions"
+				                                        [value]="eachOption.userName">
+				                                        {{eachOption.fullName}}
+				                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="clear"></div>
+                                        <div class="form-field w-33">
+                                            <mat-label>Sanctioning Authority</mat-label>
+                                            <input matInput placeholder="Unit Sanctioning Authority Name" formControlName="unitSanctionAuthority" readonly>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Sanctioning Authority</mat-label>
+                                                <mat-select placeholder="Sanctioning Authority" formControlName="loanSanctionAuthority">
+                                                    <mat-option value="Branch">Branch</mat-option>
+                                                    <mat-option value="CPC">CPC</mat-option>
+                                                    <mat-option value="Zone">Zone</mat-option>
+                                                    <mat-option value="HO">HO</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Select the No. of Periodical Reviews of this account completed till date</mat-label>
+                                                <input matInput placeholder="Loan Account No" formControlName="numReviewsCompleted">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="stepper-actions">
+                                        <button color="secondary" class="prev steps-button" mat-raised-button matStepperPrevious>
+                                            <mat-icon>chevron_left</mat-icon>Back
+                                        </button>
+                                        <button color="primary" class="next steps-button" mat-raised-button (click)="performAdministrativeDetailSubmit()">
+                                            Next <mat-icon>chevron_right</mat-icon>
+                                        </button>
+                                    </div>
+                                </form>
+                            </mat-step>
+                            <mat-step [stepControl]="generalInformationForm" label="General Information">
+                                <form [formGroup]="generalInformationForm" autocomplete="off">
+                                    <div class="row">
+                                        <div class="form-field w-33">
+                                            <mat-label>Availability of CIF No.</mat-label>
+                                            <mat-radio-group formControlName="cifNumberAvailability2" class="h-flex" disabled>
+                                                <mat-radio-button value="Y">Yes</mat-radio-button>
+                                                <mat-radio-button value="N">No</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Select CIF Number</mat-label>
+                                                <input matInput placeholder="Select CIF Number" formControlName="selectCifNumber2" readonly>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Applicant's/Borrower's Name</mat-label>
+                                                <input matInput placeholder="Applicant's/Borrower's Name" formControlName="applicantName2" readonly>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-label>Select Credit Sector</mat-label>
+                                            <mat-radio-group formControlName="selectCreditSector2" class="h-flex" disabled>
+                                                <mat-radio-button value="1">Retail Credit</mat-radio-button>
+                                                <mat-radio-button value="2">Commercial Credit</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <!-- <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Select Existing Loan Account No.</mat-label>
+                                                <mat-select placeholder="Select Existing Loan Account No." formControlName="selectExistingLoanNumber">
+                                                    <mat-option value="option1">Option 1</mat-option>
+                                                    <mat-option value="option2">Option 2</mat-option>
+                                                    <mat-option value="option3">Option 3</mat-option>
+                                                    <mat-option value="option4">Option 4</mat-option>
+                                                    <mat-option value="option5">Option 5</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.selectExistingLoanNumber}}</mat-error>
+                                        </div> -->
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Select Loan Scheme</mat-label>
+                                                <input matInput placeholder="Select Loan Scheme" formControlName="selectLoanScheme2" readonly>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Select Loan Variant</mat-label>
+                                                <input matInput placeholder="Select Loan Variant" formControlName="selectLoanVariant2" readonly>
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Select e2e for Existing Loan Account</mat-label>
+                                                <mat-select placeholder="Select e2e for Existing Loan Account" formControlName="selecte2eLoanAcc">
+                                                    <mat-option value="option1">Option 1</mat-option>
+                                                    <mat-option value="option2">Option 2</mat-option>
+                                                    <mat-option value="option3">Option 3</mat-option>
+                                                    <mat-option value="option4">Option 4</mat-option>
+                                                    <mat-option value="option5">Option 5</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.selecte2eLoanAcc}}</mat-error>
+                                        </div> -->
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Loan Account No</mat-label>
+                                                <input matInput placeholder="Loan Account No" formControlName="loanApplnNumber2">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <!-- <mat-form-field appearance="fill">
+                                                <mat-label>Date of Sanction/Acceptance</mat-label>
+                                                <input matInput placeholder="Date of Sanction/Acceptance" [matDatepicker]="picker9" formControlName="acceptanceDate">
+                                                <mat-datepicker-toggle matSuffix [for]="picker9">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker9></mat-datepicker>
+                                            </mat-form-field> -->
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Date of Sanction/Acceptance</mat-label>
+                                                <input matInput placeholder="Date of Sanction/Acceptance" [matDatepicker]="picker" formControlName="acceptanceDate">
+                                                <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                              </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Sanctioned Loan Amount (Rupees)</mat-label>
+                                                <input matInput placeholder="Sanctioned Loan Amount (Rupees)" formControlName="sanctionedLoanAmount">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-100">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Sanctioned Amount in words (Rupees)</mat-label>
+                                                <input matInput placeholder="Sanctioned Amount in words (Rupees)" formControlName="sanctionedLoanAmountWords">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Loan Tenor including Holiday Period(Months)</mat-label>
+                                                <input matInput placeholder="Loan Tenor including Holiday Period (Months)" formControlName="loanTenure2">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Revised Loan Tenor including Holiday Period (Months)</mat-label>
+                                                <input matInput placeholder="Revised Loan Tenor including Holiday Period (Months)" formControlName="revisedLoanTenure2">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Date of Disbursement</mat-label>
+                                                <input matInput placeholder="Date of Disbursement" [matDatepicker]="picker10" formControlName="disbursementDate">
+                                                <mat-datepicker-toggle matSuffix [for]="picker10">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker10></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>M4 Current Review Sanction Date</mat-label>
+                                                <input matInput placeholder="M4 Current Review Sanction Date" [matDatepicker]="picker11" formControlName="m4CurrentReviewSanctionDate">
+                                                <mat-datepicker-toggle matSuffix [for]="picker11">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker11></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-label>Select present status of the account</mat-label>
+                                            <mat-radio-group formControlName="presentStatus" class="h-flex">
+                                                <mat-radio-button value="1">Standard Asset</mat-radio-button>
+                                                <mat-radio-button value="2">NPA</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-label>Release of Security on account of Closure of</mat-label>
+                                            <mat-radio-group formControlName="releaseOfSecurityOnAccountClosure" class="h-flex" disabled>
+                                                <mat-radio-button value="1">Loan Account</mat-radio-button>
+                                                <mat-radio-button value="2">Facility(ies)</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Date of Closure of Loan Account/Facility(ies)</mat-label>
+                                                <input matInput placeholder="Date of Closure of Loan Account/Facility(ies)" [matDatepicker]="picker12" formControlName="dateOfClosureOfLoan">
+                                                <mat-datepicker-toggle matSuffix [for]="picker12">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker12></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Type of Account</mat-label>
+                                                <mat-select placeholder="Type of Account" formControlName="selectedAccountType">
+                                                    <mat-option *ngFor="let eachOption of accountTypeOptions"
+				                                        [value]="eachOption.accountTypeId">
+				                                        {{eachOption.accountTypeName}}
+				                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Type of Borrower</mat-label>
+                                                <mat-select placeholder="Type of Borrower" formControlName="selectedBorrowerType">
+                                                    <mat-option *ngFor="let eachOption of borrowerTypeOptions"
+				                                        [value]="eachOption.borrowerTypeId">
+				                                        {{eachOption.borrowerTypeName}}
+				                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field w-33">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Applicant's Occupation</mat-label>
+                                                <mat-select placeholder="Borrower Category" formControlName="selectedBorrowerCategory">
+                                                    <mat-option *ngFor="let eachOption of borrowerCategoryOptions"
+				                                        [value]="eachOption.borrowerCategoryId">
+				                                        {{eachOption.borrowerCategoryName}}
+				                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field grid w-100" >
+                                            <label>Select Type of Commercial Credit Facility</label>
+                                            <table formArrayName="commercialCreditFacilityDetails"  *ngIf="isGeneralInfoLoad && isCreditSectorCommerical">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Select Facility</th>
+                                                        <th>Account No</th>
+                                                        <th>Date of Sanction</th>
+                                                        <th>Sanctioned Limit (Rupees)</th>
+                                                        <th>Limit applied for (Rupees)</th>
+                                                        <th>Loan Tenor (Months)</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let eachCommercialCreditFacility of getCommercialCreditFacilityArrayControl(); let i=index">
+                                                        <td [formGroupName]="i">
+                                                            <mat-select placeholder="Loan Scheme" appearance="outline" floatlabel="never" formControlName="facility">
+                                                                <mat-option *ngFor="let eachOption of facilityOptions"
+							                                        [value]="eachOption.loanVariantId">
+							                                        {{eachOption.loanVariantName}}
+							                                    </mat-option>
+                                                            </mat-select>
+                                                        </td>
+                                                        <td [formGroupName]="i">
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+                                                                <input matInput placeholder="" formControlName="accountNum">
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td [formGroupName]="i">
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+                                                                <input matInput placeholder="Date of Sanction" [matDatepicker]="picker13" formControlName="dateOfSanction">
+                                                                <mat-datepicker-toggle matSuffix [for]="picker13">
+                                                                </mat-datepicker-toggle>
+                                                                <mat-datepicker #picker13></mat-datepicker>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td [formGroupName]="i">
+                                                            <mat-form-field appearance="outline" floatlabel="never" >
+                                                                <input matInput placeholder="" formControlName="sanctionedLimit">
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td [formGroupName]="i">
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+                                                                <input matInput placeholder=""  formControlName="sanctionedLimitWords">
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td [formGroupName]="i">
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+                                                                <input matInput placeholder=""  formControlName="loanTenor">
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td [formGroupName]="i">
+                                                            <span class="link" (click)="removeCommercialCreditFacility(i)" *ngIf="getCommercialCreditFacilityArrayControl().length > 0">Delete</span>
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                        <button color="primary" mat-raised-button (click)="addCommercialCreditFacilityDetails()">Add another Credit Facility</button>
+                                    </div>
+                                    <div class="stepper-actions">
+                                        <button color="secondary" class="prev steps-button" mat-raised-button matStepperPrevious>
+                                            <mat-icon>chevron_left</mat-icon>Back
+                                        </button>
+                                        <button color="primary" class="next steps-button" mat-raised-button (click)="performGeneralInfoDetailSubmit()">
+                                            Next <mat-icon>chevron_right</mat-icon>
+                                        </button>
+                                    </div>
+                                </form>
+                            </mat-step>
+                            <mat-step [stepControl]="CGSDetailsForm" label="Particulars of Co-Applicant/Guarantor/Security">
+                                <form [formGroup]="CGSDetailsForm" autocomplete="off">
+                                    <div class="row" >
+                                        <div class="form-field grid w-100">
+                                            <label>Co-Applicant/Co-Obligant Details</label>
+                                            <table *ngIf="isCoAppInfoLoad">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">S.No</th>
+                                                        <th>Name of Co-Applicant/Co-Obligant</th>
+                                                        <th>Designation</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                    <tr>
+                                                        <td class="text-center">1</td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+		                                                        <input matInput placeholder="" formControlName="coapplicantName">
+		                                                    </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline"> 
+                                                                <!-- <input matInput placeholder="" formControlName="cpd1"> -->
+                                                          <mat-select placeholder="Designation" formControlName="coappDesignation">
+	                                                         <mat-option
+	                                                            *ngFor="let eachOption of availableDesignationOptions"
+	                                                            [value]="eachOption.professionId">
+	                                                            {{eachOption.professionName}}
+	                                                        </mat-option> 
+	                                                      </mat-select>
+                                                        </mat-form-field>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">2</td>
+                                                        <td>
+                                                           <mat-form-field appearance="outline" floatlabel="never">
+                                                            <input matInput placeholder="" formControlName="coapplicantName1">
+		                                                    </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                          <mat-select formControlName="coappDesignation1" placeholder="Designation" appearance="outline" floatlabel="never">
+	                                                        <mat-option
+	                                                            *ngFor="let eachOption of availableDesignationOptions"
+	                                                            [value]="eachOption.professionId">
+	                                                            {{eachOption.professionName}}
+	                                                        </mat-option>
+	                                                      </mat-select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">3</td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+                                                                <input matInput placeholder="" formControlName="coapplicantName2">
+		                                                    </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                          <mat-select formControlName="coappDesignation2" placeholder="Designation" appearance="outline" floatlabel="never">
+	                                                        <mat-option
+	                                                            *ngFor="let eachOption of availableDesignationOptions"
+	                                                            [value]="eachOption.professionId">
+	                                                            {{eachOption.professionName}}
+	                                                        </mat-option>
+	                                                      </mat-select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">4</td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+		                                                        <input matInput placeholder="" formControlName="coapplicantName3">
+		                                                    </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                          <mat-select formControlName="coappDesignation3" placeholder="Designation" appearance="outline" floatlabel="never">
+	                                                        <mat-option
+	                                                            *ngFor="let eachOption of availableDesignationOptions"
+	                                                            [value]="eachOption.professionId">
+	                                                            {{eachOption.professionName}}
+	                                                        </mat-option>
+	                                                      </mat-select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">5</td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+                                                                <input matInput placeholder="" formControlName="coapplicantName4">
+		                                                    </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                          <mat-select formControlName="coappDesignation4" placeholder="Designation" appearance="outline" floatlabel="never">
+	                                                        <mat-option
+	                                                            *ngFor="let eachOption of availableDesignationOptions"
+	                                                            [value]="eachOption.professionId">
+	                                                            {{eachOption.professionName}}
+	                                                        </mat-option>
+	                                                      </mat-select>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                        <div class="form-field grid w-100">
+                                            <label>Guarantors Details</label>
+                                            <table *ngIf="isCoAppInfoLoad">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">S.No</th>
+                                                        <th>Name of Guarantor</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-center">1</td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+                                                                <input matInput placeholder="" formControlName="guarantorName">
+                                                            </mat-form-field>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">2</td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+                                                                <input matInput placeholder="" formControlName="guarantorName1">
+                                                            </mat-form-field>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">3</td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+                                                                <input matInput placeholder="" formControlName="guarantorName2">
+                                                            </mat-form-field>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">4</td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+                                                                <input matInput placeholder="" formControlName="guarantorName3">
+                                                            </mat-form-field>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">5</td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline" floatlabel="never">
+                                                                <input matInput placeholder="" formControlName="guarantorName4">
+                                                            </mat-form-field>
+                                                        </td>
+                                                    </tr>
+                                               </tbody>
+                                            </table>
+                                        </div>
+                                       
+                                        <div class="form-field">
+                                            <mat-label>Collateral Security</mat-label>
+                                            <mat-radio-group formControlName="loanSecurity" class="h-flex">
+                                                <mat-radio-button value="1" (change)="collateralYes()">With Collateral Security</mat-radio-button>
+                                                <mat-radio-button value="2" (change)="collateralNo()">Without Collateral Security</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-label>Type of Collateral Security</mat-label>
+                                            <mat-radio-group formControlName="securityType" class="h-flex" [disabled]="true" (change)="collateralSecurityTypeSelected($event)">
+                                                <mat-radio-button value="1" >Movable Property</mat-radio-button>
+                                                <mat-radio-button value="2">Immovable Property</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div class="form-field w-100">
+                                            <mat-label>Security Types</mat-label>
+                                            <mat-selection-list formControlName="moveAbleProperties" [disabled]="!isCollateralTypeSelected">
+                                                <mat-list-option [value]="cat.propertyId" *ngFor="let cat of moveAblePropertiesOptions" [selected]="cat.checked">
+												    {{cat.propertyName}}
+												  </mat-list-option>
+                                                <!-- <mat-list-option checkboxPosition="1">Shares</mat-list-option>
+                                                <mat-list-option checkboxPosition="2">Stock of Goods</mat-list-option>
+                                                <mat-list-option checkboxPosition="3">Book Debts</mat-list-option>
+                                                <mat-list-option checkboxPosition="4">Receivables</mat-list-option>
+                                                <mat-list-option checkboxPosition="5">Plant & Machinery / Equipments</mat-list-option>
+                                                <mat-list-option checkboxPosition="6">Vehicle</mat-list-option>
+                                                <mat-list-option checkboxPosition="7">Bank Deposit</mat-list-option>
+                                                <mat-list-option checkboxPosition="8">NSC/KVP/BONDS</mat-list-option>
+                                                <mat-list-option checkboxPosition="9">Life Insurance Policy</mat-list-option>
+                                                <mat-list-option checkboxPosition="10">Gold Jewellery</mat-list-option> -->
+                                            </mat-selection-list>
+                                        </div>
+                                        <div class="form-field w-100">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Comments</mat-label>
+                                                <textarea matInput rows="5" placeholder="Type in your comments here..." formControlName="comments2"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="stepper-actions">
+                                        <button color="secondary" class="prev steps-button" mat-raised-button matStepperPrevious>
+                                            <mat-icon>chevron_left</mat-icon>Back
+                                        </button>
+                                        <button color="primary" mat-raised-button (click)="performCoApplicantDetailSubmit()">SaveCoApplicant</button>
+                                        <button color="primary" mat-raised-button (click)="viewDD()">View Due Diligence</button>
+                                        <button color="primary" mat-raised-button (click)="viewSummary()">View Report of Status of Compliance</button>
+                                    </div>
+                                </form>
+                            </mat-step>
+                            <!-- <mat-step [stepControl]="assessmentForm" label="Assessment & Appraisal">
+                                <form [formGroup]="assessmentForm" autocomplete="off">
+                                    <div class="v-flex">
+                                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                            <mat-expansion-panel-header><mat-panel-title>Particulars of Applicant</mat-panel-title></mat-expansion-panel-header>
+                                            <div class="expansion-panel-content">
+                                                <div class="form-field w-100">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Address</mat-label>
+                                                        <input matInput placeholder="Address" formControlName="applicantAddress">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.applicantAddress}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Date of Birth</mat-label>
+                                                        <input matInput placeholder="Date of Birth" [matDatepicker]="picker13" formControlName="applicantDOB">
+                                                        <mat-datepicker-toggle matSuffix [for]="picker13">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #picker13></mat-datepicker>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.applicantDOB}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>CIBIL Score</mat-label>
+                                                        <input matInput placeholder="CIBIL Score" formControlName="applicantCIBILScore">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.applicantCIBILScore}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Aadhar Card No</mat-label>
+                                                        <input matInput placeholder="Aadhar Card No" formControlName="applicantAadhar">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.applicantAadhar}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>PAN Card No</mat-label>
+                                                        <input matInput placeholder="PAN Card No" formControlName="applicantPAN">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.applicantPAN}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Other KYC Document</mat-label>
+                                                        <mat-select placeholder="Other KYC Document" formControlName="applicantKYC1">
+                                                            <mat-option value="Passport">Passport</mat-option>
+                                                            <mat-option value="DrivingLicense">Driving License</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.applicantKYC1}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Other KYC Document</mat-label>
+                                                        <input matInput placeholder="Document Number" formControlName="applicantKYC2">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.applicantKYC2}}</mat-error>
+                                                </div>
+                                                <div class="grid">
+                                                    <table>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Income Particulars</th>
+                                                            <th>Applicant's Main Income (i)</th>
+                                                            <th>Applicant's Other Income (ii)</th>
+                                                            <th>Spouse's Income (If not considered as Co-Applicant)  (iii)</th>
+                                                            <th>Total Income (I + ii + iii) (Auto-calculated)</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>(a)</td>
+                                                            <td>Gross Monthly Income (Rupees)</td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline" floatlabel="never">
+                                                                    <input matInput placeholder="">
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline" floatlabel="never">
+                                                                    <input matInput placeholder="">
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline" floatlabel="never">
+                                                                    <input matInput placeholder="">
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline" floatlabel="never">
+                                                                    <input matInput placeholder="" readonly>
+                                                                </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>(b)</td>
+                                                            <td>Less Total Deductions (Rupees)</td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline" floatlabel="never">
+                                                                    <input matInput placeholder="">
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline" floatlabel="never">
+                                                                    <input matInput placeholder="">
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline" floatlabel="never">
+                                                                    <input matInput placeholder="">
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline" floatlabel="never">
+                                                                    <input matInput placeholder="" readonly>
+                                                                </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>(c)</td>
+                                                            <td>Net Monthly Income (Rupees)</td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline" floatlabel="never">
+                                                                    <input matInput placeholder="">
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline" floatlabel="never">
+                                                                    <input matInput placeholder="">
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline" floatlabel="never">
+                                                                    <input matInput placeholder="">
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field appearance="outline" floatlabel="never">
+                                                                    <input matInput placeholder="" readonly>
+                                                                </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </mat-expansion-panel>
+                                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                            <mat-expansion-panel-header><mat-panel-title>Particulars of Co-applicant</mat-panel-title></mat-expansion-panel-header>
+                                            <div class="expansion-panel-content">
+                                                <div class="grid">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Select</th>
+                                                                <th>Profile</th>
+                                                                <th>Enter Name of Co-applicant</th>
+                                                                <th>CIF No.</th>
+                                                                <th>Address</th>
+                                                                <th>Aadhar Card No.</th>
+                                                                <th>PAN Card No.</th>
+                                                                <th>Co-Applicant's other KYC Document (if any) Details – Nature of Document (Passport/Driving License etc)</th>
+                                                                <th>Co-Applicant's other KYC Document (if any) Details – Nature of Document (Passport/Driving License etc)</th>
+                                                                <th>Co-Applicant's other KYC Document (if any) Details – Number (Passport No./Driving License No. etc)</th>
+                                                                <th>CIBIL Score	Gross Monthly Income (Rupees) (d)</th>
+                                                                <th>Less Total Deductions (Rupees) (e)</th>
+                                                                <th>Net Monthly Income (Rupees) (f)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Co-Applicant</td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Co-Applicant 1</td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Co-Applicant 2</td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Co-Applicant 3</td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Co-Applicant 4</td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Total</td>
+                                                                <td colspan="8"></td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="" readonly>
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="" readonly>
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="" readonly>
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </mat-expansion-panel>
+                                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                            <mat-expansion-panel-header><mat-panel-title>Particulars of Guarantors</mat-panel-title></mat-expansion-panel-header>
+                                            <div class="expansion-panel-content">
+                                                <div class="grid">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Select</th>
+                                                                <th>Profile</th>
+                                                                <th>Enter Name of Guarantor/s</th>
+                                                                <th>CIF No.</th>
+                                                                <th>Address</th>
+                                                                <th>Aadhar Card No.</th>
+                                                                <th>PAN Card No.</th>
+                                                                <th>Guarantor's other KYC Document (if any) Details – Nature of Document (Passport/Driving License etc)</th>
+                                                                <th>Guarantor's other KYC Document (if any) Details – Number (Passport No./Driving License No. etc)</th>
+                                                                <th>CIBIL Score</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Guarantor</td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Guarantor</td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Guarantor 1</td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Guarantor 2</td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Guarantor 3</td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Guarantor 4</td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </mat-expansion-panel>
+                                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                            <mat-expansion-panel-header><mat-panel-title>Particulars of Security</mat-panel-title></mat-expansion-panel-header>
+                                            <div class="expansion-panel-content">
+                                                <div class="form-field w-33">
+                                                    <mat-label>Security</mat-label>
+                                                    <mat-radio-group formControlName="loanSecurity" class="h-flex">
+                                                        <mat-radio-button value="Secured">Secured</mat-radio-button>
+                                                        <mat-radio-button value="Unsecured">Unsecured</mat-radio-button>
+                                                    </mat-radio-group>
+                                                    <mat-error>{{pageErrors.loanSecurity}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-label>Type of Security</mat-label>
+                                                    <mat-radio-group formControlName="securityType" class="h-flex">
+                                                        <mat-radio-button value="1">Movable Property</mat-radio-button>
+                                                        <mat-radio-button value="2">Immovable Property</mat-radio-button>
+                                                    </mat-radio-group>
+                                                    <mat-error>{{pageErrors.securityType}}</mat-error>
+                                                </div>
+                                                <h2 class="w-100">Movable Property Details</h2>
+                                                <div class="grid w-100">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Select</th>
+                                                                <th>Movable Property Types</th>
+                                                                <th>Principal/Collateral Security</th>
+                                                                <th>Name of the Supplier/Dealer/Seller/Vendor/Depositor/Bond Holder/Policy Holder/Owner</th>
+                                                                <th>Value (In Rupees)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Vehicle</td>
+                                                                <td>
+                                                                    <mat-select appearance="outline" floatlabel="never">
+                                                                        <mat-option value="Option1">Option 1</mat-option>
+                                                                        <mat-option value="Option2">Option 2</mat-option>
+                                                                        <mat-option value="Option3">Option 3</mat-option>
+                                                                    </mat-select>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Bank Deposit</td>
+                                                                <td>
+                                                                    <mat-select appearance="outline" floatlabel="never">
+                                                                        <mat-option value="Option1">Option 1</mat-option>
+                                                                        <mat-option value="Option2">Option 2</mat-option>
+                                                                        <mat-option value="Option3">Option 3</mat-option>
+                                                                    </mat-select>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>NSC/KVP/BONDS</td>
+                                                                <td>
+                                                                    <mat-select appearance="outline" floatlabel="never">
+                                                                        <mat-option value="Option1">Option 1</mat-option>
+                                                                        <mat-option value="Option2">Option 2</mat-option>
+                                                                        <mat-option value="Option3">Option 3</mat-option>
+                                                                    </mat-select>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Life Insurance Policy</td>
+                                                                <td>
+                                                                    <mat-select appearance="outline" floatlabel="never">
+                                                                        <mat-option value="Option1">Option 1</mat-option>
+                                                                        <mat-option value="Option2">Option 2</mat-option>
+                                                                        <mat-option value="Option3">Option 3</mat-option>
+                                                                    </mat-select>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>Gold Jewellery</td>
+                                                                <td>
+                                                                    <mat-select appearance="outline" floatlabel="never">
+                                                                        <mat-option value="Option1">Option 1</mat-option>
+                                                                        <mat-option value="Option2">Option 2</mat-option>
+                                                                        <mat-option value="Option3">Option 3</mat-option>
+                                                                    </mat-select>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field appearance="outline" floatlabel="never">
+                                                                        <input matInput placeholder="">
+                                                                    </mat-form-field>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <h2 class="w-100">Immovable Property Details</h2>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Name of the Seller/Builder/Owner</mat-label>
+                                                        <input matInput placeholder="Name of the Seller/Builder/Owner" formControlName="immovableProperty">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.immovableProperty}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-66">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Address of the property</mat-label>
+                                                        <input matInput placeholder="Address of the property" formControlName="immovablePropertyAddress">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.immovablePropertyAddress}}</mat-error>
+                                                </div>
+                                                <h2 class="w-100">Title Clearance Report</h2>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Advocate’s Name</mat-label>
+                                                        <input matInput placeholder="Advocate’s Name" formControlName="advocateName">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.advocateName}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Date of Legal Opinion</mat-label>
+                                                        <input matInput placeholder="Date of Legal Opinion" [matDatepicker]="picker14" formControlName="legalOpinionDate">
+                                                        <mat-datepicker-toggle matSuffix [for]="picker14">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #picker14></mat-datepicker>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.legalOpinionDate}}</mat-error>
+                                                </div>
+                                                <h2 class="w-100">Valuation Report</h2>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Valuer’s Name</mat-label>
+                                                        <input matInput placeholder="Valuer’s Name" formControlName="valuerName">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.valuerName}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Date of Valuation</mat-label>
+                                                        <input matInput placeholder="Date of Valuation" [matDatepicker]="picker15" formControlName="valuationDate">
+                                                        <mat-datepicker-toggle matSuffix [for]="picker15">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #picker15></mat-datepicker>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.valuationDate}}</mat-error>
+                                                </div>
+                                                <div class="clear"></div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Assessed Value (In Rupees)</mat-label>
+                                                        <input matInput placeholder="Assessed Value (In Rupees)" formControlName="asssessedValue">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.asssessedValue}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Estimated Cost of Construction / Repairs (In Rupees)</mat-label>
+                                                        <input matInput placeholder="Estimated Cost of Construction / Repairs (In Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Date of Visit to the Property by Bank Staff/Bank’s Authorized Person</mat-label>
+                                                        <input matInput placeholder="Date of Visit to the Property by Bank Staff/Bank’s Authorized Person" [matDatepicker]="picker16" formControlName="staffVisitDate">
+                                                        <mat-datepicker-toggle matSuffix [for]="picker16">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #picker16></mat-datepicker>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.staffVisitDate}}</mat-error>
+                                                </div>
+                                            </div>
+                                        </mat-expansion-panel>
+                                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                            <mat-expansion-panel-header><mat-panel-title>Part I - Computation of Loan Amount for Loan Schemes other than Educational Loan</mat-panel-title></mat-expansion-panel-header>
+                                            <div class="expansion-panel-content">
+                                                <h2>A. Computation Based on Income</h2>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(i) Gross Monthly Income of Applicant + Co-Applicant/s (Rupees)</mat-label>
+                                                        <input matInput placeholder="Gross Monthly Income of Applicant + Co-Applicant/s (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(ii) Less Total Deductions  of Applicant + Co-Applicant/s (Rupees)</mat-label>
+                                                        <input matInput placeholder="Less Total Deductions  of Applicant + Co-Applicant/s (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(iii) Net Monthly Income of Applicant + Co-Applicant/s (Rupees)</mat-label>
+                                                        <input matInput placeholder="Net Monthly Income of Applicant + Co-Applicant/s (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(iv) Number of times of the monthly Gross Income considered for deciding Maximum eligible loan amount</mat-label>
+                                                        <input matInput placeholder="Number of times of the monthly Gross Income considered for deciding Maximum eligible loan amount" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(v) Maximum Eligible Amount based on Gross Income (Rupees)</mat-label>
+                                                        <input matInput placeholder="Maximum Eligible Amount based on Gross Income (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(vi) Number of times of the monthly Net Income considered for deciding Maximum eligible loan amount</mat-label>
+                                                        <input matInput placeholder="Number of times of the monthly Net Income considered for deciding Maximum eligible loan amount" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(vii) Maximum eligible Amount based on Net Income (Rupees)</mat-label>
+                                                        <input matInput placeholder="Maximum eligible Amount based on Net Income (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="clear"></div>
+                                                <div class="form-field w-50">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(A) Maximum Eligible Loan Amount: (Higher of (v) and (vii))</mat-label>
+                                                        <input matInput placeholder="Maximum Eligible Loan Amount" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <h2>B. Computation Based on Security</h2>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(i) Security Value: As per Agreement / Quotation for asset to be acquired (Rupees) Or Estimate (In case of Repairs & Renovation) (Rupees)</mat-label>
+                                                        <input matInput placeholder="(i) Security Value: As per Agreement / Quotation for asset to be acquired (Rupees) Or Estimate (In case of Repairs & Renovation) (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(ii)Add expenses like Registration Fee and Stamp Duty, Taxes considered eligible for Loan (Rupees)</mat-label>
+                                                        <input matInput placeholder="(ii)Add expenses like Registration Fee and Stamp Duty, Taxes considered eligible for Loan (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(iii) Total of (i) + (ii) Rupees</mat-label>
+                                                        <input matInput placeholder="(iii) Total of (i) + (ii) Rupees" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(iv) Assessed Value (of asset to be acquired) Or Cost of Repairs & Renovation Certified as Reasonable by Bank’s Valuer (Rupees)</mat-label>
+                                                        <input matInput placeholder="(iv) Assessed Value (of asset to be acquired) Or Cost of Repairs & Renovation Certified as Reasonable by Bank’s Valuer (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(v) Lower of (iii) and (iv) (Rupees) Stipulated Margin (in %)</mat-label>
+                                                        <input matInput placeholder="(v) Lower of (iii) and (iv) (Rupees) Stipulated Margin (in %)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(vi) Margin Amount (Rupees)</mat-label>
+                                                        <input matInput placeholder="(vi) Margin Amount (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="clear"></div>
+                                                <div class="form-field w-50">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(B) Loan To Value (LTV) (Rupees)</mat-label>
+                                                        <input matInput placeholder="(B) Loan To Value (LTV) (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <h2>C. Details of Loan Applied</h2>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(i) Amount (Rupees)</mat-label>
+                                                        <input matInput placeholder="(i) Amount (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(ii) Repayment Period including Holiday Period (Months)</mat-label>
+                                                        <input matInput placeholder="(ii) Repayment Period including Holiday Period (Months)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <h2>D. Assessed Eligible Loan</h2>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(i) Eligible Loan Amount: Lower of  ‘A’ , ‘B’ and ‘C (i)’ (Rupees)</mat-label>
+                                                        <input matInput placeholder="(i) Eligible Loan Amount: Lower of  ‘A’ , ‘B’ and ‘C (i)’ (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(ii) Applicable Rate of Interest (%)</mat-label>
+                                                        <input matInput placeholder="(ii) Applicable Rate of Interest (%)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(iii) Eligible Repayment Period including Holiday Period (Months)</mat-label>
+                                                        <input matInput placeholder="(iii) Eligible Repayment Period including Holiday Period (Months)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(iv) EMI for the Eligible Loan Amount as per the Bank’s Scheme (Rupees)</mat-label>
+                                                        <input matInput placeholder="(iv) EMI for the Eligible Loan Amount as per the Bank’s Scheme (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(v) Net Income After deduction of Proposed EMI (Rupees)</mat-label>
+                                                        <input matInput placeholder="(v) Net Income After deduction of Proposed EMI (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(vi) Net Income After deduction of Proposed EMI as a % of Gross Income</mat-label>
+                                                        <input matInput placeholder="(vi) Net Income After deduction of Proposed EMI as a % of Gross Income" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(vii) Stipulated Minimum Net Income as % to Gross Income After deduction of Proposed EMI</mat-label>
+                                                        <input matInput placeholder="(vii) Stipulated Minimum Net Income as % to Gross Income After deduction of Proposed EMI" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-100">
+                                                    <mat-label>Compliance of Bank Norms regarding Minimum Take home Income after deduction of proposed EMI</mat-label>
+                                                    <mat-radio-group formControlName="cifNumberAvailability" class="v-flex">
+                                                        <mat-radio-button value="Compiled">Compiled</mat-radio-button>
+                                                        <mat-radio-button value="NotCompiled">Not Compiled</mat-radio-button>
+                                                    </mat-radio-group>
+                                                    <mat-error>{{pageErrors.cifNumberAvailability}}</mat-error>
+                                                </div>
+                                            </div>
+                                        </mat-expansion-panel>
+                                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                            <mat-expansion-panel-header><mat-panel-title>Part II – Computation of Loan Amount for Educational Loan (Under IBA Scheme Only)</mat-panel-title></mat-expansion-panel-header>
+                                            <div class="expansion-panel-content">
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(i)Total of Permissible Expenses (Rupees)</mat-label>
+                                                        <input matInput placeholder="(i)Total of Permissible Expenses (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(ii) Stipulated Margin (%)</mat-label>
+                                                        <input matInput placeholder="(ii) Stipulated Margin (%)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(iii) Margin Amount (Rupees)</mat-label>
+                                                        <input matInput placeholder="(iii) Margin Amount (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(iv) Permissible Loan Amount (Rupees)</mat-label>
+                                                        <input matInput placeholder="(iv) Permissible Loan Amount (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(v) Loan Amount Applied for (Rupees)</mat-label>
+                                                        <input matInput placeholder="(v) Loan Amount Applied for (Rupees)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                                <div class="form-field w-33">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>(vi) Eligible Loan Amount (Rupees): Lower of (iv) and (v)</mat-label>
+                                                        <input matInput placeholder="(vi) Eligible Loan Amount (Rupees): Lower of (iv) and (v)" formControlName="constructionCost">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.constructionCost}}</mat-error>
+                                                </div>
+                                            </div>
+                                        </mat-expansion-panel>
+                                    </div>
+                                    <div class="stepper-actions">
+                                        <button color="secondary" class="prev steps-button" mat-raised-button matStepperPrevious>
+                                            <mat-icon>chevron_left</mat-icon>Back
+                                        </button>
+                                        <button color="primary" class="next steps-button" mat-raised-button matStepperNext>
+                                            Next <mat-icon>chevron_right</mat-icon>
+                                        </button>
+                                    </div>
+                                </form>
+                            </mat-step>
+                            <mat-step [stepControl]="recommendationsForm" label="Recommendations">
+                                <form [formGroup]="recommendationsForm" autocomplete="off">
+                                    <div class="row">
+                                        <div class="form-field w-50">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Loan Limit (Rupees)</mat-label>
+                                                <input matInput placeholder="Loan Limit (Rupees)" formControlName="loanLimit">
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.loanLimit}}</mat-error>
+                                        </div>
+                                        <div class="form-field w-50">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Rate of Interest (%)</mat-label>
+                                                <input matInput placeholder="Rate of Interest (%)" formControlName="ROI">
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.ROI}}</mat-error>
+                                        </div>
+                                        <div class="form-field w-50">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Holiday period in Months, (If Any)</mat-label>
+                                                <input matInput placeholder="Holiday period in Months, (If Any)" formControlName="holidayPeriod">
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.holidayPeriod}}</mat-error>
+                                        </div>
+                                        <div class="form-field w-50">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Total period of Repayment in Months (Including Holiday Period)</mat-label>
+                                                <input matInput placeholder="Total period of Repayment in Months (Including Holiday Period)" formControlName="repaymentTenure">
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.repaymentTenure}}</mat-error>
+                                        </div>
+                                        <div class="form-field w-50">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Total period of Repayment in Months (Including Holiday Period) EMI (Rupees) (Applicable for Loan Schemes other than Educational Loan)</mat-label>
+                                                <input matInput placeholder="Total period of Repayment in Months (Including Holiday Period)EMI (Rupees) (Applicable for Loan Schemes other than Educational Loan)" formControlName="repaymentTenure2">
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.repaymentTenure2}}</mat-error>
+                                        </div>
+                                        <div class="form-field w-50">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Classification of Advance</mat-label>
+                                                <mat-select placeholder="Classification of Advance" formControlName="advanceClassification">
+                                                    <mat-option value="Option1">Option 1</mat-option>
+                                                    <mat-option value="Option2">Option 2</mat-option>
+                                                    <mat-option value="Option3">Option 3</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.advanceClassification}}</mat-error>
+                                        </div>
+                                        <div class="form-field w-50">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Further Collateral Security/ies proposed by Bank (If Any) (Specify Nature of Security and Value)</mat-label>
+                                                <textarea matInput rows="5" placeholder="Type in your comments here..." formControlName="comments1"></textarea>
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.comments1}}</mat-error>
+                                        </div>
+                                        <div class="form-field w-50">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Relaxations in Norms (If Any)</mat-label>
+                                                <textarea matInput rows="5" placeholder="Type in your comments here..." formControlName="comments2"></textarea>
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.comments2}}</mat-error>
+                                        </div>
+                                        <div class="form-field w-50">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Account Specific Terms & Conditions (If Any)</mat-label>
+                                                <textarea matInput rows="5" placeholder="Type in your comments here..." formControlName="comments3"></textarea>
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.comments3}}</mat-error>
+                                        </div>
+                                        <div class="form-field w-50">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Other Comments (If Any)</mat-label>
+                                                <textarea matInput rows="5" placeholder="Type in your comments here..." formControlName="comments4"></textarea>
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.comments4}}</mat-error>
+                                        </div>
+                                        <div class="form-field w-50">
+                                            <label>Preliminary Assessment* (Subject to Due Diligence)</label>
+                                        </div>
+                                        <div class="form-field w-50">
+                                            <label>Final Recommendations</label>
+                                        </div>
+                                        <div class="form-field w-100">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Comments</mat-label>
+                                                <textarea matInput rows="5" placeholder="Type in your comments here..." formControlName="comments5"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="stepper-actions">
+                                        <button color="secondary" class="prev steps-button" mat-raised-button matStepperPrevious>
+                                            <mat-icon>chevron_left</mat-icon>Back
+                                        </button>
+                                    </div>
+                                </form>
+                            </mat-step> -->
+                        </mat-horizontal-stepper>
+                    </div>
+                    <div class="form-actions">
+                        <button color="primary" mat-raised-button (click)="performSubmit()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

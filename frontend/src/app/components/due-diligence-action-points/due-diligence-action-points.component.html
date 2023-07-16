@@ -1,0 +1,68 @@
+<div class="content-panel initiateDueDiligence">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>Compliance and Risk-Wise Due Diligence Action Points (DDAPs)</label>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <h3><label>Compliance -</label> Bank Norms</h3>
+            <h3><label>Risks -</label> High Risks</h3>
+            <div class="v-flex">
+                <form [formGroup]="assessmentForm" autocomplete="off">
+                    <div class="grid">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>Header 1</th>
+                                    <th>Header 2</th>
+                                    <th>Header 3</th>
+                                    <th>Header 4</th>
+                                    <th>Due Diligence Action Points (DDAPs)</th>
+                                    <th>Response</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2</td>
+                                    <td>SECTION 1 - <br>Appraisal of Applicant/ Co-Applicant/ Guarantor</td>
+                                    <td>1.1 Customer Due Diligence (COD) of Applicant/ Co-Applicant/ Guarantor</td>
+                                    <td>1.1.1 Individual</td>
+                                    <td>1.1.1.1 KYC of Individual/ Guarantors</td>
+                                    <td>DDAP1</td>
+                                    <td>N</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>SECTION 2 - <br>Appraisal of Applicant/ Co-Applicant/ Guarantor</td>
+                                    <td>2.1 Customer Due Diligence (COD) of Applicant/ Co-Applicant/ Guarantor</td>
+                                    <td>2.1.1 Individual</td>
+                                    <td>2.1.1.1 KYC of Individual/ Guarantors</td>
+                                    <td>DDAP2</td>
+                                    <td>N</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>SECTION 3 - <br>Appraisal of Applicant/ Co-Applicant/ Guarantor</td>
+                                    <td>3.1 Customer Due Diligence (COD) of Applicant/ Co-Applicant/ Guarantor</td>
+                                    <td>3.1.1 Individual</td>
+                                    <td>3.1.1.1 KYC of Individual/ Guarantors</td>
+                                    <td>DDAP3</td>
+                                    <td>N</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-actions">
+                       <table>
+                           <tr>
+                                <td><button color="primary" mat-raised-button>Submit</button></td>
+                                <td><button color="secondary" mat-raised-button>Cancel</button></td>
+                            </tr>
+                        </table>           
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

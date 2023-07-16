@@ -1,0 +1,782 @@
+<div class="content-panel">
+    <button class="icon-button mbot-20" color="primary" mat-raised-button routerLink="../search-client">
+        <mat-icon>arrow_back</mat-icon> Back to Search
+    </button>
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>border_color</mat-icon> Bharthi AXA (Client ID: CLI45685665) - Audit Firm
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="mtop-20">
+                <mat-tab-group>
+                    <mat-tab label="Client Information">
+                        <div class="tab-content">
+                            <form [formGroup]="clientDetailsForm" autocomplete="off">
+                                <div class="v-flex">
+                                    <div class="h-flex">
+                                        <!-- <div class="client-logo">
+                                            <input type="file">
+                                            <span>Add Firm logo</span>
+                                            <mat-icon>add</mat-icon>
+                                        </div> -->
+                                        <div class="form-group">
+                                            <div class="form-field w-20">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Client Prefix</mat-label>
+                                                    <input matInput placeholder="Client Prefix" formControlName="formControl">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field w-80">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Address</mat-label>
+                                                    <input matInput placeholder="Address" formControlName="formControl">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>State</mat-label>
+                                                    <input matInput placeholder="State" formControlName="formControl">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>City</mat-label>
+                                                    <input matInput placeholder="City" formControlName="formControl">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Pin Code</mat-label>
+                                                    <input matInput placeholder="Pin Code" formControlName="formControl">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>GST No.</mat-label>
+                                                    <input matInput placeholder="GST No." formControlName="formControl">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Select Language</mat-label>
+                                                    <mat-select placeholder="Select Language" formControlName="formControl">
+                                                        <mat-option value="1">Hindi</mat-option>
+                                                        <mat-option value="2">Tamil</mat-option>
+                                                        <mat-option value="3">English</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="v-flex">
+                                        <div class="mtop-20">
+                                            <h2>Contact Information</h2>
+                                            <p>Please fill in all the details as Mobile number will be used for all communications and Email will be used for Notifications. Atleast one Point of Contact is Mandatory for further communications.</p>
+                                        </div>
+                                        <div class="grid">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Point of Contact</th>
+                                                        <th>Designation</th>
+                                                        <th>Mobile Number</th>
+                                                        <th>Email</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <input matInput>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <input matInput>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <input matInput>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <input matInput>
+                                                            </mat-form-field>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <input matInput>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <input matInput>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <input matInput>
+                                                            </mat-form-field>
+                                                        </td>
+                                                        <td>
+                                                            <mat-form-field appearance="outline">
+                                                                <input matInput>
+                                                            </mat-form-field>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="icon-button" color="primary" mat-raised-button><mat-icon>save</mat-icon> Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Subscriptions">
+                        <div class="tab-content">
+                            <mat-accordion>
+                                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            View Subscriptions History
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div class="grid">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Subscription Name</th>
+                                                    <th>Price</th>
+                                                    <th>GST</th>
+                                                    <th>Tax</th>
+                                                    <th class="text-center">Total Amount</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Subscription 1</td>
+                                                    <td>XX</td>
+                                                    <td>XX</td>
+                                                    <td>XX</td>
+                                                    <td class="text-right">15000.00</td>
+                                                    <td>01-Dec-20</td>
+                                                    <td>31-Dec-20</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Subscription 2</td>
+                                                    <td>XX</td>
+                                                    <td>XX</td>
+                                                    <td>XX</td>
+                                                    <td class="text-right">15000.00</td>
+                                                    <td>01-Dec-20</td>
+                                                    <td>31-Dec-20</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Subscription 3</td>
+                                                    <td>XX</td>
+                                                    <td>XX</td>
+                                                    <td>XX</td>
+                                                    <td class="text-right">15000.00</td>
+                                                    <td>01-Dec-20</td>
+                                                    <td>31-Dec-20</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </mat-expansion-panel>
+                            </mat-accordion>
+                            <div class="h-flex">
+                                <div class="subscriptions-note">
+                                    <h3>NOTE</h3>
+                                    <ul>
+                                        <li><b>RENEWAL:</b> You may be able to Renew the Subscription when you change the Subscription Start date.</li>
+                                        <li><b>SWITCH:</b> You may be able to Renew the Subscription when you change the Subscription Name, Subscription Type and Subscription Sub-Type.</li>
+                                    </ul>
+                                </div>
+                                <div class="subscriptions-form">
+                                    <form [formGroup]="renewSubscriptionForm" autocomplete="off">
+                                        <div class="form-group">
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Subscription Type</mat-label>
+                                                    <input matInput placeholder="Subscription Type">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Subscription Sub Type</mat-label>
+                                                    <input matInput placeholder="Subscription Sub Type">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Subscription Name</mat-label>
+                                                    <input matInput placeholder="Subscription Name">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Price Package</mat-label>
+                                                    <input matInput placeholder="Price Package">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>GST %</mat-label>
+                                                    <input matInput placeholder="GST %">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Tax %</mat-label>
+                                                    <input matInput placeholder="Tax %">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Total Amount</mat-label>
+                                                    <input matInput placeholder="Total Amount">
+                                                    <mat-error>{{pageErrors.formControl}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Subscription Start Date</mat-label>
+                                                    <input matInput [matDatepicker]="picker">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker></mat-datepicker>
+                                                    <mat-error>{{pageErrors.subscriptionStartDate}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>End Date</mat-label>
+                                                <input matInput placeholder="31 Dec 2021" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button class="icon-button" color="primary" mat-raised-button disabled>Renew</button>
+                                            <button class="icon-button" color="primary" mat-raised-button disabled>Switch</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Bank Details">
+                        <div class="tab-content">
+                            <form [formGroup]="bankDetailsForm">
+                                <div class="v-flex mtop-20">
+                                    <div class="grid">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Bank Name</th>
+                                                    <th>HO Address</th>
+                                                    <th>City</th>
+                                                    <th>Pincode</th>
+                                                    <th>State</th>
+                                                    <th>Status</th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-label>Active</mat-label>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-label>Active</mat-label>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-label>Active</mat-label>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="h-flex mtop-20">
+                                        <button color="primary" mat-raised-button><mat-icon>add</mat-icon> Add Bank</button>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="icon-button" color="primary" mat-raised-button><mat-icon>save</mat-icon> Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Loan Schemes">
+                        <div class="tab-content">
+                            <form [formGroup]="loanSchemeForm">
+                                <div class="v-flex">
+                                    <div class="grid">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>BM Loan Scheme</th>
+                                                    <th>Keyword</th>
+                                                    <th>Preferred Loan Scheme Name</th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-select placeholder="" formControlName="formControl1" floatLabel="never">
+                                                                <mat-option value="1">Option 1</mat-option>
+                                                                <mat-option value="2">Option 2</mat-option>
+                                                                <mat-option value="3">Option 3</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-label></mat-label>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-select placeholder="" formControlName="formControl2" floatLabel="never">
+                                                                <mat-option value="1">Option 1</mat-option>
+                                                                <mat-option value="2">Option 2</mat-option>
+                                                                <mat-option value="3">Option 3</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-label></mat-label>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-select placeholder="" formControlName="formControl3" floatLabel="never">
+                                                                <mat-option value="1">Option 1</mat-option>
+                                                                <mat-option value="2">Option 2</mat-option>
+                                                                <mat-option value="3">Option 3</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-label></mat-label>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="h-flex mtop-20">
+                                        <button color="primary" mat-raised-button><mat-icon>add</mat-icon> Add Loan Scheme</button>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="icon-button" color="primary" mat-raised-button><mat-icon>save</mat-icon> Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Loan Variants">
+                        <div class="tab-content">
+                            <form [formGroup]="loanVariantForm">
+                                <div class="v-flex">
+                                    <div class="grid">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Loan Variant Name</th>
+                                                    <th>Loan Variant</th>
+                                                    <th>Loan Variant Keyword</th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-select placeholder="" formControlName="formControl4">
+                                                                <mat-option value="1">Option 1</mat-option>
+                                                                <mat-option value="2">Option 2</mat-option>
+                                                                <mat-option value="3">Option 3</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-label></mat-label>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-select placeholder="" formControlName="formControl5">
+                                                                <mat-option value="1">Option 1</mat-option>
+                                                                <mat-option value="2">Option 2</mat-option>
+                                                                <mat-option value="3">Option 3</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-select placeholder="" formControlName="formControl6">
+                                                                <mat-option value="1">Option 1</mat-option>
+                                                                <mat-option value="2">Option 2</mat-option>
+                                                                <mat-option value="3">Option 3</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-label></mat-label>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-select placeholder="" formControlName="formControl7">
+                                                                <mat-option value="1">Option 1</mat-option>
+                                                                <mat-option value="2">Option 2</mat-option>
+                                                                <mat-option value="3">Option 3</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="h-flex mtop-20">
+                                        <button color="primary" mat-raised-button><mat-icon>add</mat-icon> Add Loan Variant</button>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="icon-button" color="primary" mat-raised-button><mat-icon>save</mat-icon> Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="V1 Templates">
+                        <div class="tab-content">
+                            <!-- <form [formGroup]="customizeV1Form" autocomplete="off"> -->
+                                <div class="form-group">
+                                    <div class="v-flex w-100">
+                                        <div class="grid mtop-20">
+                                            <h2>Available Loan Schemes</h2>
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Loan Scheme Name</th>
+                                                        <th class="date-column">Start Date</th>
+                                                        <th class="date-column">End Date</th>
+                                                        <th>Status</th>
+                                                        <th colspan="2" class="text-center">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Loan Scheme A</td>
+                                                        <td class="date-column">01 Dec 2020</td>
+                                                        <td class="date-column">31 Dec 2025</td>
+                                                        <td>Freezed</td>
+                                                        <td><span class="link" routerLink="../edit-template"><mat-icon>edit</mat-icon> Edit Template</span></td>
+                                                        <td><span class="link" (click)="clone()"><mat-icon>add</mat-icon> Create New Version</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Loan Scheme B</td>
+                                                        <td class="date-column">01 Dec 2020</td>
+                                                        <td class="date-column">31 Dec 2025</td>
+                                                        <td>Under Review</td>
+                                                        <td><span class="link" routerLink="../edit-template"><mat-icon>edit</mat-icon> Edit Template</span></td>
+                                                        <td><span class="link" (click)="clone()"><mat-icon>add</mat-icon> Create New Version</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Loan Scheme C</td>
+                                                        <td class="date-column">01 Dec 2020</td>
+                                                        <td class="date-column">31 Dec 2025</td>
+                                                        <td>Under Review</td>
+                                                        <td><span class="link" routerLink="../edit-template"><mat-icon>edit</mat-icon> Edit Template</span></td>
+                                                        <td><span class="link" (click)="clone()"><mat-icon>add</mat-icon> Create New Version</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- </form> -->
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Subscription Details">
+                        <div class="tab-content">
+                            <form [formGroup]="subscriptionDetailsForm" autocomplete="off">
+                                <div class="v-flex mtop-20">
+                                    <div class="form-group">
+                                        <div class="h-flex subsDetails">
+                                            <div class="form-field">
+                                                <mat-label>Subscription Name</mat-label>
+                                                <input matInput placeholder="SUVO4234" readonly>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Subscription Period</mat-label>
+                                                <input matInput placeholder="1 month" readonly>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Maximum Branches</mat-label>
+                                                <input matInput placeholder="10" readonly>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Maximum Loan Schemes</mat-label>
+                                                <input matInput placeholder="10" readonly>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Renewal Reminder Activation</mat-label>
+                                                <input matInput placeholder="10" readonly>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Data Validity Period</mat-label>
+                                                <input matInput placeholder="1 month" readonly>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Price/Month</mat-label>
+                                                <input matInput placeholder="25000.00" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="h-flex subsDetails">
+                                            <div class="form-field">
+                                                <mat-label>Subscription Name</mat-label>
+                                                <input matInput placeholder="SUVO4234" readonly>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Subscription Period</mat-label>
+                                                <input matInput placeholder="1 month" readonly>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Maximum Banks</mat-label>
+                                                <input matInput placeholder="10" readonly>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Renewal Reminder Activation</mat-label>
+                                                <input matInput placeholder="10" readonly>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Data Validity Period</mat-label>
+                                                <input matInput placeholder="1 month" readonly>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Price/Month</mat-label>
+                                                <input matInput placeholder="25000.00" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="h-flex subsDetailsForm">
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Price / Package</mat-label>
+                                                    <input matInput placeholder="Price / Package" formControlName="subscriptionPrice">
+                                                </mat-form-field>
+                                                <mat-error>{{pageErrors.subscriptionPrice}}</mat-error>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Tax %</mat-label>
+                                                    <input matInput placeholder="Tax %" formControlName="subscriptionTax">
+                                                </mat-form-field>
+                                                <mat-error>{{pageErrors.subscriptionTax}}</mat-error>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>GST %</mat-label>
+                                                    <input matInput placeholder="GST %" formControlName="subscriptionGST">
+                                                </mat-form-field>
+                                                <mat-error>{{pageErrors.subscriptionGST}}</mat-error>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Subscription Total Amount</mat-label>
+                                                <input matInput placeholder="2546541" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="h-flex subsDetailsForm">
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Tentative Subscription Start Date</mat-label>
+                                                    <input matInput [matDatepicker]="picker11" formControlName="subscriptionTentativeStart">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker11"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker11></mat-datepicker>
+                                                    <mat-error>{{pageErrors.subscriptionTentativeStart}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Actual Subscription Start Date</mat-label>
+                                                    <input matInput [matDatepicker]="picker12" formControlName="subscriptionActualStart">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker12"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker12></mat-datepicker>
+                                                    <mat-error>{{pageErrors.subscriptionActualStart}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Subscription End Date</mat-label>
+                                                    <input matInput [matDatepicker]="picker13" formControlName="subscriptionActualEnd">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker13"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker13></mat-datepicker>
+                                                    <mat-error>{{pageErrors.subscriptionActualEnd}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Subscription Renewal Date</mat-label>
+                                                    <input matInput [matDatepicker]="picker14" formControlName="subscriptionRenewal">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker14"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker14></mat-datepicker>
+                                                    <mat-error>{{pageErrors.subscriptionRenewal}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="icon-button" color="primary" mat-raised-button><mat-icon>save</mat-icon> Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

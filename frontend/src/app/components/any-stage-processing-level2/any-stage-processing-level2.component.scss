@@ -1,0 +1,35 @@
+.cm-dashboard {
+    .row:first-child {
+        margin-bottom: 30px;
+    }
+    h1 {
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+
+        .mat-icon {
+            margin-right: 10px;
+        }
+    }
+    .portlet {
+        background: #fff;
+        padding: 15px;
+        width: 100%;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        font-size: 14px;
+        
+        .grid {
+            height: 33vh;
+            max-height: 33vh;
+            min-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 0;
+        }
+        &.user .grid {
+            height: calc(100vh - 220px);
+            max-height: calc(100vh - 220px);
+            min-height: calc(100vh - 220px);
+        }
+    }
+}

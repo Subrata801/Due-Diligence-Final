@@ -1,0 +1,644 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>e2e Details</label>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="e2eForm" autocomplete="off" *ngIf="search">
+                <div class="form-group">
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>e2e No.</mat-label>
+                            <input matInput placeholder="e2e No." formControlName="e2eNumber">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.IFSCCode}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Review No.</mat-label>
+                            <input matInput placeholder="Review No." formControlName="e2eM4ReviewNumber">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.IFSCCode}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Security Release No.</mat-label>
+                            <input matInput placeholder="Security Release No." formControlName="e2eM5ReviewNumber">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.IFSCCode}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>e2e Date</mat-label>
+                            <input matInput placeholder="e2e Date" [matDatepicker]="e2eDate" formControlName="e2eDate">
+                            <mat-datepicker-toggle matSuffix [for]="e2eDate">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #e2eDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.e2eDate}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Branch Name</mat-label>
+                            <input matInput placeholder="Branch Name" formControlName="branchName">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.branchName}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>CIF Number</mat-label>
+                            <input matInput placeholder="CIF Number" formControlName="cifNumber">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.cifNumber}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Borrower Name</mat-label>
+                            <input matInput placeholder="Borrower Name" formControlName="borrowerName">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.borrowerName}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-label>Security<b>*</b></mat-label>
+                        <mat-radio-group formControlName="creditSector">
+                            <mat-radio-button value="RC">Retail Credit (RC)</mat-radio-button>
+                            <mat-radio-button value="CC">Commercial Credit (CC)</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error>{{pageErrors.creditSector}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Existing Account No. (RC)</mat-label>
+                            <mat-select placeholder="Select Existing Account No. (RC)" formControlName="selectExistingAccNo">
+                                <mat-option value="1">65465432135</mat-option>
+                                <mat-option value="2">65465465464</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.selectExistingAccNo}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Loan Scheme</mat-label>
+                            <mat-select placeholder="Select Loan Scheme" formControlName="selectLoanSchemeType">
+                                <mat-option value="Vehicle Loan">Vehicle Loan</mat-option>
+                                <mat-option value="Home Loan">Home Loan</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.selectLoanSchemeType}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Loan Variant</mat-label>
+                            <mat-select placeholder="Select Loan Variant" formControlName="selectVariantType">
+                                <mat-option value="RC">RC</mat-option>
+                                <mat-option value="CC">CC</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.selectVariantType}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select e2e No. for Existing Accounts of Retail Credit</mat-label>
+                            <mat-select placeholder="Select e2e No. for Existing Accounts of Retail Credit" formControlName="selecte2e">
+                                <mat-option value="1">65465432135</mat-option>
+                                <mat-option value="2">65465465464</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.selecte2e}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Enter Account Number</mat-label>
+                            <input matInput placeholder="Enter Account Number" formControlName="accountNumber">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.accountNumber}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Date of Sanction</mat-label>
+                            <input matInput placeholder="Date of Sanction" [matDatepicker]="sanctionDate" formControlName="sanctionDate">
+                            <mat-datepicker-toggle matSuffix [for]="sanctionDate">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #sanctionDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.sanctionDate}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Sanctioned Amount (Rupees)</mat-label>
+                            <input matInput placeholder="Sanctioned Amount (Rupees)" formControlName="sanctionedAmount">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.sanctionedAmount}}</mat-error>
+                    </div>
+                    <div class="form-field w-100">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Sanctioned Amount in Words</mat-label>
+                            <input matInput placeholder="Sanctioned Amount in Words" formControlName="sanctionedAmountWords">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.sanctionedAmountWords}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Loan Tenor (Months)</mat-label>
+                            <input matInput placeholder="Loan Tenor (Months)" formControlName="loanTenor">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.loanTenor}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Revised Loan Tenor (Months)</mat-label>
+                            <input matInput placeholder="Revised Loan Tenor (Months)" formControlName="revisedLoanTenor">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.loanTenor}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Loan Application Number</mat-label>
+                            <input matInput placeholder="Loan Application Number" formControlName="loanApplicationNumber">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.loanApplicationNumber}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Loan Application Date</mat-label>
+                            <input matInput placeholder="Loan Application Date" [matDatepicker]="loanApplicationDate" formControlName="loanApplicationDate">
+                            <mat-datepicker-toggle matSuffix [for]="loanApplicationDate">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #loanApplicationDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.loanApplicationDate}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Module Expected Start Date</mat-label>
+                            <input matInput placeholder="Module Expected Start Date" [matDatepicker]="moduleStartDate" formControlName="moduleStartDate">
+                            <mat-datepicker-toggle matSuffix [for]="moduleStartDate">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #moduleStartDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.moduleStartDate}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Module Expected Completion Date</mat-label>
+                            <input matInput placeholder="Module Expected Completion Date" [matDatepicker]="moduleCompletionDate" formControlName="moduleCompletionDate">
+                            <mat-datepicker-toggle matSuffix [for]="moduleCompletionDate">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #moduleCompletionDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.moduleCompletionDate}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Date of Acceptance of the Sanction by Borrower</mat-label>
+                            <input matInput placeholder="Date of Acceptance of the Sanction by Borrower" [matDatepicker]="sanctionAcceptanceDate" formControlName="sanctionAcceptanceDate">
+                            <mat-datepicker-toggle matSuffix [for]="sanctionAcceptanceDate">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #sanctionAcceptanceDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.sanctionAcceptanceDate}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>M4 Review Expected Start Date</mat-label>
+                            <input matInput placeholder="M4 Review Expected Start Date" [matDatepicker]="m4ReviewStartDate" formControlName="m4ReviewStartDate">
+                            <mat-datepicker-toggle matSuffix [for]="m4ReviewStartDate">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #m4ReviewStartDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.m4ReviewStartDate}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>M4 Review Expected Completion Date</mat-label>
+                            <input matInput placeholder="M4 Review Expected Completion Date" [matDatepicker]="m4ReviewCompletionDate" formControlName="m4ReviewCompletionDate">
+                            <mat-datepicker-toggle matSuffix [for]="m4ReviewCompletionDate">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #m4ReviewCompletionDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.m4ReviewCompletionDate}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>M4 Review Sanctioned Date</mat-label>
+                            <input matInput placeholder="M4 Review Sanctioned Date" [matDatepicker]="m4ReviewSanctionDate" formControlName="m4ReviewSanctionDate">
+                            <mat-datepicker-toggle matSuffix [for]="m4ReviewSanctionDate">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #m4ReviewSanctionDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.m4ReviewSanctionDate}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Type of Account</mat-label>
+                            <mat-select placeholder="Select Type of Account" formControlName="auditAccountType">
+                                <mat-option value="1">Fresh Loan</mat-option>
+                                <mat-option value="2">TakeOver Loan</mat-option>
+                                <mat-option value="3">Fresh Loan Sole Banking</mat-option>
+                                <mat-option value="4">TakeOver Loan Sole Banking</mat-option>
+                                <mat-option value="5">Fresh Loan Consortium</mat-option>
+                                <mat-option value="6">Fresh Loan MBA</mat-option>
+                                <mat-option value="7">TakeOver Loan MBA</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.auditAccountType}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Type of Borrower</mat-label>
+                            <mat-select placeholder="Type of Borrower" formControlName="borrowerType">
+                                <mat-option value="1">Resident</mat-option>
+                                <mat-option value="2">Non-Resident</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.borrowerType}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Borrower Category</mat-label>
+                            <mat-select placeholder="Borrower Category" formControlName="borrowerCategory">
+                                <mat-option value="1">Salaried</mat-option>
+                                <mat-option value="2">Business</mat-option>
+                                <mat-option value="3">Agriculture</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.borrowerCategory}}</mat-error>
+                    </div>
+                    <div class="w-100 clear"></div>
+                    <div class="form-field grid w-50">
+                        <label>Co-Applicant/Co-Obligant Details</label>
+                        <table>
+                            <tr>
+                                <th>Profile</th>
+                                <th>Enter Name of Co-Applicant/Co-Obligant Details</th>
+                                <th>Designation</th>
+                            </tr>
+                            <tr>
+                                <td>Co-Obligant</td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-select placeholder="Loan Scheme" appearance="outline" floatlabel="never">
+                                        <mat-option value="1">Friend</mat-option>
+                                        <mat-option value="2">Colleague</mat-option>
+                                    </mat-select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Co-Obligant 1</td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-select placeholder="Loan Scheme" appearance="outline" floatlabel="never">
+                                        <mat-option value="1">Friend</mat-option>
+                                        <mat-option value="2">Colleague</mat-option>
+                                    </mat-select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Co-Obligant 2</td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-select placeholder="Loan Scheme" appearance="outline" floatlabel="never">
+                                        <mat-option value="1">Friend</mat-option>
+                                        <mat-option value="2">Colleague</mat-option>
+                                    </mat-select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Co-Obligant 3</td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-select placeholder="Loan Scheme" appearance="outline" floatlabel="never">
+                                        <mat-option value="1">Friend</mat-option>
+                                        <mat-option value="2">Colleague</mat-option>
+                                    </mat-select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Co-Obligant 4</td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-select placeholder="Loan Scheme" appearance="outline" floatlabel="never">
+                                        <mat-option value="1">Friend</mat-option>
+                                        <mat-option value="2">Colleague</mat-option>
+                                    </mat-select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="form-field grid w-50">
+                        <label>Guarantor Details</label>
+                        <table>
+                            <tr>
+                                <th>Profile</th>
+                                <th>Enter Name of Guarantors</th>
+                            </tr>
+                            <tr>
+                                <td>Guarantor</td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Guarantor 1</td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Guarantor 2</td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Guarantor 3</td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Guarantor 4</td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="form-field grid w-100">
+                        <label>Select Type of Commercial Credit Facility/ies<b>*</b></label>
+                        <table>
+                            <tr>
+                                <th>Select Facility</th>
+                                <th>Account No</th>
+                                <th>Date of Sanction</th>
+                                <th>Sanctioned Limit (Rupees)</th>
+                                <th>Sanctioned Limit in Words</th>
+                                <th>Loan Tenor (Months)</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <mat-select placeholder="Loan Scheme" appearance="outline" floatlabel="never">
+                                        <mat-option value="1">Facility 1</mat-option>
+                                        <mat-option value="2">Facility 2</mat-option>
+                                        <mat-option value="3">Facility 3</mat-option>
+                                    </mat-select>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <span class="link">Delete</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <mat-select placeholder="Loan Scheme" appearance="outline" floatlabel="never">
+                                        <mat-option value="1">Facility 1</mat-option>
+                                        <mat-option value="2">Facility 2</mat-option>
+                                        <mat-option value="3">Facility 3</mat-option>
+                                    </mat-select>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <span class="link">Delete</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <mat-select placeholder="Loan Scheme" appearance="outline" floatlabel="never">
+                                        <mat-option value="1">Facility 1</mat-option>
+                                        <mat-option value="2">Facility 2</mat-option>
+                                        <mat-option value="3">Facility 3</mat-option>
+                                    </mat-select>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <span class="link">Delete</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-label>Security<b>*</b></mat-label>
+                        <mat-radio-group formControlName="security">
+                            <mat-radio-button value="Secured">Secured</mat-radio-button>
+                            <mat-radio-button value="Unsecured">Unsecured</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error>{{pageErrors.security}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-label>Type of Security</mat-label>
+                        <mat-radio-group formControlName="securityType">
+                            <mat-radio-button value="Movable">Movable Property</mat-radio-button>
+                            <mat-radio-button value="Immovable">Immovable Property</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error>{{pageErrors.securityType}}</mat-error>
+                    </div>
+                    <div class="form-field w-100">
+                        <mat-label>Movable Property Types</mat-label>
+                        <mat-selection-list formControlName="movablePropertyTypes">
+                            <mat-list-option checkboxPosition="before" *ngFor="let type of movablePropertyTypesList">
+                              {{type}}
+                            </mat-list-option>
+                        </mat-selection-list>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Assign Branch Maker</mat-label>
+                            <mat-select placeholder="Assign Branch Maker" formControlName="assignBranchMaker">
+                                <mat-option value="Sanket">Sanket</mat-option>
+                                <mat-option value="Rajesh">Rajesh</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.assignBranchMaker}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Assign Branch Checker</mat-label>
+                            <mat-select placeholder="Assign Branch Checker" formControlName="assignBranchChecker">
+                                <mat-option value="Sanket">Sanket</mat-option>
+                                <mat-option value="Rajesh">Rajesh</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.assignBranchChecker}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Assign Branch Sanctioning Authority</mat-label>
+                            <mat-select placeholder="Assign Branch Sanctioning Authority" formControlName="assignSanctioningAuthority">
+                                <mat-option value="Sanket">Sanket</mat-option>
+                                <mat-option value="Rajesh">Rajesh</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.assignSanctioningAuthority}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Assign Loan Sanctioning Authority for this application</mat-label>
+                            <mat-select placeholder="Assign Loan Sanctioning Authority for this application" formControlName="assignSanctioningAuthority2">
+                                <mat-option value="Sanket">Sanket</mat-option>
+                                <mat-option value="Rajesh">Rajesh</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.assignSanctioningAuthority2}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-label>Select Status of this Account for this Review</mat-label>
+                        <mat-radio-group formControlName="accountStatus">
+                            <mat-radio-button value="Standard">Standard Asset</mat-radio-button>
+                            <mat-radio-button value="NPA">NPA</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error>{{pageErrors.accountStatus}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Date of Closure</mat-label>
+                            <input matInput placeholder="Date of Closure" [matDatepicker]="picker2" formControlName="closureDate">
+                            <mat-datepicker-toggle matSuffix [for]="closureDate">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #closureDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.closureDate}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-label>Whether Module 1 (M1) will be processed partly by Branch Maker & CPC Maker?</mat-label>
+                        <mat-radio-group formControlName="cpcUnit">
+                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error>{{pageErrors.cpcUnit}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-label>Select Option for this Review Cycle</mat-label>
+                        <mat-radio-group formControlName="accountStatus2">
+                            <mat-radio-button value="Standard">Standard Asset</mat-radio-button>
+                            <mat-radio-button value="NPA">NPA</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error>{{pageErrors.accountStatus2}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Number of Periodic Reviews completed till Date</mat-label>
+                            <mat-select placeholder="Number of Periodic Reviews completed till Date" formControlName="periodicReviews">
+                                <mat-option value="{{number}}" *ngFor="let number of [0,1,2,3,4]">{{number}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.periodicReviews}}</mat-error>
+                    </div>
+                    <div class="form-field w-100">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Comments</mat-label>
+                            <textarea matInput rows="5" placeholder="Type in your comments here..." formControlName="comments"></textarea>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.comments}}</mat-error>
+                    </div>
+                    <div class="form-actions">
+                        <button mat-raised-button color="primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

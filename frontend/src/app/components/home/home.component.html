@@ -1,0 +1,158 @@
+<div class="app-header">
+  <button mat-icon-button class="noborder">
+    <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+  </button>
+  <span class="logo"></span>
+  <div class="bankName"><img src={{imageName}}>{{clientName}}</div>
+  <div class="header-links">
+    <span class="profile" [routerLink]="[{ outlets: { appcontent: ['user-profile'] } }]">
+      <mat-icon>account_box</mat-icon>
+    </span>
+    <span class="logout" (click)="performLogout()">
+      <mat-icon>logout</mat-icon>
+    </span>
+  </div>
+</div>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav opened="true" mode="side" class="custom-side-nav">
+    <div class="sidenav-gap"></div>
+    <mat-nav-list>
+      <!-- <a mat-list-item> BM Configuration Panel</a> -->
+      <!--<a mat-list-item [routerLink]="[{ outlets: { appcontent: ['dashboard'] } }]" [routerLinkActive]="['active']">
+        <mat-icon>dashboard</mat-icon> Dashboard
+      </a> -->
+      <mat-expansion-panel [expanded]="true" *ngIf="admin">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>admin_panel_settings</mat-icon> BM Configuration Panel
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['search-users'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>person_add</mat-icon> Manage Users
+        </a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['header'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>add_location</mat-icon> Add / View / Update Header
+        </a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['language-template'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>language</mat-icon> BM Language Template
+        </a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['loan-scheme'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>create</mat-icon> Create BM Loan Schemes
+        </a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['loan-scheme-variants'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>drive_file_rename_outline</mat-icon> Create BM Loan Variants
+        </a>
+        <!-- <a mat-list-item> Define Risk Ratings & Color Codes</a> -->
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['search-subscriptions'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>subscriptions</mat-icon> SaaS Subscriptions
+        </a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['import-template'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>import_export</mat-icon> Import &amp; Loan Schemes Customizations
+        </a>
+        <!-- <a mat-list-item> BankerMitra Reports</a> -->
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="false" *ngIf="admin">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>how_to_reg</mat-icon> Client Configurations Panel
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['search-client'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>account_balance</mat-icon> Configure Client</a>
+        <!-- <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['risk-score'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>score</mat-icon> Risk Score</a> -->
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['risk-customization'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>score</mat-icon> Risk Customization Form</a>
+      </mat-expansion-panel>
+      
+      <mat-expansion-panel [expanded]="true" *ngIf="isReviewTempleate">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>how_to_reg</mat-icon>Review Templates
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <a mat-list-item (click)="openV1Template()" [routerLinkActive]="['active']">
+          <mat-icon>account_balance</mat-icon>Templates</a>
+      </mat-expansion-panel>
+      
+      <mat-expansion-panel [expanded]="false" *ngIf="isClientManagement">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>how_to_reg</mat-icon> Client Management
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <!-- <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['app-client-management-dashboard'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>account_balance</mat-icon> Client Management Dashboard</a> -->
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['search-unit'] } }]" [routerLinkActive]="['active']" *ngIf="isCreatUnit">
+          <mat-icon>account_balance</mat-icon> Create Unit</a>
+        <!-- <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['create-audit-firm-user',null,null] } }]" [routerLinkActive]="['active']" *ngIf="isCreatAuditFirm">
+          <mat-icon>score</mat-icon> Create Audit Firm Users</a> -->
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['manage-employees'] } }]" [routerLinkActive]="['active']" *ngIf="isManageEmployee">
+          <mat-icon>score</mat-icon> Manage Employees</a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['branch-users',null] } }]" [routerLinkActive]="['active']" *ngIf="isBranchUsers">
+          <mat-icon>score</mat-icon> Branch Users</a>
+        <!-- 
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['bank-services'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>score</mat-icon> Bank Services</a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['initiate-loan'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>score</mat-icon> Initiate Due-Diligence Processing</a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['any-stage-processing'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>score</mat-icon> Any Stage Processing</a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['close-loan'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>score</mat-icon> Close Loan Application</a>
+        -->
+      </mat-expansion-panel>
+      
+      <mat-expansion-panel [expanded]="true" *ngIf="isUserPanel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>how_to_reg</mat-icon> User Panel
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['register-applicant'] } }]" [routerLinkActive]="['active']" *ngIf="isCIFRegistraion">
+          <mat-icon>account_balance</mat-icon> CIF Registration</a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['e2e-user-dashboard'] } }]" [routerLinkActive]="['active']" *ngIf="ise2eDashboard">
+          <mat-icon>account_balance</mat-icon> e2e User Dashboard</a>
+        <!-- <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['initiate-loan-application'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>score</mat-icon> Initiate Due Diligence Processing</a> -->
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['e2e-application-services'] } }]" [routerLinkActive]="['active']" *ngIf="isReassignCancelUser">
+          <mat-icon>score</mat-icon> Re-assign User/Cancel Application</a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['e2e-management-dashboard'] } }]" [routerLinkActive]="['active']" *ngIf="ise2eRealTimeDashboard">
+          <mat-icon>score</mat-icon> e2e Real-time Monitoring Dashboard</a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['initiate-audit'] } }]" [routerLinkActive]="['active']" *ngIf="isDueDeligenceForAudit">
+          <mat-icon>score</mat-icon> Initiate Due Diligence for Audit</a>
+        <!-- <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['cnc-user-dashboard'] } }]" [routerLinkActive]="['active']" *ngIf="isCncUserDashboard">
+          <mat-icon>score</mat-icon> CnC User Dashboard</a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['cnc-application-services'] } }]" [routerLinkActive]="['active']" *ngIf="isReAssignUserDashboard">
+          <mat-icon>score</mat-icon> Re-assign User</a>
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['cnc-management-dashboard'] } }]" [routerLinkActive]="['active']" *ngIf="isCncRealTimeUserDashboard">
+          <mat-icon>score</mat-icon> CnC Real-time Monitoring Dashboard</a> -->
+        <!-- <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['substitute-user'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>score</mat-icon> Substitute User/Cancel Application</a> -->
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['initiate-due-diligence','new'] } }]" [routerLinkActive]="['active']" *ngIf="initiateDueDeligenceProcess">
+          <mat-icon>score</mat-icon> Initiate Due Diligence Processing</a>
+        <!-- <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['due-diligence-non-compliant'] } }]" [routerLinkActive]="['active']">
+          <mat-icon>score</mat-icon> Due-Diligence Non-Compliant</a> -->
+        <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['e2e-reports'] } }]" [routerLinkActive]="['active']" *ngIf="isE2EReport">
+          <mat-icon>score</mat-icon> e2e Reports</a>
+        <!-- <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['cnc-reports'] } }]" [routerLinkActive]="['active']" *ngIf="isCNCReport">
+          <mat-icon>score</mat-icon> CnC Reports</a> -->
+      </mat-expansion-panel>
+      
+      
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="custom-content">
+    <div class="content">
+      <router-outlet name="appcontent">
+      </router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<div class="footer">
+  <span>Powered by </span>
+  <img src="./assets/images/maitra.jpg">
+</div>

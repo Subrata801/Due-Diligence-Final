@@ -1,0 +1,135 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>add_location</mat-icon> <label>Manage Users</label>
+            <span><mat-icon>person_add</mat-icon> <span class="link-button" (click)="addNewUser()">Add New User</span></span>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex">
+                <form [formGroup]="searchUserForm" autocomplete="off">
+                    <div class="alert alert-danger mbot-20" role="alert" *ngIf="isSearchUserFailed">
+	                    {{ errorMessage }}
+	                </div>
+                    <div class="mtop-20 filter-panel h-flex flex-wrap">
+                        <div class="form-field w-100 mbot-20">
+                            <mat-radio-group formControlName="keywordType">
+                                <mat-radio-button value="usernamesearch">Username</mat-radio-button>
+                                <mat-radio-button value="fullnamesearch">Full Name</mat-radio-button>
+                                <mat-radio-button value="usertypesearch">User Type</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="h-flex nowrap">
+                            <div class="form-field w-20" *ngIf="isUserTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>User Type</mat-label>
+                                    <mat-select placeholder="User Type" formControlName="clientTypeId" name="Select User Type">
+                                        <mat-option *ngFor="let eachOption of clientTypeOptions"
+                                            [value]="eachOption.clientTypeId">
+                                            {{eachOption.clientTypeName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-20" *ngIf="isUserTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>BM/Bank/Audit Firm</mat-label>
+                                    <mat-select placeholder="BM/Bank/Audit Firm" formControlName="clientId" name="Select User Type">
+                                        <mat-option *ngFor="let eachOption of clientOptions" [value]="eachOption.clientId">
+                                            {{eachOption.clientName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-20" *ngIf="isUserTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Branch / Audit bank</mat-label>
+                                    <mat-select placeholder="Branch / Audit bank" formControlName="clientGroupId" name="Select User Type">
+                                        <mat-option *ngFor="let eachOption of clientGroupOptions"
+                                            [value]="eachOption.clienGroupId">
+                                            {{eachOption.clienGroupName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>                
+                            <div class="form-field w-20" *ngIf="isUserTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>User Role</mat-label>
+                                    <mat-select placeholder="User Role" formControlName="userRoleId" name="Select User Type">
+                                        <mat-option *ngFor="let eachOption of userRoleOptions" [value]="eachOption.roleId">
+                                            {{eachOption.roleName}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error>{{pageErrors.userRoleId}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33" *ngIf="!isUserTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Enter Keyword</mat-label>
+                                    <input matInput placeholder="Enter Keyword" formControlName="keyword">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.keyword}}</mat-error>
+                            </div>
+                            <div class="mtop-5">
+                                <button color="primary" mat-raised-button (click)="performSearch()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="clear mbot-20" *ngIf="getUserDataArrayControl().length > 0"></div>
+    <mat-card *ngIf="getUserDataArrayControl().length > 0">
+        <mat-card-title>
+            <mat-icon>manage_search</mat-icon> Search Results
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content *ngIf="getUserDataArrayControl().length > 0">
+            <form [formGroup]="updateUserForm" autocomplete="off">
+            	<div class="alert alert-danger mbot-20" role="alert" *ngIf="isSearchFailed">
+	                    {{ errorMessage }}
+	            </div>
+                <div class="grid header-data">
+                    <table formArrayName="userData">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Full name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let eachUserData of getUserDataArrayControl(); let i=index">
+                                <td [formGroupName]="i">
+                                  {{eachUserData.controls.userName.value}}
+                                </td>
+                                <td [formGroupName]="i">
+                                    {{eachUserData.controls.fullName.value}}
+                                </td>
+                                <td [formGroupName]="i">
+                                     {{eachUserData.controls.email.value}}
+                                </td>
+                                 <td [formGroupName]="i">
+                                    {{eachUserData.controls.mobileNumber.value}}
+                                </td>
+                                 <td [formGroupName]="i" class="text-center">
+                                    {{eachUserData.controls.userStatus.value}}
+                                </td>
+                                <td class="text-center">
+                                  <a (click)="openUser(eachUserData.controls.userId.value)">
+                                    <mat-icon>edit</mat-icon>
+                                  </a>
+                                    <!-- <mat-icon>delete</mat-icon> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

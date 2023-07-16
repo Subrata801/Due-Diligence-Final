@@ -1,0 +1,111 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>Manage Branch User</label>
+            <span><mat-icon>person_add</mat-icon> <span class="link-button" (click)="createForm()">Create Branch User</span></span>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+             
+            <div class="v-flex searchUser">
+            <div class="alert alert-danger mbot-20" role="alert" *ngIf="isSearchResultFailed">
+                 {{ errorMessage }}
+             </div>
+                <form [formGroup]="searchUserForm" autocomplete="off" *ngIf="search">
+                    <div class="mtop-20 filter-panel h-flex flex-wrap">
+                        <div class="form-field w-100 mbot-10">
+                            <mat-radio-group formControlName="searchType">
+                                <mat-radio-button value="userNamesearch">User Name</mat-radio-button>
+                                <mat-radio-button value="empIdsearch">Employee ID</mat-radio-button>
+                                <mat-radio-button value="empNamesearch">Employee Name</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="h-flex nowrap">
+                            <!-- <div class="form-field w-20" *ngIf="isUnitTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Unit Type</mat-label>
+                                    <mat-select placeholder="Unit Type" formControlName="unitType" name="Select Unit Type">
+                                        <mat-option *ngFor="let eachOption of unitTypeOptions"
+                                            [value]="eachOption.unitTypeId">
+                                            {{eachOption.unitTypeName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div> -->
+                            
+                            <div class="form-field w-33" *ngIf="!isUnitTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Enter Keyword</mat-label>
+                                    <input matInput placeholder="Enter Keyword" formControlName="searchKeyword">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-auto text-right mtop-5">
+                                <button color="primary" mat-raised-button (click)="performSearch()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="searchResults">
+                    <mat-divider></mat-divider>
+                   <form [formGroup]="branchUserListForm" autocomplete="off">
+                    <div class="grid header-data" >
+                        <table formArrayName="userData">
+                            <thead>
+                                <tr>
+                                    <!-- <th>Unit Type</th> -->
+                                    <th>Unit Name</th>
+                                    <!-- <th>IFSC Code</th> -->
+                                    <th>Employee Name</th>
+                                    <th>Employee ID</th>
+                                    <th>Username</th>
+                                    <th>e2e Status</th>
+                                    <!-- <th>Last Updated By</th> -->
+                                    <th class="date-column">Date/Time</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody> 
+                                <tr *ngFor="let eachUnitData of getUserDataArrayControl(); let i=index">
+	                                <!-- <td [formGroupName]="i">
+	                                  {{eachUnitData.controls.unitType.value}}
+	                                </td> -->
+	                                <td [formGroupName]="i">
+	                                    {{eachUnitData.controls.unitName.value}}
+	                                </td>
+	                                <!-- <td [formGroupName]="i">
+	                                     {{eachUnitData.controls.ifscCode.value}}
+	                                </td> -->
+	                                 <td [formGroupName]="i">
+	                                    {{eachUnitData.controls.employeeName.value}}
+	                                </td>
+	                                 <td [formGroupName]="i">
+	                                    {{eachUnitData.controls.employeeId.value}}
+	                                </td>
+	                                <td [formGroupName]="i">
+	                                    {{eachUnitData.controls.userName.value}}
+	                                </td>
+	                                <td [formGroupName]="i">
+	                                    {{eachUnitData.controls.e2eStatus.value}}
+	                                </td>
+	                                <!-- <td [formGroupName]="i">
+	                                    {{eachUnitData.controls.lastUpdatedBy.value}}
+	                                </td> -->
+	                                <td class="date-column" [formGroupName]="i">
+	                                    {{eachUnitData.controls.updatedDate.value}}
+	                                </td>
+	                                <td class="text-center">
+	                                  <a (click)="openBranchUser(eachUnitData.controls.userName.value)">
+	                                    <mat-icon>edit</mat-icon>
+	                                  </a>
+	                                </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            
+        </mat-card-content>
+    </mat-card>
+</div>

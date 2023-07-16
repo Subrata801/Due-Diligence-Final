@@ -1,0 +1,776 @@
+<div class="content-panel dashboard-grid">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>Re-assign User/Cancel Application</label>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex cncUserDashboard">
+                <div class="form-group h-flex nowrap">
+                    <div class="form-field w-25">
+                        <label>Bank Name</label>
+                        <input matInput placeholder={{bankName}} readonly>
+                    </div>
+                    <div class="form-field w-25">
+                        <label>Branch Name</label>
+                        <input matInput placeholder={{branchName}} readonly>
+                    </div>
+                    <div class="form-field w-25">
+                        <label>IFSC Code</label>
+                        <input matInput placeholder={{ifscCode}} readonly>
+                    </div>
+                </div>
+                <div>
+                    <mat-divider></mat-divider>
+                    <div class="alert alert-danger mbot-20" role="alert" *ngIf="isSearchResultFailed">
+	                    {{ errorMessage }}
+	           		 </div>
+                    <mat-tab-group (selectedTabChange)="selectedModule($event,null,null,null)">
+                      <form [formGroup]="e2eAppDashboardForm" autocomplete="off">
+                        <mat-tab label="Module 1 (M1)">
+                            <div class="tab-content">
+                                <div class="grid" *ngIf="searchResultsM1">
+                                    <table formArrayName="unitM1Data">
+                                        <tr>
+                                            <!-- <th colspan="3" class="groupHeader">Module 1 (M1) Dashboard</th>
+                                            <th colspan="5" class="groupHeader">(M1) -  Application Scrutiny & Sanction</th> -->
+                                            <th colspan="5" class="groupHeader">(M1) - Application Scrutiny & Sanction</th>
+                                            <th colspan="3" class="groupHeader">Re-assign User/s</th>
+                                            <th colspan="2" class="groupHeader">Cancellation of Application</th>
+                                            <!-- <th colspan="1" class="groupHeader">Action</th> -->
+                                        </tr>
+                                        <tr>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th class="name-column">Name of the Applicant</th>
+                                            <th>Application Status (AS)</th>
+                                            <th>Application Final Status</th>
+                                            <th class="name-column">Maker</th>
+                                            <th class="name-column">Checker</th>
+                                            <th>Sanctioning<br>Authority</th>
+                                            <th>Cancel</th>
+                                            <th>Reason for Cancellation</th>
+                                            <!-- <th>Action</th> -->
+                                        </tr>
+                                        <!-- <tr>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <mat-select appearance="outline" floatlabel="never">
+                                                    <mat-option value="Option1">Option 1</mat-option>
+                                                    <mat-option value="Option2">Option 2</mat-option>
+                                                    <mat-option value="Option3">Option 3</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr> -->
+                                        <!-- <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select appearance="outline" floatlabel="never">
+                                                    <mat-option value="Option1">Option 1</mat-option>
+                                                    <mat-option value="Option2">Option 2</mat-option>
+                                                    <mat-option value="Option3">Option 3</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr> -->
+                                        <tr *ngFor="let eachUnitData of gete2eDataM1ArrayControl(); let i=index">
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.date.value}}
+			                                </td>
+			                                <td [formGroupName]="i">
+			                                  {{eachUnitData.controls.e2eNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.nameOfApplicant.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.appStatus.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.appFinalStatus.value}}
+			                                </td>
+			                                <!-- <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.maker.value}}
+			                                </td> -->
+			                                <!-- <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.checker.value}}
+			                                </td> -->
+			                                <!-- <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.sanctioningAuth.value}}
+			                                </td> -->
+                                            <td>
+                                                <mat-select #bMaker placeholder="select">
+                                                    <mat-option *ngFor="let eachOption of branchMakerOptions"
+                                                        [value]="eachOption.username">
+                                                        {{eachOption.fullname}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #uChecker placeholder="select">
+                                                    <mat-option *ngFor="let eachOption of unitCheckerOptions"
+				                                        [value]="eachOption.userName">
+				                                        {{eachOption.fullName}}
+				                                    </mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #SA placeholder="select">
+                                                    <mat-option value="Branch">Branch</mat-option>
+													<mat-option value="CPC">CPC</mat-option>
+													<mat-option value="Zone">Zone</mat-option>
+													<mat-option value="HO">HO</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #isCancel placeholder="select">
+                                                    <mat-option value="Yes">Yes</mat-option>
+													<mat-option value="No">No</mat-option>
+                                                </mat-select>
+                                            </td>
+			                                <!-- <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.cancelApplication.value}}
+			                                </td> -->
+			                                <!-- <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.reasonOfCancellation.value}}
+			                                </td> -->
+                                            <td>
+                                                <input #cancelReason matInput [value]="eachUnitData.controls.reasonOfCancellation.value">
+                                            </td>
+                                            <td>
+                                                <a (click)="save(eachUnitData.controls.e2eNum.value,bMaker,uChecker,SA,isCancel,cancelReason)">
+                                                    <mat-icon>save</mat-icon>
+                                                </a>
+                                            </td> 
+			                            </tr>
+                                    </table>
+                                </div>
+                                <!-- <div class="form-actions">
+                                    <button color="primary" mat-raised-button>Save</button>
+                                </div> -->
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module 2 (M2)">
+                            <div class="tab-content">
+                                <div class="grid" *ngIf="searchResultsM2">
+                                    <table formArrayName="unitM2Data">
+                                        <tr>
+                                            <!-- <th colspan="6" class="groupHeader">Module 2 (M2) - Documentation, Creation of Securities, Insurance and Loan Disbursement</th>
+                                            <th colspan="3" class="groupHeader">Re-assign User/s</th> -->
+                                            <th colspan="5" class="groupHeader">Module 2 (M2) - Documentation, Creation of Securities, Insurance and Loan Disbursement</th>
+                                            <th colspan="3" class="groupHeader">Re-assign User/s</th>
+                                            <th colspan="2" class="groupHeader">Cancellation of Application</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <th>Application Status (AS)</th>
+                                            <th>Application Final Status</th>
+                                            <th class="name-column">Maker</th>
+                                            <th class="name-column">Checker</th>
+                                            <th>Sanctioning<br>Authority</th>
+                                            <th>Cancel</th>
+                                            <th>Reason for Cancellation</th>
+                                        </tr>
+                                        <!-- <tr>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                        </tr> -->
+                                        <tr *ngFor="let eachUnitData of gete2eDataM2ArrayControl(); let i=index">
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.date.value}}
+			                                </td>
+			                                <td [formGroupName]="i">
+			                                  {{eachUnitData.controls.e2eNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.nameOfApplicant.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.appStatus.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.appFinalStatus.value}}
+			                                </td>
+			                                <!-- <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.maker.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.checker.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.sanctioningAuth.value}}
+			                                </td> -->
+                                            <td>
+                                                <mat-select #bMaker placeholder="select">
+                                                    <mat-option *ngFor="let eachOption of branchMakerOptions"
+                                                        [value]="eachOption.username">
+                                                        {{eachOption.fullname}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #uChecker placeholder="select">
+                                                    <mat-option *ngFor="let eachOption of unitCheckerOptions"
+				                                        [value]="eachOption.userName">
+				                                        {{eachOption.fullName}}
+				                                    </mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #SA placeholder="select">
+                                                    <mat-option value="Branch">Branch</mat-option>
+													<mat-option value="CPC">CPC</mat-option>
+													<mat-option value="Zone">Zone</mat-option>
+													<mat-option value="HO">HO</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #isCancel placeholder="select">
+                                                    <mat-option value="Yes">Yes</mat-option>
+													<mat-option value="No">No</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <input #cancelReason matInput [value]="eachUnitData.controls.reasonOfCancellation.value">
+                                            </td>
+                                            <td>
+                                                <a (click)="save(eachUnitData.controls.e2eNum.value,bMaker,uChecker,SA,isCancel,cancelReason)">
+                                                    <mat-icon>save</mat-icon>
+                                                </a>
+                                            </td>
+			                            </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module 3 (M3)">
+                            <div class="tab-content">
+                                <div class="grid" *ngIf="searchResultsM3">
+                                    <table formArrayName="unitM3Data">
+                                        <tr>
+                                            <!-- <th colspan="3" class="groupHeader">Module 3 (M3) Dashboard</th>
+                                            <th colspan="5" class="groupHeader">(M3) - Confirmation of Securities obtained, to be done within 1 month of Loan Disbursement</th> -->
+                                            <!-- <th colspan="7" class="groupHeader">(M3) - Confirmation of Securities obtained, to be done within 1 month of Loan Disbursement</th>
+                                            <th colspan="3" class="groupHeader">Re-assign User/s</th> -->
+                                            <th colspan="5" class="groupHeader">(M3) - Confirmation of Securities obtained, to be done within 1 month of Loan Disbursement</th>
+                                            <th colspan="3" class="groupHeader">Re-assign User/s</th>
+                                            <th colspan="2" class="groupHeader">Cancellation of Application</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <!-- <th>Account Number</th> -->
+                                            <!-- <th class="date-column">Expected Start Date</th> -->
+                                            <th>Application Status (AS)</th>
+                                            <th>Application Final Status</th>
+                                            <th class="name-column">Maker</th>
+                                            <th class="name-column">Checker</th>
+                                            <th>Sanctioning<br>Authority</th>
+                                            <th>Cancel</th>
+                                            <th>Reason for Cancellation</th>
+                                        </tr>
+                                        <!-- <tr>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                        </tr> -->
+                                        <tr *ngFor="let eachUnitData of gete2eDataM3ArrayControl(); let i=index">
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.date.value}}
+			                                </td>
+			                                <td [formGroupName]="i">
+			                                  {{eachUnitData.controls.e2eNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.nameOfApplicant.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.appStatus.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.appFinalStatus.value}}
+			                                </td>
+			                                <!-- <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.maker.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.checker.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.sanctioningAuth.value}}
+			                                </td> -->
+                                            <td>
+                                                <mat-select #bMaker placeholder="select">
+                                                    <mat-option *ngFor="let eachOption of branchMakerOptions"
+                                                        [value]="eachOption.username">
+                                                        {{eachOption.fullname}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #uChecker placeholder="select">
+                                                    <mat-option *ngFor="let eachOption of unitCheckerOptions"
+				                                        [value]="eachOption.userName">
+				                                        {{eachOption.fullName}}
+				                                    </mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #SA placeholder="select">
+                                                    <mat-option value="Branch">Branch</mat-option>
+													<mat-option value="CPC">CPC</mat-option>
+													<mat-option value="Zone">Zone</mat-option>
+													<mat-option value="HO">HO</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #isCancel placeholder="select">
+                                                    <mat-option value="Yes">Yes</mat-option>
+													<mat-option value="No">No</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <input #cancelReason matInput [value]="eachUnitData.controls.reasonOfCancellation.value">
+                                            </td>
+                                            <td>
+                                                <a (click)="save(eachUnitData.controls.e2eNum.value,bMaker,uChecker,SA,isCancel,cancelReason)">
+                                                    <mat-icon>save</mat-icon>
+                                                </a>
+                                            </td>
+			                            </tr>
+                                    </table>
+                                </div>
+                                <!-- <div class="form-actions">
+                                    <button color="primary" mat-raised-button>Save</button>
+                                </div> -->
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module 4 (M4)">
+                            <div class="tab-content">
+                                <div class="grid" *ngIf="searchResultsM4">
+                                    <table formArrayName="unitM4Data">
+                                        <tr>
+                                            <!-- <th colspan="6" class="groupHeader">Module 4 (M4) - Periodic Monitoring & Follow-up</th>
+                                            <th colspan="3" class="groupHeader">Assign/Re-assign Users/s</th> -->
+                                            <th colspan="5" class="groupHeader">Module 4 (M4) - Periodic Monitoring & Follow-up</th>
+                                            <th colspan="3" class="groupHeader">Re-assign User/s</th>
+                                            <th colspan="2" class="groupHeader">Cancellation of Application</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <!-- <th>e2e (M4) Review No.</th> -->
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <th>Application Status (AS)</th>
+                                            <th>Application Final Status</th>
+                                            <th class="name-column">Maker</th>
+                                            <th class="name-column">Checker</th>
+                                            <th>Sanctioning<br>Authority</th>
+                                            <th>Cancel</th>
+                                            <th>Reason for Cancellation</th>
+                                        </tr>
+                                        <tr *ngFor="let eachUnitData of gete2eDataM4ArrayControl(); let i=index">
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.date.value}}
+			                                </td>
+			                                <td [formGroupName]="i">
+			                                  {{eachUnitData.controls.e2eNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.nameOfApplicant.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.appStatus.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.appFinalStatus.value}}
+			                                </td>
+			                                <!-- <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.maker.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.checker.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.sanctioningAuth.value}}
+			                                </td> -->
+                                            <td>
+                                                <mat-select #bMaker placeholder="select">
+                                                    <mat-option *ngFor="let eachOption of branchMakerOptions"
+                                                        [value]="eachOption.username">
+                                                        {{eachOption.fullname}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #uChecker placeholder="select">
+                                                    <mat-option *ngFor="let eachOption of unitCheckerOptions"
+				                                        [value]="eachOption.userName">
+				                                        {{eachOption.fullName}}
+				                                    </mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #SA placeholder="select">
+                                                    <mat-option value="Branch">Branch</mat-option>
+													<mat-option value="CPC">CPC</mat-option>
+													<mat-option value="Zone">Zone</mat-option>
+													<mat-option value="HO">HO</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #isCancel placeholder="select">
+                                                    <mat-option value="Yes">Yes</mat-option>
+													<mat-option value="No">No</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <input #cancelReason matInput [value]="eachUnitData.controls.reasonOfCancellation.value">
+                                            </td>
+                                            <td>
+                                                <a (click)="save(eachUnitData.controls.e2eNum.value,bMaker,uChecker,SA,isCancel,cancelReason)">
+                                                    <mat-icon>save</mat-icon>
+                                                </a>
+                                            </td>
+			                            </tr>
+                                        <!-- <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                        </tr> -->
+                                    </table>
+                                </div>
+                                <!-- <div class="form-actions">
+                                    <button color="primary" mat-raised-button>Save</button>
+                                </div> -->
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module 5 (M5)">
+                            <div class="tab-content">
+                                <div class="grid" *ngIf="searchResultsM5">
+                                    <table formArrayName="unitM5Data">
+                                        <tr>
+                                            <!-- <th colspan="6" class="groupHeader">Module 5 (M5) - Release of Securities</th>
+                                            <th colspan="3" class="groupHeader">Assign/Re-assign User/s</th> -->
+                                            <th colspan="5" class="groupHeader">Module 5 (M5) - Release of Securities</th>
+                                            <th colspan="3" class="groupHeader">Re-assign User/s</th>
+                                            <th colspan="2" class="groupHeader">Cancellation of Application</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <!-- <th>Security Release No.</th> -->
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <th>Application Status (AS)</th>
+                                            <th>Application Final Status</th>
+                                            <th class="name-column">Maker</th>
+                                            <th class="name-column">Checker</th>
+                                            <th>Sanctioning<br>Authority</th>
+                                            <th>Cancel</th>
+                                            <th>Reason for Cancellation</th>
+                                        </tr>
+                                        <tr *ngFor="let eachUnitData of gete2eDataM5ArrayControl(); let i=index">
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.date.value}}
+			                                </td>
+			                                <td [formGroupName]="i">
+			                                  {{eachUnitData.controls.e2eNum.value}}
+			                                </td>
+			                                <!-- <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.securityReleaseNum.value}}
+			                                </td> -->
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.nameOfApplicant.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.appStatus.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.appFinalStatus.value}}
+			                                </td>
+			                                <!-- <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.maker.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.checker.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.sanctioningAuth.value}}
+			                                </td> -->
+                                            <td>
+                                                <mat-select #bMaker placeholder="select">
+                                                    <mat-option *ngFor="let eachOption of branchMakerOptions"
+                                                        [value]="eachOption.username">
+                                                        {{eachOption.fullname}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #uChecker placeholder="select">
+                                                    <mat-option *ngFor="let eachOption of unitCheckerOptions"
+				                                        [value]="eachOption.userName">
+				                                        {{eachOption.fullName}}
+				                                    </mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #SA placeholder="select">
+                                                    <mat-option value="Branch">Branch</mat-option>
+													<mat-option value="CPC">CPC</mat-option>
+													<mat-option value="Zone">Zone</mat-option>
+													<mat-option value="HO">HO</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select #isCancel placeholder="select">
+                                                    <mat-option value="Yes">Yes</mat-option>
+													<mat-option value="No">No</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <input #cancelReason matInput [value]="eachUnitData.controls.reasonOfCancellation.value">
+                                            </td>
+                                            <td>
+                                                <a (click)="save(eachUnitData.controls.e2eNum.value,bMaker,uChecker,SA,isCancel,cancelReason)">
+                                                    <mat-icon>save</mat-icon>
+                                                </a>
+                                            </td>
+			                            </tr>
+                                        <!-- <tr>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                        </tr> -->
+                                    </table>
+                                </div>
+                                <!-- <div class="form-actions">
+                                    <button color="primary" mat-raised-button>Save</button>
+                                </div> -->
+                            </div>
+                        </mat-tab>
+                        </form>
+                    </mat-tab-group>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

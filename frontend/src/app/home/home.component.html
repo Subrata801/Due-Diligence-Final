@@ -1,0 +1,53 @@
+  <mat-toolbar color="#ffffff">
+    <mat-toolbar-row>
+      <button mat-icon-button class="noborder">
+        <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+      </button>
+      <img src="assets/images/logo1.png" alt="BankerMitra" class="center">
+      <button mat-raised-button color="primary" class="actionButton" (click)="performLogout()">Logout</button>
+      <button mat-raised-button color="primary" class="actionButton">Manage Profile</button>
+
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav opened="true" mode="side">
+      <mat-nav-list>
+        <!-- <a mat-list-item> BM Configuration Panel </a> -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              BM Configuration Panel
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['user'] } }]"> User Registration </a>
+          <a mat-list-item> Add / View / Update Header </a>
+          <a mat-list-item [routerLink]="[{ outlets: { appcontent: ['language-template'] } }]"> Create BM Language Template </a>
+          <a mat-list-item  [routerLink]="[{ outlets: { appcontent: ['loan-scheme'] } }]"> Create BM Loan Schemes </a>
+          <a mat-list-item> Define Risk Ratings & Color Codes </a>
+          <a mat-list-item> SaaS Subscriptions </a>
+          <a mat-list-item> Import & Loan Schemes Customizations </a>
+          <a mat-list-item> BankerMitra Reports </a>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Client Configuration Panel
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a mat-list-item> Create new client (Client Bank/Audit Firm) </a>
+          <a mat-list-item> Edit Client (Client Bank/Audit Firm) </a>
+          <a mat-list-item> Customize & Verify V1 Templates </a>
+          <a mat-list-item> Review & Freeze Templates </a>
+          <a mat-list-item> View Freeze Templates Dashboard </a>
+          <a mat-list-item> Customizations of Operational Templates </a>
+        </mat-expansion-panel>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="content-frame">
+        <router-outlet name="appcontent"></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

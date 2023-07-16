@@ -1,0 +1,139 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> Initiate Due-Diligence Processing
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex">
+                <form [formGroup]="loanApplicationForm" autocomplete="off">
+                    <div class="v-flex">
+                        <div class="form-group createUnit">
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Module</mat-label>
+                                    <mat-select placeholder="Client Type" formControlName="loanModule" (selectionChange)="changeModule()">
+                                        <mat-option value="1">Module 1</mat-option>
+                                        <mat-option value="2">Module 2</mat-option>
+                                        <mat-option value="3">Module 3</mat-option>
+                                        <mat-option value="4">Module 4</mat-option>
+                                        <mat-option value="5">Module 5</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.clientType}}</mat-error>
+                            </div>
+                        </div>
+                        <div class="form-group createUnit" *ngIf="selectModule">
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Loan Reference Number</mat-label>
+                                    <input matInput placeholder="Loan Reference Number" formControlName="loanReference">
+                                    <mat-error>{{pageErrors.loanReference}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field" *ngIf="selectModule >= 3">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Loan Account Number</mat-label>
+                                    <input matInput placeholder="Loan Account Number" formControlName="loanAccount">
+                                    <mat-error>{{pageErrors.loanAccount}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Applicant Name</mat-label>
+                                    <input matInput placeholder="Applicant Name" formControlName="applicantName">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.applicantName}}</mat-error>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Sanctioning Authority</mat-label>
+                                    <mat-select placeholder="Select" formControlName="sanctioningAuthority">
+                                        <mat-option value="1">Branch</mat-option>
+                                        <mat-option value="2">Regional Office</mat-option>
+                                        <mat-option value="3">Zonal Office</mat-option>
+                                        <mat-option value="4">Head Office</mat-option>
+                                    </mat-select>
+                                    <mat-error>{{pageErrors.sanctioningAuthority}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Module Expected Start Date</mat-label>
+                                    <input matInput placeholder="Module Expected Start Date" [matDatepicker]="picker1"
+                                        formControlName="moduleStartDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.moduleStartDate}}</mat-error>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Module Expected End Date</mat-label>
+                                    <input matInput placeholder="Module Expected End Date" [matDatepicker]="picker2"
+                                        formControlName="moduleStartDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.moduleEndDate}}</mat-error>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="form-field" *ngIf="selectModule == 2">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Date of Acceptance of the sanction by Borrower</mat-label>
+                                    <input matInput placeholder="Date of Acceptance of the sanction by Borrower" [matDatepicker]="picker3"
+                                        formControlName="dateofAcceptance">
+                                    <mat-datepicker-toggle matSuffix [for]="picker3">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker3></mat-datepicker>
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.dateofAcceptance}}</mat-error>
+                            </div>
+                            <div class="form-field" *ngIf="selectModule >= 3">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Date of Disbursement</mat-label>
+                                    <input matInput placeholder="Date of Disbursement" [matDatepicker]="picker4"
+                                        formControlName="disbursementDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker4">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker4></mat-datepicker>
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.disbursementDate}}</mat-error>
+                            </div>
+                            <div class="form-field" *ngIf="selectModule == 4">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Select Reviewer</mat-label>
+                                    <input matInput placeholder="Reviewer" formControlName="loanReviewer">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.loanReviewer}}</mat-error>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Branch Maker</mat-label>
+                                    <input matInput placeholder="Branch Maker" formControlName="loanMaker">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.loanMaker}}</mat-error>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Branch Checker</mat-label>
+                                    <input matInput placeholder="Branch Checker" formControlName="loanChecker">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.loanChecker}}</mat-error>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="form-actions">
+                        <button mat-raised-button color="primary">Submit</button>
+                        <button mat-raised-button color="primary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

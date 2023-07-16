@@ -1,0 +1,217 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>Create Audit Firm Users</label>
+            <span *ngIf="search"><mat-icon>person_add</mat-icon> <span class="link-button" (click)="createForm()">Create Audit Firm</span></span>
+            <span *ngIf="!search"><mat-icon>arrow_back</mat-icon> <span class="link-button" (click)="searchForm()">Back to Search</span></span>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex">
+                <form [formGroup]="searchAuditFirmForm" autocomplete="off" *ngIf="search">
+                   <div class="alert alert-danger mbot-20" role="alert" *ngIf="isSearchResultFailed">
+	                    {{ errorMessage }}
+	                </div>
+                    <div class="mtop-20 filter-panel h-flex flex-wrap">
+                        <div class="form-field w-100 mbot-10">
+                            <mat-radio-group formControlName="searchType">
+                                <mat-radio-button value="usernamesearch">Username</mat-radio-button>
+                                <mat-radio-button value="fullnamesearch">Full Name</mat-radio-button>
+                                <!-- <mat-radio-button value="usertypesearch">User Type</mat-radio-button> -->
+                            </mat-radio-group>
+                        </div>
+                        <div class="h-flex nowrap">
+                            <!-- <div class="form-field w-20" *ngIf="isUserTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>User Type</mat-label>
+                                    <mat-select placeholder="User Type" formControlName="clientTypeId" name="Select User Type">
+                                        <mat-option *ngFor="let eachOption of clientTypeOptions"
+                                            [value]="eachOption.clientTypeId">
+                                            {{eachOption.clientTypeName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div> -->
+                            <div class="form-field w-20" *ngIf="isUserTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>BM/Bank/Audit Firm</mat-label>
+                                    <mat-select placeholder="BM/Bank/Audit Firm" formControlName="clientId" name="Select User Type">
+                                        <mat-option *ngFor="let eachOption of clientOptions" [value]="eachOption.clientId">
+                                            {{eachOption.clientName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-20" *ngIf="isUserTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Branch / Audit bank</mat-label>
+                                    <mat-select placeholder="Branch / Audit bank" formControlName="clientGroupId" name="Select User Type">
+                                        <mat-option *ngFor="let eachOption of clientGroupOptions"
+                                            [value]="eachOption.clienGroupId">
+                                            {{eachOption.clienGroupName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>                
+                            <div class="form-field w-20" *ngIf="isUserTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>User Role</mat-label>
+                                    <mat-select placeholder="User Role" formControlName="userRoleId" name="Select User Type">
+                                        <mat-option *ngFor="let eachOption of userRoleOptions" [value]="eachOption.roleId">
+                                            {{eachOption.roleName}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error>{{pageErrors.userRoleId}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33" *ngIf="!isUserTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Enter Keyword</mat-label>
+                                    <input matInput placeholder="Enter Keyword" formControlName="searchKeyword">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.searchKeyword}}</mat-error>
+                            </div>
+                            <div class="mtop-5">
+                                <button color="primary" mat-raised-button (click)="performSearch()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                    <mat-divider></mat-divider>
+                    <form [formGroup]="searchAuditUserForm" autocomplete="off">
+                    <div class="grid header-data" *ngIf="searchResults">
+                        <table formArrayName="auditFirmData">
+                            <thead>
+                                <tr>
+                                    <th class="name-column">Employee Name</th>
+                                    <th>Username</th>
+                                    <th>Employee ID</th>
+                                    <th>Last Updated By</th>
+                                    <th class="date-column">Date/Time</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let eachUnitData of getAuditFirmUserDataArrayControl(); let i=index">
+	                                <td [formGroupName]="i">
+	                                  {{eachUnitData.controls.employeeName.value}}
+	                                </td>
+	                                <td [formGroupName]="i">
+	                                    {{eachUnitData.controls.userName.value}}
+	                                </td>
+	                                <td [formGroupName]="i">
+	                                     {{eachUnitData.controls.employeeId.value}}
+	                                </td>
+	                                 <td [formGroupName]="i">
+	                                    {{eachUnitData.controls.lastUpdatedBy.value}}
+	                                </td>
+	                                 <td [formGroupName]="i" class="date-column">
+	                                    {{eachUnitData.controls.updatedDate.value}}
+	                                </td>
+	                                <td class="text-center">
+	                                  <a (click)="openAuditFirm(eachUnitData.controls.employeeName.value,eachUnitData.controls.userName.value)">
+	                                    <mat-icon>edit</mat-icon>
+	                                  </a>
+	                                </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <form [formGroup]="createAuditFirmForm" autocomplete="off" *ngIf="!search">
+                <div class="alert alert-danger mbot-20" role="alert" *ngIf="isCreateAuditFirmFailed">
+	                    {{ errorMessage }}
+	            </div>
+                <div class="form-group createUnit">
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>User Role</mat-label>
+                            <mat-select placeholder="User Role" formControlName="userRoleId" name="Select User Type">
+                                <mat-option *ngFor="let eachOption of userRoleOptions" [value]="eachOption.roleId">
+                                    {{eachOption.roleName}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>{{pageErrors.userRoleId}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Bank Name</mat-label>
+                            <mat-select placeholder="User Role" formControlName="bankName" name="Bank Name (Prefix)">
+                                <mat-option>Bank 1</mat-option>
+                                <mat-option>Bank 2</mat-option>
+                                <mat-option>Bank 3</mat-option>
+                                <mat-option>Bank 4</mat-option>
+                            </mat-select>
+                            <mat-error>{{pageErrors.bankName}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Employee ID</mat-label>
+                            <input matInput placeholder="Employee ID" formControlName="employeeId" (change)="onChangeEmployeeId($event)">
+                            <mat-error>{{pageErrors.EmployeeID}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-field w-50" *ngIf="employeeName!='' && employeeName!=null && employeeName!='null'">
+                        <mat-form-field appearance="fill" >
+                            <mat-label>Employee Name</mat-label>
+                             <input matInput placeholder={{employeeName}} readonly>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.employeeName}}</mat-error>
+                    </div>
+                    <div class="form-field w-50" *ngIf="employeeName=='' || employeeName==null || employeeName=='null'">
+                        <mat-form-field appearance="fill" >
+                            <mat-label>Employee Name</mat-label>
+                            <input matInput placeholder="Employee Name" formControlName="employeeName" >
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.employeeName}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Employee Email</mat-label>
+                            <input matInput placeholder="Employee Email" formControlName="employeeMail">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.employeeEmail}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Mobile Number</mat-label>
+                            <input matInput placeholder="Mobile Number" formControlName="mobileNum">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.mobileMumber}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Username</mat-label>
+                            <input matInput placeholder="Username" formControlName="userName" >
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.userPassword}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Password</mat-label>
+                            <input matInput placeholder="Password" formControlName="password">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.userPassword}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-label>CnC Status</mat-label>
+                        <mat-slide-toggle required formControlName="cncStatus" (toggleChange)="toggleChanged()">
+                            {{status}}
+                        </mat-slide-toggle>
+                        <mat-error>{{pageErrors.cncStatus}}</mat-error>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="form-actions">
+                    <button mat-raised-button color="primary" (click)="performSubmit()">Submit</button>
+                    <button mat-raised-button color="primary">Cancel</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

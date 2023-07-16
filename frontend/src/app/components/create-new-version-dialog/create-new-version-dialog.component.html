@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Options for New Versions</h1>
+<div mat-dialog-content [formGroup]="newVersionForm">
+  <div class="form-field">
+    <mat-form-field appearance="fill">
+      <mat-label>Version Date</mat-label>
+      <input matInput [matDatepicker]="picker5" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker5">
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker5></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="form-field">
+    <mat-label>Available Options</mat-label>
+    <mat-radio-group formControlName="option">
+        <mat-radio-button value="BMSET">BMSET</mat-radio-button>
+        <mat-radio-button value="CLIENTSET">CLIENTSET</mat-radio-button>
+    </mat-radio-group>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancelClick()">Cancel</button>
+  <button mat-button (click)="okClick()" cdkFocusInitial>Ok</button>
+</div>

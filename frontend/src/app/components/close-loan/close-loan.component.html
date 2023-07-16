@@ -1,0 +1,59 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> Close Loan
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex">
+                <form [formGroup]="loanApplicationForm" autocomplete="off">
+                    <div class="v-flex">
+                        <div class="form-group createUnit">
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Loan Reference Number</mat-label>
+                                    <input matInput placeholder="Loan Reference Number" formControlName="loanReference">
+                                    <mat-error>{{pageErrors.loanReference}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Loan Account Number</mat-label>
+                                    <input matInput placeholder="Loan Account Number" formControlName="loanAccount">
+                                    <mat-error>{{pageErrors.loanAccount}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Applicant Name</mat-label>
+                                    <input matInput placeholder="Applicant Name" formControlName="applicantName">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.applicantName}}</mat-error>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Branch Maker</mat-label>
+                                    <input matInput placeholder="Branch Maker" formControlName="loanMaker">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.loanMaker}}</mat-error>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Branch Checker</mat-label>
+                                    <input matInput placeholder="Branch Checker" formControlName="loanChecker">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.loanChecker}}</mat-error>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="form-actions mbot-20">
+                        <button mat-raised-button color="primary">Close Loan</button>
+                        <button mat-raised-button color="primary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

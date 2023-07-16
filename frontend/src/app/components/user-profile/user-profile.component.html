@@ -1,0 +1,46 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title><mat-icon>account_box</mat-icon> Update Profile</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex">
+                <form [formGroup]="UserProfileForm" autocomplete="off">
+	                <div class="alert alert-danger mbot-20" role="alert" *ngIf="isUpdateProfileFailed">
+	                     {{ errorMessage }}
+	                </div>
+                    <div class="user-profile form-group">
+                        <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Username</mat-label>
+                                <input matInput placeholder="" formControlName="userName" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Mobile Number</mat-label>
+                                <input matInput placeholder="" formControlName="userMobile">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Email</mat-label>
+                                <input matInput placeholder="" formControlName="userEmail">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Full Name</mat-label>
+                                <input matInput placeholder="" formControlName="fullName" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-actions">
+                            <button mat-raised-button color="primary" (click)="performAction()">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="clear mtop-20"></div>
+    <router-outlet></router-outlet>
+</div>

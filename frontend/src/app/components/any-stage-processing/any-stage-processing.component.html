@@ -1,0 +1,122 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> Any Stage Processing
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex anyStageProcessing">
+                <form [formGroup]="anyStageForm" autocomplete="off">
+                    <div class="v-flex">
+                        <div class="form-group">
+                            <div class="form-field">
+                                <mat-label>Select Account</mat-label>
+                                <mat-radio-group formControlName="selectAccount" (change)="resetAccount()">
+                                    <mat-radio-button value="1">New Loan Account</mat-radio-button>
+                                    <mat-radio-button value="2">Existing Loan Account</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <div class="form-field" *ngIf="selectAccountOptions1 == 1">
+                                <mat-label>Select Module</mat-label>
+                                <mat-radio-group formControlName="selectModuleA">
+                                    <mat-radio-button value="1" [checked]="true">M2 - Documentation, Insurance &amp; Disbursement</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="form-field" *ngIf="selectAccountOptions1 == 2">
+                                <mat-label>Select Module</mat-label>
+                                <mat-radio-group formControlName="selectModuleB" (change)="resetModuleB()">
+                                    <mat-radio-button value="1">M3 - Due Diligence immediately after Disbursement</mat-radio-button>
+                                    <mat-radio-button value="2">M4 - Periodic Monitoring &amp; Follow-up</mat-radio-button>
+                                    <mat-radio-button value="3">M5 - Closure of Account &amp; Release of Securities</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <div class="form-field" *ngIf="selectAccountOptions2 == 2">
+                                <mat-label>Select M4 Section</mat-label>
+                                <mat-radio-group formControlName="selectM4" (change)="resetM4()">
+                                    <mat-radio-button value="1">M4 - Standard Assets, Regular Monitoring &amp; Follow-up</mat-radio-button>
+                                    <mat-radio-button value="2">M4 - NPA Account</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <div class="form-field" *ngIf="selectM4Options == 1">
+                                <mat-label>Would you like to go through M3 i.e. Due DIligence immediately after Disbursement for this Account?</mat-label>
+                                <mat-radio-group formControlName="selectM3" (change)="resetM3()">
+                                    <mat-radio-button value="1">Yes</mat-radio-button>
+                                    <mat-radio-button value="2">No</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <div class="form-actions">
+                                <button color="primary" mat-raised-button (click)="search()" [disabled]="!selectAccountOptions1">Show Loans</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="clear mbot-20" *ngIf="show"></div>
+    <mat-card *ngIf="show">
+        <mat-card-content>
+            <div class="col-md-12 mtop-20 mbot-20">
+                <div class="w-100">
+                    <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
+                </div>
+                <div class="grid">
+                    <!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                        <ng-container matColumnDef="sno">
+                            <th mat-header-cell *matHeaderCellDef>S. No</th>
+                            <td mat-cell *matCellDef="let data">data.index</td>
+                        </ng-container>
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef>Borrower Name</th>
+                            <td mat-cell *matCellDef="let data">{{data.name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="e2eRef">
+                            <th mat-header-cell *matHeaderCellDef>e2e Reference #</th>
+                            <td mat-cell *matCellDef="let data">{{data.e2eRef}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="appNo">
+                            <th mat-header-cell *matHeaderCellDef>Loan Application #</th>
+                            <td mat-cell *matCellDef="let data">{{data.appNo}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="accNo">
+                            <th mat-header-cell *matHeaderCellDef>Account #</th>
+                            <td mat-cell *matCellDef="let data">{{data.accNo}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef>Action</th>
+                            <td mat-cell *matCellDef="let data"><a href="#" routerLink="../any-stage-processing-level2/:{{selectAccountOptions1}}/:{{selectAccountOptions2}}/:{{selectM4Options}}/:{{selectM3Options}}/:0" class="link-button">Select</a></td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table> -->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-center">Sr. No</th>
+                                <th>Name of the Borrower</th>
+                                <th>e2e Reference #</th>
+                                <th>Loan Application #</th>
+                                <th *ngIf="selectAccountOptions1 == 2">Account #</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of dataSource; let i=index">
+                                <td class="text-center">{{i+1}}</td>
+                                <td>{{data.name}}</td>
+                                <td>{{data.e2eRef}}</td>
+                                <td>{{data.appNo}}</td>
+                                <td *ngIf="selectAccountOptions1 == 2">{{data.accNo}}</td>
+                                <td class="text-center"><a href="#" routerLink="../any-stage-processing-level2/:{{selectAccountOptions1}}/:{{selectAccountOptions2}}/:{{selectM4Options}}/:{{selectM3Options}}/:0" class="link-button">Select</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="skip">
+                    Loan Account not found? Proceed to a <a href="#" routerLink="../any-stage-processing-level2/:{{selectAccountOptions1}}/:{{selectAccountOptions2}}/:{{selectM4Options}}/:{{selectM3Options}}/:1" class="link-button">Selected Module.</a>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

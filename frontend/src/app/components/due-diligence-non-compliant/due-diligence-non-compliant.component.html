@@ -1,0 +1,227 @@
+<div class="content-panel initiateDueDiligence">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>Analysis of Status of Compliance</label>
+            <span class="mright-20" (click)="back()"><mat-icon>arrow_back</mat-icon> <span class="link-button">Back to initiate due diligence</span></span>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="alert alert-danger mtop-20" role="alert" *ngIf="isError">
+                {{ errorMessage }}
+            </div>
+            <div class="v-flex">
+                <form [formGroup]="assessmentForm" autocomplete="off">
+                    <div class="h-flex flex-wrap mtop-20">
+                        <div class="form-field w-50">
+                            <mat-label>Applicant/Obligant Name</mat-label>
+                            <input class="text-secondary" matInput formControlName="applicantName" readonly>
+                        </div>
+                        <div class="form-field w-50">
+                            <mat-label>e2e/CnC Number</mat-label>
+                            <input class="text-secondary" matInput formControlName="e2eNumber" readonly>
+                        </div>
+                        <div class="form-field w-50">
+                            <mat-label>CIF Number</mat-label>
+                            <input class="text-secondary" matInput formControlName="cifNumber" readonly>
+                        </div>
+                        <div class="form-field w-50">
+                            <mat-label>Date</mat-label>
+                            <input class="text-secondary" matInput formControlName="loanDate" readonly>
+                        </div>
+                        <div class="form-field w-50">
+                            <mat-label>Unit</mat-label>
+                            <input class="text-secondary" matInput formControlName="unit" readonly>
+                        </div>
+                        <div class="form-field w-50">
+                            <mat-label>User</mat-label>
+                            <input class="text-secondary" matInput formControlName="user" readonly>
+                        </div>
+                        <div class="form-field w-50">
+                            <mat-label>Loan Scheme</mat-label>
+                            <input class="text-secondary" matInput formControlName="loanScheme" readonly>
+                        </div>
+                        <div class="form-field w-50">
+                            <mat-label>Loan Variant</mat-label>
+                            <input class="text-secondary" matInput formControlName="loanVariant" readonly>
+                        </div>
+                    </div>
+                    <div class="grid" *ngIf="!isNewTable">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Particulars of Responses</th>
+                                    <th>Positive <br>(y and n)</th>
+                                    <th>Neutral Risk <br>(y0 and n0)</th>
+                                    <th>Low Risk <br>(y1+n1)</th>
+                                    <th>Medium Risk <br>(y3+n3)</th>
+                                    <th>High Risk <br>(y5+n5)</th>
+                                    <th>NA</th>
+                                    <th>DDAPs Responded</th>
+                                    <th>Open</th>
+                                    <th>Total DDAPs</th>
+                                    <th>Non-Compliance Risk (%)</th>
+                                    <!-- <th>Risk Score (%)</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td><span class="status positive"></span></td>
+                                    <td><span class="status neutral"></span></td>
+                                    <td><span class="status low-risk"></span></td>
+                                    
+                                    <td><span class="status medium-risk"></span></td>
+                                    <td><span class="status high-risk"></span></td>
+                                    <td><span class="status na"></span></td>
+                                    <!-- <td><span class="status "></span></td> -->
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr *ngFor="let eachData of reportTableData; index as i">
+                                    <td class="text-center" #particular>{{eachData.paricularOfResponse}}</td>
+                                    <td class="text-center">{{eachData.positiveYAndN}}</td>
+                                    <td class="text-center">{{eachData.neutralRiskPositiveResponse}}</td>
+                                    <td class="text-center"><a mat-list-item (click)="openActionPoints(i, eachData.paricularOfResponse, 'LR')">{{eachData.lowRiskLr}}</a></td>
+                                    <td class="text-center"><a mat-list-item (click)="openActionPoints(i, eachData.paricularOfResponse, 'MR')">{{eachData.mediumRiskMr}}</a></td>
+                                    <td class="text-center"><a mat-list-item (click)="openActionPoints(i, eachData.paricularOfResponse, 'HR')">{{eachData.highRiskHr}}</a></td>
+                                    <td class="text-center">{{eachData.na}}</td>
+                                    <td class="text-center">{{eachData.totalResponded}}</td>
+                                    <td class="text-center">{{eachData.open}}</td>
+                                    <td class="text-center">{{eachData.totalDdaps}}</td>
+                                    <td class="text-center">{{eachData.nonComplianceRisk}}</td>
+                                    <!-- <td class="text-center">{{eachData.riskScore}}</td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="grid" *ngIf="isNewTable">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Particulars of Responses</th>
+                                    <th>Positive <br>(y and n)</th>
+                                    <th>Neutral Risk <br>(y0 and n0)</th>
+                                    <th>Risk <br>(y- + n-)</th>
+                                    <th>NA</th>
+                                    <th>DDAPs Responded</th>
+                                    <th>Open</th>
+                                    <th>Total DDAPs</th>
+                                    <th>Non-Compliance Risk (%)</th>
+                                    <!-- <th>Risk Score (%)</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td><span class="status positive"></span></td>
+                                    <td><span class="status neutral"></span></td>
+                                    <td><span class="status high-risk"></span></td>
+                                    <td><span class="status na"></span></td>
+                                    <!-- <td><span class="status "></span></td> -->
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr *ngFor="let eachData of reportTableData2; index as i">
+                                    <td class="text-center" #particular>{{eachData.paricularOfResponse}}</td>
+                                    <td class="text-center">{{eachData.positiveYAndN}}</td>
+                                    <td class="text-center">{{eachData.neutralRiskPositiveResponse}}</td>
+                                    <td class="text-center"><a mat-list-item (click)="openActionPoints(i, eachData.paricularOfResponse, 'RR')">{{eachData.lowRiskLr}}</a></td>
+                                    <td class="text-center">{{eachData.na}}</td>
+                                    <td class="text-center">{{eachData.totalResponded}}</td>
+                                    <td class="text-center">{{eachData.open}}</td>
+                                    <td class="text-center">{{eachData.totalDdaps}}</td>
+                                    <td class="text-center">{{eachData.nonComplianceRisk}}</td>
+                                    <!-- <td class="text-center">{{eachData.riskScore}}</td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-actions">
+                       <table>
+                           <tr>
+                                <td>
+                                    <mat-form-field appearance="outline" class="noLabel">
+                                        <mat-select #selectedOption placeholder="Select Action" floatLabel="never">
+                                            <!-- <mat-option value="Assign Back">Assign Back</mat-option>
+                                            <mat-option value="Submit">Submit</mat-option>
+                                            <mat-option value="Reject">Reject</mat-option>
+                                            <mat-option value="Approve">Approve</mat-option>
+                                            <mat-option value="Noted">Noted</mat-option>
+                                            <mat-option value="Closed">Closed</mat-option> -->
+                                            <mat-option
+                                            *ngFor="let eachOption of actionDropdownOptions"
+                                            [value]="eachOption.actionId">
+                                            {{eachOption.actionName}}
+                                        </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td><button color="primary" mat-raised-button (click)="selectAction(selectedOption)">Go</button></td>
+                            </tr>
+                        </table>           
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="v-flex">
+                <form [formGroup]="assessmentForm" autocomplete="off">
+                    <div class="grid">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>Header 1</th>
+                                    <th>Header 2</th>
+                                    <th>Header 3</th>
+                                    <th>Header 4</th>
+                                    <th>Due Diligence Action Points (DDAPs)</th>
+                                    <th>Response</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2</td>
+                                    <td>SECTION 1 - <br>Appraisal of Applicant/ Co-Applicant/ Guarantor</td>
+                                    <td>1.1 Customer Due Diligence (COD) of Applicant/ Co-Applicant/ Guarantor</td>
+                                    <td>1.1.1 Individual</td>
+                                    <td>1.1.1.1 KYC of Individual/ Guarantors</td>
+                                    <td>DDAP1</td>
+                                    <td>N</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>SECTION 2 - <br>Appraisal of Applicant/ Co-Applicant/ Guarantor</td>
+                                    <td>2.1 Customer Due Diligence (COD) of Applicant/ Co-Applicant/ Guarantor</td>
+                                    <td>2.1.1 Individual</td>
+                                    <td>2.1.1.1 KYC of Individual/ Guarantors</td>
+                                    <td>DDAP2</td>
+                                    <td>N</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>SECTION 3 - <br>Appraisal of Applicant/ Co-Applicant/ Guarantor</td>
+                                    <td>3.1 Customer Due Diligence (COD) of Applicant/ Co-Applicant/ Guarantor</td>
+                                    <td>3.1.1 Individual</td>
+                                    <td>3.1.1.1 KYC of Individual/ Guarantors</td>
+                                    <td>DDAP3</td>
+                                    <td>N</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-actions">
+                       <table>
+                           <tr>
+                                <td><button color="primary" mat-raised-button>Submit</button></td>
+                                <td><button color="secondary" mat-raised-button>Cancel</button></td>
+                            </tr>
+                        </table>           
+                    </div>
+                </form>
+            </div> -->
+        </mat-card-content>
+    </mat-card>
+</div>

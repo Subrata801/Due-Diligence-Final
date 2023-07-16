@@ -1,0 +1,217 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> Bank Services
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex bankServices">
+                <form [formGroup]="bankServicesForm" autocomplete="off">
+                    <div class="v-flex">
+                        <div class="form-group" *ngIf="!confirmation">
+                            <div class="form-field w-100">
+                                <mat-label>Select Service</mat-label>
+                                <mat-radio-group formControlName="service" (change)="resetDD()">
+                                    <mat-radio-button value="1">Unit</mat-radio-button>
+                                    <mat-radio-button value="2">User</mat-radio-button>
+                                    <mat-radio-button value="3">Loan Scheme</mat-radio-button>
+                                </mat-radio-group>
+                                <mat-error>{{pageErrors.service}}</mat-error>
+                            </div>
+                            <div class="form-field" *ngIf="selectService >= 1" [class]="selectService == 3 ? 'w-33':''">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Select Unit</mat-label>
+                                    <mat-select placeholder="Select Unit" formControlName="unit" (selectionChange)="changeUnit()">
+                                        <mat-option value="Zone 1">Zone 1</mat-option>
+                                        <mat-option value="Zone 2">Zone 2</mat-option>
+                                        <mat-option value="Zone 3">Zone 3</mat-option>
+                                        <mat-option value="CPC 1">CPC 1</mat-option>
+                                        <mat-option value="CPC 2">CPC 2</mat-option>
+                                        <mat-option value="CPC 3">CPC 3</mat-option>
+                                        <mat-option value="Branch 1">Branch 1</mat-option>
+                                        <mat-option value="Branch 2">Branch 2</mat-option>
+                                        <mat-option value="Branch 3">Branch 3</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.unit}}</mat-error>
+                            </div>
+                            <div class="form-field" *ngIf="selectService == 2">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Select User</mat-label>
+                                    <mat-select placeholder="Select User" formControlName="user" (selectionChange)="changeUser()">
+                                        <mat-option *ngFor="let user of users" [value]="user">{{user}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.user}}</mat-error>
+                            </div>
+                            <div class="form-field" *ngIf="selectService == 3" [class]="selectService == 3 ? 'w-33':''">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Select Branch</mat-label>
+                                    <mat-select placeholder="Select Branch" formControlName="branch" multiple (selectionChange)="changeBranch()">
+                                        <mat-option *ngFor="let branch of branches" [value]="branch">{{branch}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.branch}}</mat-error>
+                            </div>
+                            <div class="form-field" *ngIf="selectService == 3" [class]="selectService == 3 ? 'w-33':''">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Select Loan Scheme</mat-label>
+                                    <mat-select placeholder="Select Loan Scheme" formControlName="loanScheme" (selectionChange)="changeScheme()">
+                                        <mat-option *ngFor="let scheme of loanSchemes" [value]="scheme">{{scheme}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.loanScheme}}</mat-error>
+                            </div>
+                        </div>
+                        <div class="form-group" *ngIf="!confirmation && ((selectService == 1 && selectUnitType) || (selectService == 2 && selectUnitType && selectUser) || (selectService == 3 && selectUnitType && selectBranch && selectScheme))">
+                            <div class="form-field w-100" *ngIf="selectService == 1">
+                                <div class="action-panel">
+                                    <mat-label>Select Action</mat-label>
+                                    <mat-radio-group formControlName="deactivationActions1" (change)="changeDeactivationActions1()">
+                                        <mat-radio-button value="1">Deactivate and Close the Unit</mat-radio-button>
+                                        <mat-radio-button value="2">Deactivate and Merge Unit</mat-radio-button>
+                                    </mat-radio-group>
+                                    <div class="action-panel-options" *ngIf="selectdeactivationActions1 == 2">
+                                        <div class="form-field">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Select Unit to Merge</mat-label>
+                                                <mat-select placeholder="Select Unit" formControlName="deactivationUnit">
+                                                    <mat-option *ngFor="let branch of branches" [value]="branch">{{branch}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.deactivationActions1}}</mat-error>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field w-100 userRoleOptions" *ngIf="selectService == 2">
+                                <div class="action-panel">
+                                    <mat-label>Select Action</mat-label>
+                                    <mat-radio-group formControlName="deactivationActions2" (change)="changeDeactivationActions2()">
+                                        <mat-radio-button value="1">Deactivate Temporarily</mat-radio-button>
+                                        <mat-radio-button value="2">Deactivate Permanently</mat-radio-button>
+                                        <mat-radio-button value="3">Activate User</mat-radio-button>
+                                        <mat-radio-button value="4">Transfer User to another Unit with same User Role</mat-radio-button>
+                                        <mat-radio-button value="5">Transfer User to another Unit with different User Role</mat-radio-button>
+                                    </mat-radio-group>
+                                    <div class="action-panel-options" *ngIf="selectdeactivationActions2 > 3" [class]="selectdeactivationActions2 == '4' ? 'delocate':''">
+                                        <div class="form-field" *ngIf="selectdeactivationActions2 > 3">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Select Unit to Merge</mat-label>
+                                                <mat-select placeholder="Select Unit" formControlName="mergingUnit">
+                                                    <mat-option *ngFor="let branch of branches" [value]="branch">{{branch}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field" *ngIf="selectdeactivationActions2 == 5">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Select Role</mat-label>
+                                                <mat-select placeholder="Select Role" formControlName="userNewRole">
+                                                    <mat-option *ngFor="let role of userRoles" [value]="role">{{role}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.deactivationActions2}}</mat-error>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field w-100" *ngIf="selectService == 3">
+                                <div class="action-panel">
+                                    <mat-label>Select Action</mat-label>
+                                    <mat-radio-group formControlName="deactivationActions3">
+                                        <mat-radio-button value="1">Suspend Temporarily</mat-radio-button>
+                                        <mat-radio-button value="2">Suspend Permanently</mat-radio-button>
+                                        <mat-radio-button value="3">Revoke Suspension</mat-radio-button>
+                                    </mat-radio-group>
+                                    <mat-error>{{pageErrors.deactivationActions3}}</mat-error>
+                                </div>
+                            </div>
+                            <div class="form-field w-100" *ngIf="selectService">
+                                <div class="action-panel">
+                                    <mat-label>Action Effective From</mat-label>
+                                    <mat-radio-group formControlName="actionsEffectiveDate" (change)="changeActionsDate()">
+                                        <mat-radio-button value="1">Effective Immediately</mat-radio-button>
+                                        <mat-radio-button value="2">Effective From</mat-radio-button>
+                                    </mat-radio-group>
+                                    <div class="action-panel-options" *ngIf="actionsDate == 2">
+                                        <div class="form-field">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Select Effective Date</mat-label>
+                                                <input matInput placeholder="Action Effective Date" [matDatepicker]="picker3" formControlName="actionDate">
+                                                <mat-datepicker-toggle matSuffix [for]="picker3">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #picker3></mat-datepicker>
+                                            </mat-form-field>
+                                            <mat-error>{{pageErrors.actionDate}}</mat-error>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions" *ngIf="selectService">
+                                <button class="icon-button" color="primary" mat-raised-button (click)="save()"><mat-icon>save</mat-icon> Save</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="confirmation">
+                            <div class="action-panel modifications-panel">
+                                <h4>Please fill the following details if you are updating any of the data in this form.</h4>
+                                <div class="form-field">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Circular Number</mat-label>
+                                        <input matInput placeholder="Circular Number" formControlName="circularNumber">
+                                        <mat-error>{{pageErrors.circularNumber}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Circular Date</mat-label>
+                                        <input matInput placeholder="Circular Date" [matDatepicker]="picker1" formControlName="circularDate">
+                                        <mat-datepicker-toggle matSuffix [for]="picker1">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                        <mat-error>{{pageErrors.circularDate}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <p class="w-100">Modifications / Initiated By:</p>
+                                <div class="form-field">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Employee ID</mat-label>
+                                        <input matInput placeholder="Employee ID" formControlName="modifierEmployeeID">
+                                        <mat-error>{{pageErrors.modifierEmployeeID}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Employee Name</mat-label>
+                                        <input matInput placeholder="Employee Name" formControlName="modifierEmployeeName">
+                                        <mat-error>{{pageErrors.modifierEmployeeName}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Designation</mat-label>
+                                        <input matInput placeholder="Designation" formControlName="designation">
+                                        <mat-error>{{pageErrors.designation}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Effective Date</mat-label>
+                                        <input matInput placeholder="Effective Date" [matDatepicker]="picker2" formControlName="effectiveDate">
+                                        <mat-datepicker-toggle matSuffix [for]="picker2">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                        <mat-error>{{pageErrors.effectiveDate}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button class="icon-button" color="primary" mat-raised-button (click)="review()"><mat-icon>edit</mat-icon> Review</button>
+                                <button class="icon-button" color="primary" mat-raised-button (click)="submit()"><mat-icon>save</mat-icon> Confirm &amp; Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

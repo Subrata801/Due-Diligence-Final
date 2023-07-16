@@ -1,0 +1,344 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> {{key1 == ':1' ? 'New':'Existing'}} Loan Application Process - {{module == ':1' ? 'New':'Existing'}} Module
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex anyStageLevel2Processing">
+                <form [formGroup]="anyStageLevel2Form" autocomplete="off">
+                    <div class="v-flex">
+                        <div class="form-group">
+                            <div class="form-field w-33">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>e2e Application Number</mat-label>
+                                    <input matInput placeholder="e2e Application Number" formControlName="e2eApplicationNumber">
+                                    <mat-error>{{pageErrors.e2eApplicationNumber}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33" *ngIf="key3 == ':2'">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>M4 e2e Application Number</mat-label>
+                                    <input matInput placeholder="M4 e2e Application Number" formControlName="M4e2eApplicationNumber" readonly>
+                                    <mat-error>{{pageErrors.M4e2eApplicationNumber}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>e2e Application Date</mat-label>
+                                    <input matInput placeholder="e2e Application Date" [matDatepicker]="picker1" formControlName="applicationDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                    <mat-error>{{pageErrors.applicationDate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Module Expected Start Date</mat-label>
+                                    <input matInput placeholder="Module Expected Start Date" [matDatepicker]="picker2" formControlName="moduleStartDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                    <mat-error>{{pageErrors.moduleStartDate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Module Expected Completion Date</mat-label>
+                                    <input matInput placeholder="Module Expected Completion Date" [matDatepicker]="picker3" formControlName="moduleCompletionDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker3">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker3></mat-datepicker>
+                                    <mat-error>{{pageErrors.moduleCompletionDate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Applicant Name</mat-label>
+                                    <input matInput placeholder="Applicant Name" formControlName="applicantName">
+                                    <mat-error>{{pageErrors.applicantName}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Loan Application Number</mat-label>
+                                    <input matInput placeholder="Loan Application Number" formControlName="loanApplicationNumber">
+                                    <mat-error>{{pageErrors.loanApplicationNumber}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Date of Receipt of Application</mat-label>
+                                    <input matInput placeholder="Date of Receipt of Application" [matDatepicker]="picker4" formControlName="applicationReceiptDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker4">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker4></mat-datepicker>
+                                    <mat-error>{{pageErrors.applicationReceiptDate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33" *ngIf="key1 == ':1' || key1 == ':2' && key3 != ':2' && key3 != ':3'">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Sanction Acceptance Date by Borrower</mat-label>
+                                    <input matInput placeholder="Date of Acceptance" [matDatepicker]="picker5" formControlName="borrowerAcceptanceDate" (dateChange)="datechanged()">
+                                    <mat-datepicker-toggle matSuffix [for]="picker5">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker5></mat-datepicker>
+                                    <mat-error>{{pageErrors.borrowerAcceptanceDate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33" *ngIf="key1 == ':1' || key3 == ':1'">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>M4 Open Date <span *ngIf="key3 == ':1'">/ Expected Start Date</span></mat-label>
+                                    <input matInput placeholder="M4 Open Date" formControlName="M4OpenDate" [value]="M4Date | date:'M/dd/yyyy'" readonly>
+                                    <mat-error>{{pageErrors.M4OpenDate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33" *ngIf="key3 == ':1'">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>M4 Expected Closure Date</mat-label>
+                                    <input matInput placeholder="M4 Open Date" formControlName="M4CloseDate" readonly>
+                                    <mat-error>{{pageErrors.M4CloseDate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33" *ngIf="key3 == ':1'">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Loan Tenure</mat-label>
+                                    <input matInput placeholder="Loan Tenure" formControlName="loanTenure">
+                                    <mat-error>{{pageErrors.loanTenure}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33" *ngIf="key3 == ':2'">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Revised Loan Tenure</mat-label>
+                                    <input matInput placeholder="Revised Loan Tenure" formControlName="revisedLoanTenure">
+                                    <mat-error>{{pageErrors.revisedLoanTenure}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-33" *ngIf="key3 == ':2'">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>M4 Review Sanction Date</mat-label>
+                                    <input matInput placeholder="M4 Review Sanction Date" [matDatepicker]="picker6" formControlName="M4reviewSanctionDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker6">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker6></mat-datepicker>
+                                    <mat-error>{{pageErrors.M4reviewSanctionDate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field w-66" *ngIf="key3 == ':2'">
+                                <mat-label>Review Cycle</mat-label>
+                                <mat-radio-group formControlName="reviewCycle">
+                                    <mat-radio-button value="1">Standard Assets - Regular Monitoring and Follow-up</mat-radio-button>
+                                    <mat-radio-button value="2">NPA</mat-radio-button>
+                                </mat-radio-group>
+                                <mat-error>{{pageErrors.reviewCycle}}</mat-error>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="form-field w-33">
+                                <mat-label>Credit Sector</mat-label>
+                                <mat-radio-group formControlName="creditSector" (change)="resetCreditSector()">
+                                    <mat-radio-button value="CC">Commercial Credit (CC)</mat-radio-button>
+                                    <mat-radio-button value="RC">Retail Credit (RC)</mat-radio-button>
+                                </mat-radio-group>
+                                <mat-error>{{pageErrors.creditSector}}</mat-error>
+                            </div>
+                            <div class="form-field w-33" *ngIf="creditSectorOptions">
+                                <mat-label>CC</mat-label>
+                                <mat-radio-group formControlName="CC">
+                                    <mat-radio-button value="1" [checked]="creditSectorOptions == 'CC'" [disabled]="creditSectorOptions == 'CC'">Fresh Loan</mat-radio-button>
+                                    <mat-radio-button value="2" [disabled]="creditSectorOptions == 'CC'">TakeOver Loan</mat-radio-button>
+                                </mat-radio-group>
+                                <mat-error>{{pageErrors.CC}}</mat-error>
+                            </div>
+                            <div class="form-field w-33" *ngIf="creditSectorOptions == 'CC'">
+                                <mat-label>Select Type of Loan Scheme/Facility</mat-label>
+                                <mat-radio-group formControlName="ccLoanType">
+                                    <mat-radio-button value="CC" [checked]="true" [disabled]="true">Commercial Credit (CC)</mat-radio-button>
+                                </mat-radio-group>
+                                <mat-error>{{pageErrors.ccLoanType}}</mat-error>
+                            </div>
+                        </div>
+                        <div class="form-group" *ngIf="creditSectorOptions">
+                            <div class="form-field" *ngIf="creditSectorOptions == 'RC'">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Select Type of Loan Scheme/Facility</mat-label>
+                                    <mat-select placeholder="Select Loan Scheme" formControlName="rcLoanType" (selectionChange)="changeScheme()">
+                                        <mat-option *ngFor="let scheme of loanSchemes" [value]="scheme">{{scheme}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.rcLoanType}}</mat-error>
+                            </div>
+                            <div class="form-field" [class]="creditSectorOptions == 'CC' ? 'w-100':''">
+                                <mat-form-field appearance="fill" *ngIf="creditSectorOptions == 'RC'">
+                                    <mat-label>Select Type of Loan Variant/Facility</mat-label>
+                                    <mat-select placeholder="Loan Variant/Facility Type" formControlName="retailLoanVariant">
+                                        <mat-option *ngFor="let variant of loanVariants" [value]="variant">{{variant}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-label *ngIf="creditSectorOptions == 'CC'">Select Type of Loan Variant/Facility</mat-label>
+                                <mat-selection-list formControlName="commercialLoanVariants" *ngIf="creditSectorOptions == 'CC'">
+                                    <mat-list-option checkboxPosition="before" *ngFor="let variant of commercialLoanVariant">
+                                      {{variant}}
+                                    </mat-list-option>
+                                </mat-selection-list>
+                                <mat-error *ngIf="pageErrors.retailLoanVariant">{{pageErrors.retailLoanVariant}}</mat-error>
+                                <mat-error *ngIf="pageErrors.commercialLoanVariant">{{pageErrors.commercialLoanVariant}}</mat-error>
+                            </div>
+                            <div class="form-field w-100">
+                                <mat-label>Select if applicable</mat-label>
+                                <mat-selection-list formControlName="applicablesList">
+                                    <mat-list-option checkboxPosition="before" *ngFor="let applicable of applicables">
+                                      {{applicable}}
+                                    </mat-list-option>
+                                </mat-selection-list>
+                                <mat-error>{{pageErrors.applicables}}</mat-error>
+                            </div>
+                            <div class="form-field" [class]="creditSectorOptions == 'CC' ? 'w-100':'w-50'">
+                                <mat-label>Type of Borrower</mat-label>
+                                <mat-radio-group formControlName="retailBorrowerTypes" *ngIf="creditSectorOptions == 'RC'">
+                                    <mat-radio-button value="1" [disabled]="loanScheme != 'Home Loan'" [checked]="loanScheme != 'Home Loan'">Resident</mat-radio-button>
+                                    <mat-radio-button value="2" *ngIf="loanScheme == 'Home Loan'">Non-Resident</mat-radio-button>
+                                </mat-radio-group>
+                                <mat-radio-group formControlName="commercialBorrowerTypes" *ngIf="creditSectorOptions == 'CC'">
+                                    <mat-radio-button value="1">Individual</mat-radio-button>
+                                    <mat-radio-button value="2">Joint Borrowers</mat-radio-button>
+                                    <mat-radio-button value="3">Club/Association of Persons</mat-radio-button>
+                                    <mat-radio-button value="4">Sole Proprietorship</mat-radio-button>
+                                    <mat-radio-button value="5">Hindu Undivided Family</mat-radio-button>
+                                    <mat-radio-button value="6">Partnership</mat-radio-button>
+                                    <mat-radio-button value="7">Limited Liability Partnership</mat-radio-button>
+                                    <mat-radio-button value="8">Private Limited Company</mat-radio-button>
+                                    <mat-radio-button value="9">Public Limited Company</mat-radio-button>
+                                    <mat-radio-button value="10">Society</mat-radio-button>
+                                    <mat-radio-button value="11">Trust</mat-radio-button>
+                                    <mat-radio-button value="12">Loacal Body</mat-radio-button>
+                                    <mat-radio-button value="13">Public Sector Undertaking</mat-radio-button>
+                                    <mat-radio-button value="14">Government Department</mat-radio-button>
+                                </mat-radio-group>
+                                <mat-error *ngIf="pageErrors.retailBorrowerTypes">{{pageErrors.retailBorrowerTypes}}</mat-error>
+                                <mat-error *ngIf="pageErrors.commercialBorrowerTypes">{{pageErrors.commercialBorrowerTypes}}</mat-error>
+                            </div>
+                            <div class="form-field w-50">
+                                <mat-label>Select Applicant Profession</mat-label>
+                                <mat-radio-group formControlName="applicantProfession">
+                                    <mat-radio-button value="1" [disabled]="creditSectorOptions == 'CC'">Salaried</mat-radio-button>
+                                    <mat-radio-button value="2" [checked]="creditSectorOptions == 'CC'" [disabled]="creditSectorOptions == 'CC'">Business</mat-radio-button>
+                                </mat-radio-group>
+                                <mat-error>{{pageErrors.applicantProfession}}</mat-error>
+                            </div>
+                            <div class="form-field w-50">
+                                <mat-label>Security</mat-label>
+                                <mat-radio-group formControlName="security" (change)="changeSecurity()">
+                                    <mat-radio-button value="1">Secured</mat-radio-button>
+                                    <mat-radio-button value="2">Unsecured</mat-radio-button>
+                                </mat-radio-group>
+                                <mat-error>{{pageErrors.security}}</mat-error>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="form-field w-50" *ngIf="securityOptions == 1">
+                                <mat-label>Type of Security</mat-label>
+                                <mat-selection-list formControlName="securityTypesList" (selectionChange)="securityTypes($event)">
+                                    <mat-list-option checkboxPosition="before">Movable Property</mat-list-option>
+                                    <mat-list-option checkboxPosition="before">Immovable Property</mat-list-option>
+                                </mat-selection-list>
+                                <mat-error>{{pageErrors.securityType}}</mat-error>
+                            </div>
+                            <div class="form-field w-50" *ngIf="securityOptions == 1">
+                                <mat-label>Movable Property Types</mat-label>
+                                <mat-selection-list formControlName="movableSecurityTypesList">
+                                    <mat-list-option checkboxPosition="before">Bank Deposit</mat-list-option>
+                                    <mat-list-option checkboxPosition="before">NSC/KVP/Bonds</mat-list-option>
+                                    <mat-list-option checkboxPosition="before">Life Policy</mat-list-option>
+                                    <mat-list-option checkboxPosition="before">Gold Jewellery</mat-list-option>
+                                </mat-selection-list>
+                                <mat-error>{{pageErrors.movableSecurityType}}</mat-error>
+                            </div>
+                            <div class="form-field w-100">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Review Comments</mat-label>
+                                    <textarea matInput rows="5" placeholder="Type in your comments here..." formControlName="reviewComments"></textarea>
+                                </mat-form-field>
+                                <div class="commentButton">
+                                    <mat-icon>{{viewComments ? 'expand_less':'expand_more'}}</mat-icon>
+                                    <span class="link-button" (click)="comments()"> {{viewComments ? 'Hide Comments':'View Comments'}}</span>
+                                </div>
+                            </div>
+                            <div class="reviewComments" *ngIf="viewComments">
+                                <div class="commentsList">
+                                    <div class="comment">
+                                        <div class="v-flex">
+                                            <div class="commentUser">Prakashraj Chavhan</div>
+                                            <div class="commentDate">May 05, 2021</div>
+                                        </div>
+                                        <div class="commentDesc">This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. </div>
+                                    </div>
+                                    <div class="comment">
+                                        <div class="v-flex">
+                                            <div class="commentUser">Raj Tiwari</div>
+                                            <div class="commentDate">April 05, 2021</div>
+                                        </div>
+                                        <div class="commentDesc">This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. </div>
+                                    </div>
+                                    <div class="comment">
+                                        <div class="v-flex">
+                                            <div class="commentUser">Ravi Teja</div>
+                                            <div class="commentDate">March 05, 2021</div>
+                                        </div>
+                                        <div class="commentDesc">This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. </div>
+                                    </div>
+                                    <div class="comment">
+                                        <div class="v-flex">
+                                            <div class="commentUser">Prakashraj Chavhan</div>
+                                            <div class="commentDate">May 05, 2021</div>
+                                        </div>
+                                        <div class="commentDesc">This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. </div>
+                                    </div>
+                                    <div class="comment">
+                                        <div class="v-flex">
+                                            <div class="commentUser">Raj Tiwari</div>
+                                            <div class="commentDate">April 05, 2021</div>
+                                        </div>
+                                        <div class="commentDesc">This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. </div>
+                                    </div>
+                                    <div class="comment">
+                                        <div class="v-flex">
+                                            <div class="commentUser">Ravi Teja</div>
+                                            <div class="commentDate">March 05, 2021</div>
+                                        </div>
+                                        <div class="commentDesc">This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. </div>
+                                    </div>
+                                    <div class="comment">
+                                        <div class="v-flex">
+                                            <div class="commentUser">Prakashraj Chavhan</div>
+                                            <div class="commentDate">May 05, 2021</div>
+                                        </div>
+                                        <div class="commentDesc">This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. </div>
+                                    </div>
+                                    <div class="comment">
+                                        <div class="v-flex">
+                                            <div class="commentUser">Raj Tiwari</div>
+                                            <div class="commentDate">April 05, 2021</div>
+                                        </div>
+                                        <div class="commentDesc">This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. </div>
+                                    </div>
+                                    <div class="comment">
+                                        <div class="v-flex">
+                                            <div class="commentUser">Ravi Teja</div>
+                                            <div class="commentDate">March 05, 2021</div>
+                                        </div>
+                                        <div class="commentDesc">This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. This is a test comment. </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button color="primary" mat-raised-button>Submit</button>
+                                <button color="primary" mat-raised-button (click)="review()">Review Template</button>
+                                <button color="secondary" mat-raised-button (click)="clearData()">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

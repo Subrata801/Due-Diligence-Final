@@ -1,0 +1,40 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>e2e Reports</label>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="alert alert-danger mtop-20" role="alert" *ngIf="isError">
+                {{ errorMessage }}
+            </div>
+            <form [formGroup]="e2eReports" autocomplete="off">
+                <div class="form-group">
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>e2e Number</mat-label>
+                            <input matInput placeholder="e2e Number" formControlName="e2eNumber">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.e2eNumber}}</mat-error>
+
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Module</mat-label>
+                            <mat-select placeholder="Select Module" formControlName="moduleNo">
+                                <mat-option value="M1">M1</mat-option>
+                                <mat-option value="M2">M2</mat-option>
+                                <mat-option value="M3">M3</mat-option>
+                                <mat-option value="M4">M4</mat-option>
+                                <mat-option value="M5">M5</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button mat-raised-button color="primary" (click)="getFullReport()">Full Report</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,454 @@
+<div class="content-panel dashboard-grid">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>Dashboard</label>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex cncUserDashboard">
+                <div class="form-group h-flex nowrap">
+                    <div class="form-field w-25">
+                        <label>Bank Name</label>
+                        <span>HDFC Bank</span>
+                    </div>
+                    <div class="form-field w-25">
+                        <label>Branch Name</label>
+                        <span>Magarpatta Branch</span>
+                    </div>
+                    <div class="form-field w-25">
+                        <label>IFSC Code</label>
+                        <span>HDFC0000847</span>
+                    </div>
+                </div>
+                <div>
+                    <mat-divider></mat-divider>
+                    <mat-tab-group>
+                        <mat-tab label="Module 1 (M1)">
+                            <div class="tab-content">
+                                <div class="grid">
+                                    <table>
+                                        <!-- <tr>
+                                            <th colspan="3" class="groupHeader">Module 1 (M1) Dashboard</th>
+                                            <th colspan="6" class="groupHeader">(M1) -  Application Scrutiny & Sanction</th>
+                                            <th colspan="3" class="groupHeader">Assign/Re-assign (Visible to All Unit Heads for their respective Users) i.e. BRSA, CPCSA, ZOSA, HOSA</th>
+                                            <th colspan="2" class="groupHeader">Cancel Application (Only visible to BRSA i.e. Branch Manager)</th>
+                                        </tr> -->
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th class="name-column">Name of the Applicant</th>
+                                            <th class="acc-number-column">CIF No</th>
+                                            <th>Loan Application No</th>
+                                            <th class="date-column">Expected Start Date</th>
+                                            <th>Application Status (AS)</th>
+                                            <th>Application Final Status</th>
+                                            <th class="name-column">Maker</th>
+                                            <th class="name-column">Checker</th>
+                                            <th>Sanctioning<br>Authority</th>
+                                            <th>Cancel Application</th>
+                                            <th>Reason for Cancellation</th>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module 2 (M2)">
+                            <div class="tab-content">
+                                <div class="grid">
+                                    <table>
+                                        <!-- <tr>
+                                            <th colspan="3" class="groupHeader">Module 2 (M2) Dashboard</th>
+                                            <th colspan="6" class="groupHeader">(M2) - Documentation, Insurance & Loan Disbursement</th>
+                                            <th colspan="3" class="groupHeader">Assign/Re-assign (Visible to only BRSA)</th>
+                                        </tr> -->
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <th class="acc-number-column">CIF No</th>
+                                            <th>Loan Application No</th>
+                                            <th class="date-column">Expected Start Date</th>
+                                            <th>Application Status (AS)</th>
+                                            <th>Application Final Status</th>
+                                            <th class="name-column">Maker</th>
+                                            <th class="name-column">Checker</th>
+                                            <th>Sanctioning<br>Authority</th>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module 3 (M3)">
+                            <div class="tab-content">
+                                <div class="grid">
+                                    <table>
+                                        <!-- <tr>
+                                            <th colspan="3" class="groupHeader">Module 3 (M3) Dashboard</th>
+                                            <th colspan="6" class="groupHeader">(M3) - Confirmation of Securities obtained, to be done within 1 month of Loan Disbursement</th>
+                                            <th colspan="3" class="groupHeader">Assign/Re-assign (Visible to only BRSA)</th>
+                                        </tr> -->
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <th class="acc-number-column">CIF No</th>
+                                            <th>Account Number</th>
+                                            <th class="date-column">Expected Start Date</th>
+                                            <th>Application Status (AS)</th>
+                                            <th>Application Final Status</th>
+                                            <th class="name-column">Maker</th>
+                                            <th class="name-column">Checker</th>
+                                            <th>Sanctioning<br>Authority</th>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module 4 (M4)">
+                            <div class="tab-content">
+                                <div class="grid">
+                                    <table>
+                                        <!-- <tr>
+                                            <th colspan="3" class="groupHeader">Module 4 (M4) Dashboard</th>
+                                            <th colspan="7" class="groupHeader">(M4) - Periiodic Monitoring & Follow-up</th>
+                                            <th colspan="3" class="groupHeader">Assign/Re-assign (Visible to only BRSA)</th>
+                                        </tr> -->
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th>e2e (M4) Review No.</th>
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <th class="acc-number-column">CIF No</th>
+                                            <th>Account Number</th>
+                                            <th class="date-column">M4 Review Expected Start Date</th>
+                                            <th>Application Status (AS)</th>
+                                            <th>Application Final Status</th>
+                                            <th class="name-column">Maker</th>
+                                            <th class="name-column">Checker</th>
+                                            <th>Sanctioning<br>Authority</th>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module 5 (M5)">
+                            <div class="tab-content">
+                                <div class="grid">
+                                    <table>
+                                        <!-- <tr>
+                                            <th colspan="3" class="groupHeader">Module 5 (M5) Dashboard</th>
+                                            <th colspan="7" class="groupHeader">(M5) - Release of Securities on closure of Account OR Facility/ies</th>
+                                            <th colspan="3" class="groupHeader">Assign/Re-assign (Visible to only BRSA)</th>
+                                        </tr> -->
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th>e2e (M5) Review No.</th>
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <th class="acc-number-column">CIF No</th>
+                                            <th>Account Number</th>
+                                            <th class="date-column">M4 Review Expected Start Date</th>
+                                            <th>Application Status (AS)</th>
+                                            <th>Application Final Status</th>
+                                            <th class="name-column">Maker</th>
+                                            <th class="name-column">Checker</th>
+                                            <th>Sanctioning<br>Authority</th>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                            <td>
+                                                <mat-select placeholder="Select" appearance="outline" floatlabel="never">
+                                                    <mat-option value="1">Option 1</mat-option>
+                                                    <mat-option value="2">Option 2</mat-option>
+                                                </mat-select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

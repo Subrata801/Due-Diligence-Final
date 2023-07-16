@@ -1,0 +1,257 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>import_export</mat-icon> Templates
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <div class="alert alert-danger mbot-20" role="alert" *ngIf="this.isUploadFailed">
+                     {{ message }}
+        </div>
+        <mat-card-content>
+            <div class="v-flex">
+                <div class="mtop-20">
+                    <form [formGroup]="importTemplateForm" autocomplete="off">
+                        <div class="importTemplate form-group">
+                            <div class="form-field">
+                                <mat-label>BM Default DDAP Bank</mat-label>
+                                <mat-radio-group formControlName="clientTypeId">
+                                    <mat-radio-button value="2">Bank</mat-radio-button>
+                                    <mat-radio-button value="3">Audit Firm</mat-radio-button>
+                                </mat-radio-group>
+                                <mat-error>{{pageErrors.clientTypeId}}</mat-error>
+                            </div>
+                            <div class="form-field">
+                                <mat-label>Credit Sector</mat-label>
+                                <mat-radio-group formControlName="creditScoreTypeId">
+                                    <mat-radio-button value="1">Retail Credit</mat-radio-button>
+                                    <mat-radio-button value="2">Commericial Credit</mat-radio-button>
+                                </mat-radio-group>
+                                <mat-error>{{pageErrors.creditScoreTypeId}}</mat-error>
+                            </div>
+                            <div class="form-field">
+                                <mat-label>Template Option</mat-label>
+                                <mat-radio-group formControlName="riskTypeId">
+                                    <mat-radio-button value="1" [disabled]= "isTemplatewithOutRiskDisable">Template W/o Risk Score</mat-radio-button>
+                                    <mat-radio-button value="2" [checked]="isTemplatewithRisk">Template with Risk Score</mat-radio-button>
+                                </mat-radio-group>
+                                <mat-error>{{pageErrors.riskTypeId}}</mat-error>
+                            </div>
+                            <div class="form-actions">
+                                <button color="primary" mat-raised-button (click)="viewExistingTemplate()">View Templates</button>
+                                <button color="primary" mat-raised-button (click)="viewTemplate()">Import New Template</button>
+                            </div>
+                        </div>
+
+
+                        <div *ngIf="this.showImportTemplate">
+                            <div class="form-group">
+                                <div class="form-field w-50">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Select Language Template</mat-label>
+                                        <mat-select formControlName="importTemplateName"
+                                            placeholder="Available Template Name">
+                                            <mat-option *ngFor="let eachOption of templateOptions"
+                                                [value]="eachOption.importTemplateName">
+                                                {{eachOption.importTemplateName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-error>{{pageErrors.importTemplateName}}</mat-error>
+                                </div>
+                                <div class="v-flex form-field">
+                                    <div class="h-flex file-upload">
+                                        <input type="file" (change)="selectFile($event)">
+                                        <button class="btn btn-success btn-sm" [disabled]="!selectedFiles"
+                                            (click)="upload()">Upload</button>
+                                    </div>
+                                    <div *ngIf="currentFile" class="progress">
+                                        <div class="progress-bar progress-bar-info progress-bar-striped"
+                                            role="progressbar" attr.aria-valuenow="{{ progress }}" aria-valuemin="0"
+                                            aria-valuemax="100" [ngStyle]="{ width: progress + '%' }">{{ progress }}%
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-actions">
+                                    <button color="primary" mat-raised-button (click)="viewRecords()">Import</button>
+                                </div> -->
+                            </div>
+                            <div class="clear" *ngIf="showView">
+                                <mat-divider></mat-divider>
+                            </div>
+                            <div class="v-flex" *ngIf="showView">
+                                <div class="grid mtop-20">
+                                    <table formArrayName="importUploadedData">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">No of Loan schemes</th>
+                                                <th>Template Name</th>
+                                                <th class="text-center">No Of DDAPs</th>
+                                                <th class="text-center">Success</th>
+                                                <th class="text-center">Failed</th>
+                                                <th class="text-center">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let eachImportData of getImportUploadDataControls(); let i=index">
+                                                <td [formGroupName]="i" class="text-center">
+                                                    {{eachImportData.controls.numOfLoanSchemes.value}}
+                                                    <!-- <mat-form-field appearance="outline">
+                                                        <div class="text-label">
+                                                            <input matInput placeholder="" formControlName="numOfLoanSchemes" readonly>
+                                                        </div>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.numOfLoanSchemes}}</mat-error> -->
+                                                </td>
+                                                <td [formGroupName]="i">
+                                                    {{eachImportData.controls.workSheetName.value}}
+                                                    <!-- <mat-form-field appearance="outline">
+                                                        <div class="text-label-left">
+                                                            <input matInput placeholder="" formControlName="workSheetName" readonly>
+                                                        </div>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.workSheetName}}</mat-error> -->
+                                                </td>
+                                                <td class="text-center" [formGroupName]="i">
+                                                    {{eachImportData.controls.numOfDDaps.value}}
+                                                    <!-- <mat-form-field appearance="outline">
+                                                        <div class="text-label">
+                                                            <input matInput placeholder="" formControlName="numOfDDaps" readonly>
+                                                        </div>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.numOfDDaps}}</mat-error> -->
+                                                </td>
+                                                <td class="text-center" [formGroupName]="i">
+                                                    <span *ngIf="eachImportData.controls.successCount.value > 0" class="link-button" (click)="downloadSuccess(i)">{{eachImportData.controls.successCount.value}}</span>
+                                                    <span *ngIf="eachImportData.controls.successCount.value < 1">{{eachImportData.controls.successCount.value}}</span>
+                                                    <!-- <mat-form-field appearance="outline">
+                                                        <div class="link-button">
+                                                            <button (click)="downloadSuccess(i)"></button>
+                                                            <input matInput formControlName="successCount" readonly>
+                                                        </div>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.successCount}}</mat-error> -->
+                                                </td>
+                                                <td class="text-center" [formGroupName]="i">
+                                                    <span *ngIf="eachImportData.controls.failureCount.value > 0" class="link-button" (click)="downloadFailure(i)">{{eachImportData.controls.failureCount.value}}</span>
+                                                    <span *ngIf="eachImportData.controls.failureCount.value < 1">{{eachImportData.controls.failureCount.value}}</span>
+                                                    <!-- <div class="link-button">
+                                                        <button (click)="downloadFailure(i)"></button>
+                                                        <input matInput placeholder="" formControlName="failureCount" readonly>
+                                                    </div>
+                                                    <mat-error>{{pageErrors.failureCount}}</mat-error> -->
+                                                </td>
+                                                <td [formGroupName]="i">
+                                                    {{eachImportData.controls.status.value}}
+                                                    <!-- <mat-form-field appearance="outline">
+                                                        <div class="text-label">
+                                                            <input matInput placeholder="" formControlName="status" readonly>
+                                                        </div>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.status}}</mat-error> -->
+                                                </td>
+                                            </tr>
+                                            <!-- <tr>
+                                                <td class="text-center">1</td>
+                                                <td>BnkImpHomeLoan</td>
+                                                <td class="text-center">50</td>
+                                                <td class="text-center">47</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">Success</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">1</td>
+                                                <td>BnkImpVehicalLoan</td>
+                                                <td class="text-center">50</td>
+                                                <td class="text-center">20</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">Fail</td>
+                                            </tr> -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="this.showImportExistingTemplate">
+                            
+                            <div class="v-flex" *ngIf="showExistingView">
+                                <div class="grid mtop-20">
+                                    <table formArrayName="importUploadedData">
+                                        <thead>
+                                            <tr>
+                                                <th>Template Name</th>
+                                                <th class="text-center">No Of DDAPs</th>
+                                                <th class="text-center">Success</th>
+                                                <th class="text-center">Failed</th>
+                                                <th class="date-column">Import Date & Time</th>                                                  
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let eachImportData of getImportUploadDataControls(); let i=index">
+                                                
+                                                <td [formGroupName]="i">
+                                                    {{eachImportData.controls.workSheetName.value}}
+                                                    <!-- <mat-form-field appearance="outline">
+                                                        <div class="text-label-left">
+                                                            <input matInput placeholder="" formControlName="workSheetName" readonly>
+                                                        </div>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.workSheetName}}</mat-error> -->
+                                                </td>
+                                                <td class="text-center" [formGroupName]="i">
+                                                    {{eachImportData.controls.numOfDDaps.value}}
+                                                    <!-- <mat-form-field appearance="outline">
+                                                        <div class="text-label">
+                                                            <input matInput placeholder="" formControlName="numOfDDaps" readonly>
+                                                        </div>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.numOfDDaps}}</mat-error> -->
+                                                </td>
+                                                <td class="text-center" [formGroupName]="i">
+                                                    {{eachImportData.controls.successCount.value}}
+                                                    <!-- <mat-form-field appearance="outline">
+                                                        <div class="text-label">
+                                                            <!-- <button (click)="downloadSuccess(i)"></button> --
+                                                            <input matInput placeholder="" formControlName="successCount" readonly>
+                                                        </div>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.successCount}}</mat-error> -->
+                                                </td>
+                                                <td class="text-center" [formGroupName]="i">
+                                                    {{eachImportData.controls.failureCount.value}}
+                                                    <!-- <mat-form-field appearance="outline">
+                                                        <div class="text-label">
+                                                            <!-- <button (click)="downloadFailure(i)"></button> --
+                                                            <input matInput placeholder="" formControlName="failureCount" readonly>
+                                                        </div>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.failureCount}}</mat-error> -->
+                                                </td>
+                                               
+                                                <td class="date-column" [formGroupName]="i">
+                                                    {{eachImportData.controls.importedDate.value}}
+                                                    <!-- <mat-form-field appearance="outline">
+                                                        <div class="text-label">
+                                                            <input matInput placeholder="" formControlName="importedDate" readonly>
+                                                        </div>
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.importedDate}}</mat-error> -->
+                                                </td>
+												
+                                            </tr>
+                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </form>
+                </div>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+    <div class="clear mtop-20"></div>
+    <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,56 @@
+<div class="content-panel">
+    <!-- <button class="icon-button mbot-20" color="primary" mat-raised-button routerLink="../edit-template">
+        <mat-icon>arrow_back</mat-icon> Back to Edit Template
+    </button> -->
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>grading</mat-icon> Due Diligence
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex">
+                <form [formGroup]="aspDueDiligenceForm">
+                    <div class="alert alert-danger mtop-20" role="alert" *ngIf="isError">
+	                    {{ errorMessage }}
+	                </div>
+                    <div class="grid mtop-20">
+                        <table class="dueDiligenceDetails">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Sr.No</th>
+                                    <th class="text-center">Parent Seq</th>
+                                    <th class="text-center">Action Point</th>
+                                    <th class="text-center">General</th>
+                                    <th class="text-center">Applicant</th>
+                                    <th class="text-center">Co-applicant</th>
+                                    <th class="text-center">Guarantor</th>
+                                    <th class="text-center">Remarks</th>
+                                </tr>
+                            </thead>
+                            <!-- <tbody>
+                                 <tr *ngFor="let item of ds; let i=index">
+                                    <td class="sequence">{{item.dd}}</td>
+                                    <td class="sequence">{{item.parent}}</td>
+                                    <td class="text-center">{{item.action}}</td>
+                                    <td class="text-center">{{item.general}}</td>
+                                    <td class="text-center">{{item.applicant}}</td>
+                                    <td class="text-center">{{item.coapp}}</td>
+                                    <td class="text-center">{{item.guarantor}}</td>
+                                    <td class="text-center">{{item.remarks}}</td>
+                                </tr>
+                            </tbody> -->
+                        </table>
+                    </div>
+                    <div class="clear">
+                        <mat-divider></mat-divider>
+                    </div>
+                    <div class="form-actions">
+                        <button mat-raised-button color="primary">Assign Back</button>
+                        <button mat-raised-button color="primary">Assign Forward</button>
+                        <button mat-raised-button color="primary">Approve</button>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

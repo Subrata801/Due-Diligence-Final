@@ -1,0 +1,272 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> Risk Score
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex">
+                <form [formGroup]="riskScoreForm" autocomplete="off">
+                    <div class="v-flex">
+                        <div class="form-group">
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Circular / Document No.</mat-label>
+                                    <input matInput placeholder="Circular / Document No." formControlName="formControl1">
+                                    <mat-error>{{pageErrors.formControl1}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Circular / Document Date</mat-label>
+                                    <input matInput [matDatepicker]="picker1" formControlName="DocumentDate1">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                    <mat-error>{{pageErrors.DocumentDate1}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Customization Authorizer</mat-label>
+                                    <input matInput placeholder="Customization Authorizer" formControlName="formControl2">
+                                    <mat-error>{{pageErrors.formControl2}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Designation</mat-label>
+                                    <input matInput placeholder="Designation" formControlName="formControl3">
+                                    <mat-error>{{pageErrors.formContro3l}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Effective Date</mat-label>
+                                    <input matInput [matDatepicker]="picker2" formControlName="DocumentDate2">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                    <mat-error>{{pageErrors.DocumentDate2}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field">
+                                <p class="note">Effective date will be from the next day of the System date after Update. If the customization starts on Day 1 and update is made on Day 3, the the effective date of new template will be from 4th day.</p>
+                            </div>
+                        </div>
+                        <div class="grid risk-score">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" class="text-center">S.No</th>
+                                        <th rowspan="2">Response</th>
+                                        <th rowspan="2">Response Description</th>
+                                        <th rowspan="2">Score</th>
+                                        <th rowspan="2">Response<br>Hex Code</th>
+                                        <th colspan="4" class="groupHeader">Risk Score</th>
+                                    </tr>
+                                    <tr>
+                                        <th>General M1</th>
+                                        <th>Applicant M1</th>
+                                        <th>Co-Applicant M1</th>
+                                        <th>Guarantor M1</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c1"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c1"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">3</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c2"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">4</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c3"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">5</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c4"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">6</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c1"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">7</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c8"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">8</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c5"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">9</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c6"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">10</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c7"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">11</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c7"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">12</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c1"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">13</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c1"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">14</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c1"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">15</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c1"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">16</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c1"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">17</td>
+                                        <td class="text-center">"Y"</td>
+                                        <td>"Yes" - Response is favorable to the Bank</td>
+                                        <td class="text-center"><span class="score c1"></span></td>
+                                        <td>#008050</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">2</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="icon-button" color="primary" mat-raised-button><mat-icon>save</mat-icon> Save</button>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,102 @@
+<div class="content-panel unit-management">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>Create Unit</label>
+            <span *ngIf="search"><mat-icon>person_add</mat-icon> <span class="link-button" (click)="createUnit()">Create Unit</span></span>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="alert alert-danger mbot-20" role="alert" *ngIf="isSearchResultFailed">
+                 {{ errorMessage }}
+             </div>
+            <div class="v-flex">
+                <form [formGroup]="searchUnitForm" autocomplete="off" *ngIf="search">
+                    <div class="mtop-20 filter-panel h-flex flex-wrap">
+                        <div class="form-field w-100 mbot-20">
+                            <mat-radio-group formControlName="searchType">
+                                <mat-radio-button value="unittypesearch">Unit Type</mat-radio-button>
+                                <mat-radio-button value="unitnamesearch">Unit Name</mat-radio-button>
+                                <mat-radio-button value="ifsccodesearch">IFSC Code</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="h-flex nowrap">
+                            <div class="form-field w-20" *ngIf="isUnitTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Unit Type</mat-label>
+                                    <mat-select placeholder="Unit Type" formControlName="unitType" name="Select Unit Type">
+                                        <mat-option *ngFor="let eachOption of unitTypeOptions"
+                                            [value]="eachOption.unitTypeId">
+                                            {{eachOption.unitTypeName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            
+                            <div class="form-field w-33" *ngIf="!isUnitTypeSearch">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Enter Keyword</mat-label>
+                                    <input matInput placeholder="Enter Keyword" formControlName="searchKeyword">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.keyword}}</mat-error>
+                            </div>
+                            <div class="mtop-5">
+                                <button color="primary" mat-raised-button (click)="performSearch()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                    <mat-divider></mat-divider>
+                    <form [formGroup]="searchResultUnitForm" autocomplete="off">
+                    <div class="grid header-data" *ngIf="searchResults">
+                        <table formArrayName="unitData">
+                            <thead>
+                                <tr>
+                                    <th>Unit Type</th>
+                                    <th>Unit Name</th>
+                                    <th>IFSC Code</th>
+                                    <th>City</th>
+                                    <th>Status</th>
+                                    <th>Last Updated By</th>
+                                    <th class="date-column">Date/Time</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let eachUnitData of getUnitDataArrayControl(); let i=index">
+	                                <td [formGroupName]="i">
+	                                  {{eachUnitData.controls.unitType.value}}
+	                                </td>
+	                                <td [formGroupName]="i">
+	                                    {{eachUnitData.controls.unitName.value}}
+	                                </td>
+	                                <td [formGroupName]="i">
+	                                     {{eachUnitData.controls.ifscCode.value}}
+	                                </td>
+	                                 <td [formGroupName]="i">
+	                                    {{eachUnitData.controls.city.value}}
+	                                </td>
+	                                 <td [formGroupName]="i" class="text-center">
+	                                    {{eachUnitData.controls.unitStatus.value}}
+	                                </td>
+	                                <td [formGroupName]="i" class="text-center">
+	                                    {{eachUnitData.controls.createdBy.value}}
+	                                </td>
+	                                <td class="date-column" [formGroupName]="i" class="text-center">
+	                                    {{eachUnitData.controls.lastUpdatedDate.value}}
+	                                </td>
+	                                <td class="text-center">
+	                                  <a (click)="openUnit(eachUnitData.controls.clientGroupId.value,eachUnitData.controls.unitName.value)">
+	                                    <mat-icon>edit</mat-icon>
+	                                  </a>
+	                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

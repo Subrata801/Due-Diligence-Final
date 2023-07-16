@@ -1,0 +1,114 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>language</mat-icon> BM Language Template
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="languageTemplateForm" autocomplete="off">
+                <div class="v-flex">
+                    <div class="mtop-20">
+                        <div class="form-field w-100">
+                            <mat-label>BM Default DDAP Bank</mat-label>
+                            <mat-radio-group formControlName="clientTypeId">
+                                <mat-radio-button value="2">Bank</mat-radio-button>
+                                <mat-radio-button value="3">Audit Firm</mat-radio-button>
+                            </mat-radio-group>
+                            <mat-error>{{pageErrors.clientTypeId}}</mat-error>
+                        </div>
+                        <div class="form-field w-100">
+                            <mat-label>Credit Sector</mat-label>
+                            <mat-radio-group formControlName="creditScoreTypeId">
+                                <mat-radio-button value="1">Retail Credit</mat-radio-button>
+                                <mat-radio-button value="2">Commericial Credit</mat-radio-button>
+                            </mat-radio-group>
+                            <mat-error>{{pageErrors.creditScoreTypeId}}</mat-error>
+                        </div>
+                        <div class="form-field w-100">
+                            <mat-label>Template Option</mat-label>
+                            <mat-radio-group formControlName="riskTypeId">
+                                <mat-radio-button value="1">Template W/o Risk Score</mat-radio-button>
+                                <mat-radio-button value="2">Template with Risk Score</mat-radio-button>
+                            </mat-radio-group>
+                            <mat-error>{{pageErrors.riskTypeId}}</mat-error>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear w-100 mtop-20" *ngIf="getTemplateDataArrayControl().length > 0"></div>
+                <div formArrayName="templateData" *ngIf="getTemplateDataArrayControl().length > 0">
+                    <mat-divider></mat-divider>
+                    <!-- <div class="grid">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Language Template Name (LTN)</th>
+                                    <th>Auto-generate Excel-sheet Name for Import (Imp)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let eachTemplateData of getTemplateDataArrayControl(); let i=index">
+                                    <td>
+                                        <mat-form-field appearance="outline">
+                                            <input matInput placeholder="" formControlName="languageName">
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field appearance="outline" class="readonly">
+                                            <input matInput placeholder="" formControlName="importTemplateName" readonly="true">
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> -->
+                    <div class="bm-template grid">
+                        <table class="mtop-20">
+                            <tr>
+                                <th>Language Template Name (LTN)</th>
+                                <th>Auto-generate Excel-sheet Name for Import (Imp)</th>
+                            </tr>
+                            <tr *ngFor="let eachTemplateData of getTemplateDataArrayControl(); let i=index">
+                                <td [formGroupName]="i">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="" formControlName="languageName">
+                                    </mat-form-field>
+                                    <mat-error>{{pageErrors.languageName}}</mat-error>
+                                </td>
+                                <td [formGroupName]="i">
+                                    <mat-form-field appearance="outline" class="readonly">
+                                        <input matInput placeholder="" formControlName="importTemplateName" readonly="true">
+                                    </mat-form-field>
+                                    <mat-error>{{pageErrors.importTemplateName}}</mat-error>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- <div class="form-row header mtop-20">
+                            <div class="form-field">
+                                <mat-label>Language Template Name (LTN)</mat-label>
+                            </div>
+                            <div class="form-field">
+                                <mat-label>Auto-generate Excel-sheet Name for Import (Imp)</mat-label>
+                            </div>
+                        </div>
+                        <div *ngFor="let eachTemplateData of getTemplateDataArrayControl(); let i=index">
+                            <div class="form-row" [formGroupName]="i">
+                                <div class="form-field">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="" formControlName="languageName">
+                                    </mat-form-field>
+                                    <mat-error>{{pageErrors.languageName}}</mat-error>
+                                </div>
+                                <div class="form-field">
+                                    <mat-form-field appearance="outline" class="readonly">
+                                        <input matInput placeholder="" formControlName="importTemplateName" readonly="true">
+                                    </mat-form-field>
+                                    <mat-error>{{pageErrors.importTemplateName}}</mat-error>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,59 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>account_circle</mat-icon> Available Loan Schemes
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="V1TemplatesForm" autocomplete="off">
+                <div class="form-group grid">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Loan Scheme Name</th>
+                                <th class="date-column">Start Date</th>
+                                <th class="date-column">End Date</th>
+                                <th class="text-center">Status</th>
+                                <th colspan="2" class="text-center">Actions</th>
+                                <!--<th></th>-->
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="v1TemplateCount ==true">
+                            <tr *ngFor="let eachAvailableV1Template of getAvailableV1TemplateControl(); let i=index">
+                                <td>
+                                    {{eachAvailableV1Template.controls.clientLoanSchemeName.value}}
+                                </td>
+                                <td class="date-column">
+                                    {{eachAvailableV1Template.controls.startDate.value}}
+                                </td>
+                                <td class="date-column">
+                                    {{eachAvailableV1Template.controls.endDate.value}}
+                                </td>
+                                <td class="text-center">
+                                    {{eachAvailableV1Template.controls.templateStatus.value}}
+                                </td>
+                                <td class="text-center" *ngIf="eachAvailableV1Template.controls.templateStatus.value != 'FREEZED' && eachAvailableV1Template.controls.templateStatus.value != 'Freezed'">
+                                    <span class="link" (click)="openEditTemplate(eachAvailableV1Template.controls.ddId.value,eachAvailableV1Template.controls.templateStatus.value)">
+                                        <mat-icon>edit</mat-icon> Edit Template
+                                    </span>
+                                    <!-- <mat-icon (click)="openEditTemplate(eachAvailableV1Template.controls.ddId.value)" 
+                                            *ngIf="v1TemplateCount ==true">edit</mat-icon> -->
+                                </td>
+                                <td class="text-center" *ngIf="eachAvailableV1Template.controls.templateStatus.value == 'FREEZED' || eachAvailableV1Template.controls.templateStatus.value == 'Freezed'">
+                                    <span class="link" (click)="openEditTemplate(eachAvailableV1Template.controls.ddId.value,eachAvailableV1Template.controls.templateStatus.value)">
+                                        <mat-icon>edit</mat-icon> View Template
+                                    </span>
+                                    <!-- <mat-icon (click)="openEditTemplate(eachAvailableV1Template.controls.ddId.value)" 
+                                            *ngIf="v1TemplateCount ==true">edit</mat-icon> -->
+                                </td>
+                                <!--<td class="text-center">
+                                    <span class="link" (click)="createNewVersion(i)"><mat-icon>add</mat-icon> Create New Version</span>
+                                </td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

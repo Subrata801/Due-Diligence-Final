@@ -1,0 +1,146 @@
+<div class="content-panel initiateLoanApplication">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>Initiate Due-Diligence Processing</label>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="initiateLoanApplicationForm" autocomplete="off" *ngIf="search">
+                <div class="form-group">
+                    <div class="form-field w-100">
+                        <mat-radio-group formControlName="selectModuleA">
+                            <div class="v-flex">
+                                <div class="v-flex blockA">
+                                    <label>Initiate a New Loan Application</label>
+                                    <mat-radio-button value="A1">Select Module 1 (M1) to initiate a New Loan Application</mat-radio-button>
+                                    <mat-radio-button value="A2">Select Module 2 (M2) for Processing Account</mat-radio-button>
+                                </div>
+                                <div class="v-flex blockB">
+                                    <label>Process Existing Account through Module 3 (M3) / Module 4 (M4) / Module 5 (M5)</label>
+                                    <mat-radio-button value="B1">Select Module 3 (M3) for an Existing Account which has not been processed through e2e Module 1 (M1) and Module 2 (M2)</mat-radio-button>
+                                    <mat-radio-button value="B2">Select Module 4 (M4) for an Existing Account which has not been processed from Module 1 (M1) to Module 3 (M3)</mat-radio-button>
+                                    <mat-radio-button value="B3">Select Module 4 (M4) for an Existing Account which has been processed through only Module 2 (M2)</mat-radio-button>
+                                    <mat-radio-button value="B4">Select Module 5 (M5) for an Existing Account which has not been processed through e2e Module 1 (M1) to Module 4 (M4)</mat-radio-button>
+                                    <mat-radio-button value="B5">Select Module 5 (M5) for an Existing Account processed through e2e Module 2 (M2) / Module 3 (M3) / Module 4 (M4)</mat-radio-button>
+                                </div>
+                            </div>
+                        </mat-radio-group>
+                        <mat-error>{{pageErrors.selectModuleA}}</mat-error>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-field w-50">
+                        <mat-label>CIF Number is Available</mat-label>
+                        <mat-radio-group formControlName="cifNumberAvailability">
+                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                            <mat-radio-button value="No">No</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error>{{pageErrors.cifNumberAvailability}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>CIF Number</mat-label>
+                            <input matInput placeholder="CIF Number" formControlName="cifNumber">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.cifNumber}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select CIF Number</mat-label>
+                            <mat-select placeholder="Select CIF Number" formControlName="selectCifNumber">
+                                <mat-option value="RC">RC</mat-option>
+                                <mat-option value="CC">CC</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.selectCifNumber}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Applicant / Borrower Name</mat-label>
+                            <input matInput placeholder="CIF Number" formControlName="borrowerName">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.borrowerName}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-label>Credit Sector</mat-label>
+                        <mat-radio-group formControlName="creditSector">
+                            <mat-radio-button value="RC">Retail Credit (RC)</mat-radio-button>
+                            <mat-radio-button value="CC">Commercial Credit (CC)</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error>{{pageErrors.creditSector}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Existing Account Number</mat-label>
+                            <mat-select placeholder="Select Existing Account Number" formControlName="selectAccountNumber">
+                                <mat-option value="65465461431">65465461431</mat-option>
+                                <mat-option value="55465465465">55465465465</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.selectAccountNumber}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Type of Loan Scheme</mat-label>
+                            <mat-select placeholder="Select e2e" formControlName="selectLoanSchemeType">
+                                <mat-option value="Vehicle Loan">Vehicle Loan</mat-option>
+                                <mat-option value="Home Loan">Home Loan</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.selectLoanSchemeType}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select e2e</mat-label>
+                            <mat-select placeholder="Select e2e" formControlName="selecte2e">
+                                <mat-option value="65465461431">65465461431</mat-option>
+                                <mat-option value="55465465465">55465465465</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.selecte2e}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Module Expected Start Date</mat-label>
+                            <input matInput placeholder="Module Expected Start Date" [matDatepicker]="picker1" formControlName="moduleStartDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker1">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.moduleStartDate}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Module Expected Completion Date</mat-label>
+                            <input matInput placeholder="Module Expected Completion Date" [matDatepicker]="picker2" formControlName="moduleCompletionDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.moduleCompletionDate}}</mat-error>
+                    </div>
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Assign Branch Maker</mat-label>
+                            <mat-select placeholder="Assign Branch Maker" formControlName="assignBranchMaker">
+                                <mat-option value="Sanket">Sanket</mat-option>
+                                <mat-option value="Rajesh">Rajesh</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.assignBranchMaker}}</mat-error>
+                    </div>
+                    <div class="form-field w-100">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Comments</mat-label>
+                            <textarea matInput rows="5" placeholder="Type in your comments here..." formControlName="comments"></textarea>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.comments}}</mat-error>
+                    </div>
+                    <div class="form-actions">
+                        <button color="primary" mat-raised-button>Submit</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

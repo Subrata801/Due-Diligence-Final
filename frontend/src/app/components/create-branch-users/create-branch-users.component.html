@@ -1,0 +1,134 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>Manage Branch User</label>
+            <span><mat-icon>arrow_back</mat-icon> <span class="link-button" (click)="searchForm()">Back to Search</span></span>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex createUser">
+                <div class="alert alert-danger mbot-20" role="alert" *ngIf="isCreateBranchUserFailed">
+                 {{ errorMessage }}
+             </div>
+                <form [formGroup]="branchUsersForm" autocomplete="off">
+                    <div class="form-group">
+                        <!-- <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Client Type</mat-label>
+                                <mat-select placeholder="Client Type" formControlName="clientType">
+                                    <mat-option value="1">Bank</mat-option>
+                                    <mat-option value="2">Audit Firm</mat-option>
+                                    <mat-option value="3">Banker Mitra</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.clientType}}</mat-error>
+                        </div>
+                        <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Select BM/Bank/Audit Firm</mat-label>
+                                <mat-select placeholder="Select BM/Bank/Audit Firm" formControlName="clientFirm">
+                                    <mat-option value="1">Branch 1</mat-option>
+                                    <mat-option value="2">Audit Bank 1</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.clientFirm}}</mat-error>
+                        </div> -->
+                        <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Select Unit Name</mat-label>
+                                <mat-select placeholder="Select Unit Name" formControlName="unitName">
+                                    <mat-option *ngFor="let eachOption of unitNames" [value]="eachOption.unitId">{{eachOption.unitName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.unitId}}</mat-error>
+                        </div>
+                        <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>User Role</mat-label>
+                                <mat-select placeholder="Select Role" formControlName="userRoleId">
+                                    <mat-option *ngFor="let user of userRoles" [value]="user.userRoleId">{{user.userRoleName}}</mat-option>
+                                </mat-select>
+                                <mat-error>{{pageErrors.userRoleId}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div class="form-field" *ngIf="employeeName!='' && employeeName!=null && employeeName!='null'">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Employee Name</mat-label>
+                                <input matInput [value]="employeeName" readonly>
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.employeeName}}</mat-error>
+                        </div>
+                        <div class="form-field" *ngIf="employeeName=='' || employeeName==null || employeeName=='null'">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Employee Name</mat-label>
+                                <input matInput placeholder="Employee Name" formControlName="employeeName" >
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.employeeName}}</mat-error>
+                        </div> -->
+                        <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Employee Name</mat-label>
+                                <input matInput [value]="employeeName" readonly>
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.employeeName}}</mat-error>
+                        </div>
+                        <div class="form-field" *ngIf="isEditUser">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Employee ID</mat-label>
+                                <input matInput [value]="employeeId" readonly>
+                                <mat-error>{{pageErrors.employeeId}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field" *ngIf="!isEditUser">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Employee ID</mat-label>
+                                <input matInput placeholder="Employee ID" formControlName="employeeId" (change)="onChangeEmployeeId($event)">
+                                <mat-error>{{pageErrors.employeeId}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Employee Email</mat-label>
+                                <input matInput placeholder="Employee Email" formControlName="employeeEmail" readonly>
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.employeeEmail}}</mat-error>
+                        </div>
+                        <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Mobile Number</mat-label>
+                                <input matInput placeholder="Mobile Number" formControlName="mobileMumber" readonly>
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.mobileMumber}}</mat-error>
+                        </div> -->
+                        <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Username</mat-label>
+                                <input matInput [value]="uName" readonly> <!--auto generated value, should be in readOnly-->
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.userName}}</mat-error>
+                        </div>
+                        <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Password</mat-label>
+                                <input matInput type=password [value]="uPassword" readonly> <!--auto generated value, should be in readOnly-->
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.password}}</mat-error>
+                        </div>
+                        <div class="form-field">
+                            <mat-label>e2e Status</mat-label>
+                            <mat-radio-group formControlName="e2eStatus" required>
+                                <mat-radio-button value="A">Active</mat-radio-button>
+                                <mat-radio-button value="D">Deactive</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="form-actions">
+                        <button mat-raised-button color="primary" (click)="performSubmit()">Submit</button>
+                        <button mat-raised-button color="primary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

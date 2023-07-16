@@ -1,0 +1,25 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>CnC Reports</label>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="cncReports" autocomplete="off">
+                <div class="form-group">
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>CnC Number</mat-label>
+                            <input matInput placeholder="CnC Number" formControlName="cncNumber">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.cncNumber}}</mat-error>
+                    </div>
+                    <div class="form-actions">
+                        <button mat-raised-button color="primary">Report 1</button>
+                        <button mat-raised-button color="primary">Report 2</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

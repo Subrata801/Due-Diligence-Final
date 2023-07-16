@@ -1,0 +1,114 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>add_location</mat-icon> <label>Manage SaaS Subscriptions</label>
+            <span><mat-icon>post_add</mat-icon> <span class="link-button" (click)="addNewSubscription()">Add New Subscription</span></span>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="searchSubscriptionForm" autocomplete="off">
+                <div class="alert alert-danger mbot-20" role="alert" *ngIf="isSearchSubscriptionFailed">
+                    {{ errorMessage }}
+                </div>
+                <div class="mtop-20 filter-panel">
+                    <div class="h-flex flex-wrap">
+                        <!-- <div class="form-field w-100 mbot-20">
+                            <mat-radio-group formControlName="keywordType">
+                                <mat-radio-button value="searchproducttype">Product</mat-radio-button>
+                                <mat-radio-button value="searchsubscriptiontype">Subscription Type</mat-radio-button>
+                                <mat-radio-button value="searchsubscriptionsubtype">Subscription Sub-Type</mat-radio-button>
+                            </mat-radio-group>
+                        </div> -->
+                        
+                        <div class="form-field w-100">
+                            <mat-label>Product</mat-label>
+                            <mat-radio-group formControlName="productTypeId">
+                                <mat-radio-button *ngFor="let eachOption of productTypeOptions"
+                                [value]="eachOption.productTypeId">
+                                {{eachOption.productTypename}}
+                            </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-error>{{pageErrors.productTypeId}}</mat-error>
+                        </div>
+                        <div class="clear mtop-20"></div>
+                        <div class="form-field w-100" *ngIf="subscriptionTypeOptions.length > 0">
+                            <mat-label>Subscription Type</mat-label>
+                            <mat-radio-group formControlName="subscriptionTypeId">
+                                <mat-radio-button *ngFor="let eachOption of subscriptionTypeOptions"
+                                    [value]="eachOption.subscriptionTypeId">
+                                    {{eachOption.subscriptionTypeName}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-error>{{pageErrors.subscriptionTypeId}}</mat-error>
+                        </div>
+                        <div class="clear mtop-20"></div>
+                        <div class="form-field w-100" *ngIf="subscriptionSubTypeOptions.length > 0">
+                            <mat-label>Subscription Sub Type</mat-label>
+                            <mat-radio-group formControlName="subscriptionSubTypeId">
+                                <mat-radio-button *ngFor="let eachOption of subscriptionSubTypeOptions"
+                                    [value]="eachOption.subscriptionSubTypeId">
+                                    {{eachOption.subscriptionSubTypeName}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-error>{{pageErrors.subscriptionSubTypeName}}</mat-error>
+                        </div>
+                        <!-- <div class="mtop-5">
+                            <button color="primary" mat-raised-button (click)="performSearch()">Search</button>
+                        </div> -->
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+    <div class="clear mtop-20" *ngIf="isSearchDataAvailable">
+    <mat-card *ngIf="getSubscriptionDataArrayControl().length > 0">
+        <mat-card-title>
+            <mat-icon>manage_search</mat-icon> Search Results
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content *ngIf="getSubscriptionDataArrayControl().length > 0">
+            <form [formGroup]="subscriptionListForm" autocomplete="off">
+            	<div class="alert alert-danger mbot-20" role="alert" *ngIf="isSearchFailed">
+	                {{ errorMessage }}
+	            </div>
+                <div class="grid header-data">
+                    <table formArrayName="subscriptionData">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Subscription Type</th>
+                                <th>Subscription Sub-Type</th>
+                                <th>Subscription Name</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let eachSubscriptionData of getSubscriptionDataArrayControl(); let i=index">
+                                <td>
+                                  {{eachSubscriptionData.controls.productName.value}}
+                                </td>
+                                <td >
+                                    {{eachSubscriptionData.controls.subscriptionTypeName.value}}
+                                </td>
+                                <td >
+                                     {{eachSubscriptionData.controls.subscriptionSubTypeName.value}}
+                                </td>
+                                 <td >
+                                    {{eachSubscriptionData.controls.subscriptionName.value}}
+                                </td>
+                                 
+                                <td   class="text-center">
+                                   <a (click)="openSubscription(eachSubscriptionData.controls.subscriptionId.value)">
+                                    <mat-icon>edit</mat-icon>
+                                   </a>
+                                    <!-- <mat-icon>delete</mat-icon> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+    </div>
+</div>

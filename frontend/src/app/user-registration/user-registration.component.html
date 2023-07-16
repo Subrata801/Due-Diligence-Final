@@ -1,0 +1,181 @@
+<mat-card>
+    <mat-card-title>User Registration</mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="userRegistrationForm" autocomplete="off">
+            <div class="container">
+                <div class="row">
+                    <!-- <mat-error *ngFor="let eachValidation of page_validation_messages">
+                        <mat-error class="error-message" >{{eachValidation.message}}
+                        </mat-error>
+                    </mat-error> -->
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <mat-label>User Type</mat-label>
+                    </div>
+                    <div class="col-10">
+                        <mat-form-field>
+                            <mat-select formControlName="userType" name="Select User Type">
+                                <mat-option *ngFor="let eachOption of customOptions" [value]="eachOption.value">
+                                    {{eachOption.viewValue}}
+                                </mat-option>
+                            </mat-select>                            
+                            <mat-error>{{pageErrors.userType}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <mat-label>BM/Bank/Audit Firm</mat-label>
+                    </div>
+                    <div class="col-10">
+                        <mat-form-field>
+                            <mat-select formControlName="firm" name="Select User Type">
+                                <mat-option *ngFor="let eachOption of customOptions" [value]="eachOption.value">
+                                    {{eachOption.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <mat-label>Branch / Audit bank</mat-label>
+                    </div>
+                    <div class="col-10">
+                        <mat-form-field>
+                            <mat-select formControlName="bank" name="Select User Type">
+                                <mat-option *ngFor="let eachOption of customOptions" [value]="eachOption.value">
+                                    {{eachOption.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        <mat-label>User Role</mat-label>
+                    </div>
+                    <div class="col-10">
+                        <mat-form-field>
+                            <mat-select formControlName="role" name="Select User Type">
+                                <mat-option *ngFor="let eachOption of customOptions" [value]="eachOption.value">
+                                    {{eachOption.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>{{pageErrors.role}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        <mat-label>Employee Id</mat-label>
+                    </div>
+                    <div class="col-10">
+                        <mat-form-field>
+                            <mat-select formControlName="emp_id" name="Select User Type">
+                                <mat-option *ngFor="let eachOption of customOptions" [value]="eachOption.value">
+                                    {{eachOption.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        <mat-label>Full Name</mat-label>
+                    </div>
+                    <div class="col-10">
+                        <mat-form-field>
+                            <input matInput placeholder="" formControlName="emp_id">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.emp_id}}</mat-error>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        <mat-label>Email ID</mat-label>
+                    </div>
+                    <div class="col-10">
+                        <mat-form-field>
+                            <input matInput placeholder="" formControlName="email">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.email}}</mat-error>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        <mat-label>Mobile Number</mat-label>
+                    </div>
+                    <div class="col-10">
+                        <mat-form-field>
+                            <input matInput placeholder="" formControlName="mobile">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        <mat-label>User Name</mat-label>
+                    </div>
+                    <div class="col-10">
+                        <mat-form-field>
+                            <input matInput placeholder="" formControlName="uname">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.uname}}</mat-error>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        <mat-label>Password</mat-label>
+                    </div>
+                    <div class="col-10">
+                        <mat-form-field>
+                            <input matInput placeholder="" type="password" preventCopyPaste formControlName="pword">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.pword}}</mat-error>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        <mat-label>Status</mat-label>
+                    </div>
+                    <div class="col-10">
+                        <mat-radio-group formControlName="status">
+                            <mat-radio-button value="Active">Active</mat-radio-button>
+                            <mat-radio-button value="Disabled">Disabled</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error>{{pageErrors.status}}</mat-error>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="alert alert-danger" role="alert" *ngIf="isError">
+                        Action failed: {{ errorMessage }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+
+
+    <mat-card-footer>
+        <div class="row actionbutton">
+            <div class="col-2"></div>
+            <div class="col-4">
+                <button mat-button (click)="performSubmit()">Submit</button>
+            </div>
+            <div class="col-4">
+                <button mat-button>Cancel</button>
+            </div>
+
+        </div>
+    </mat-card-footer>
+
+</mat-card>

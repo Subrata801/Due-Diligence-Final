@@ -1,0 +1,79 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>drive_file_rename_outline</mat-icon> Create BM Loan Variants
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="loanSchemeForm" autocomplete="off">
+                <div class="alert alert-danger mbot-20" role="alert" *ngIf="isError">
+                    {{ errorMessage }}
+                </div>
+                <!-- <div class="alert alert-success mbot-20" role="alert" *ngIf="isSuccess">
+                    Subscription is successful
+                </div> -->
+                <div class="v-flex">
+                    <div class="form-group">
+                        <div class="form-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Loan Scheme</mat-label>
+                                <mat-select formControlName="loanSchemeId" placeholder="Loan Scheme">
+                                    <mat-option *ngFor="let eachOption of languageOptions"
+                                        [value]="eachOption.loanSchemeId">
+                                        {{eachOption.loanSchemeName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="v-flex w-100 col-md-12">
+                            <mat-divider *ngIf="getLoanSchemeArrayControl().length > 1"></mat-divider>
+                            <div class="grid">
+                                <table formArrayName="loanVariantDetails">
+                                    <thead>
+                                        <tr>
+                                            <th>Variant Name</th>
+                                            <th>Enter Keyword</th>
+                                            <!-- <th> <mat-icon (click)="addUnit()">add</mat-icon></th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let eachSchemeData of getLoanSchemeArrayControl(); let i=index">
+                                            <td [formGroupName]="i">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="" formControlName="loanVariantName">
+                                                </mat-form-field>
+                                                <mat-error>{{pageErrors.loanSchemeName}}</mat-error>
+                                            </td>                                            
+                                            <td [formGroupName]="i">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="" formControlName="keyword">
+                                                </mat-form-field>
+                                                <mat-error>{{pageErrors.keyword}}</mat-error>
+                                            </td>
+
+                                            <!-- <td [formGroupName]="i" *ngIf="loanSchemeForm.controls.loanVariantDetails.controls.length > 0">
+                                                <mat-icon (click)="removeUnit(i)">delete</mat-icon>
+                                            </td> -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="mtop-20">
+                                    <button mat-raised-button color="primary" (click)="addUnit('add')">
+                                        <mat-icon>add</mat-icon>Add Variant name
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear">
+                    <mat-divider></mat-divider>
+                </div>
+                <div class="form-actions mtop-20">
+                    <button mat-raised-button color="primary" (click)="performSubmit()">Submit</button>
+                    <button mat-raised-button color="primary" (click)="clearAllData()">Cancel</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

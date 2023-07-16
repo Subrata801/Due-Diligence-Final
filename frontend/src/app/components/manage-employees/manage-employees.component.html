@@ -1,0 +1,136 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>account_circle</mat-icon> Upload Employee Data
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="mtop-20">
+                <div class="alert alert-danger mtop-20" role="alert" *ngIf="isError">
+                    {{ errorMessage }}
+                </div>
+                <form [formGroup]="uploadEmployeesForm" autocomplete="off">
+                    <div class="mtop-20 filter-panel">
+                        <div class="v-flex form-field">
+                            <div class="h-flex file-upload">
+                                <input type="file" (change)="selectFile($event)">
+                                <button class="btn btn-success btn-sm" [disabled]="!selectedFiles"
+                                    (click)="upload()">Upload</button>
+                            </div>
+                            <div *ngIf="currentFile" class="progress">
+                                <div class="progress-bar progress-bar-info progress-bar-striped"
+                                    role="progressbar" attr.aria-valuenow="{{ progress }}" aria-valuemin="0"
+                                    aria-valuemax="100" [ngStyle]="{ width: progress + '%' }">{{ progress }}%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="clear mbot-20"></div>
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> View Employees
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <div class="alert alert-danger mbot-20" role="alert" *ngIf="isSearchResultFailed">
+            {{ searchErrorMessage }}
+        </div>
+        <mat-card-content>
+            <div class="v-flex">
+                <form [formGroup]="manageEmployeesForm" autocomplete="off">
+                    <div class="h-flex mtop-20 filter-panel">
+                        <div class="form-field w-25">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Unit Name</mat-label>
+                                <input matInput placeholder="Unit Name" formControlName="unitName">
+                                <mat-error>{{pageErrors.unitName}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field w-25">
+                            <mat-form-field appearance="fill">
+                                <mat-label>IFSC Code</mat-label>
+                                <input matInput placeholder="IFSC Code" formControlName="ifscCode">
+                                <mat-error>{{pageErrors.ifscCode}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-actions mtop-5">
+                            <button color="primary" mat-raised-button (click)="performSearch()">View</button>
+                        </div>
+                        <div class="form-actions mtop-5">
+                            <button color="primary" mat-raised-button (click)="downloadErrorFile()" [disabled]="isDownloadAllowed">Download Error File</button>
+                        </div>
+                    </div>
+                    </form>
+                    <div class="col-md-12" *ngIf="searchResults">
+                       <form [formGroup]="employeeListForm" autocomplete="off">
+                        <div class="grid" >
+                            <table formArrayName="unitData">
+                                <thead>
+                                    <tr>
+                                        <th>Unit Type</th>
+                                        <th>Unit Name</th>
+                                        <th>IFSC Code</th>
+                                        <th>Employee Name</th>
+                                        <th>Employee ID</th>
+                                        <!-- <th>Employee Designation</th>
+                                        <th>e2e Status</th> -->
+                                        <th class="date-column">Last Modified Date</th>
+                                        <th>Updated By</th>
+                                        <!-- <th class="text-center slide-toggle">Status</th>
+                                        <th>Action</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let eachUnitData of getUnitDataArrayControl(); let i=index">
+		                                <td [formGroupName]="i">
+		                                  {{eachUnitData.controls.unitType.value}}
+		                                </td>
+		                                <td [formGroupName]="i">
+		                                    {{eachUnitData.controls.unitName.value}}
+		                                </td>
+		                                <td [formGroupName]="i">
+		                                     {{eachUnitData.controls.ifscCode.value}}
+		                                </td>
+		                                 <td [formGroupName]="i">
+		                                    {{eachUnitData.controls.employeeName.value}}
+		                                </td>
+		                                 <td [formGroupName]="i">
+		                                    {{eachUnitData.controls.employeeId.value}}
+		                                </td>
+		                                <!-- <td [formGroupName]="i">
+		                                    {{eachUnitData.controls.employeeDesignation.value}}
+		                                </td>
+		                                <td [formGroupName]="i">
+		                                    {{eachUnitData.controls.e2eStatus.value}}
+		                                </td> -->
+		                                <td [formGroupName]="i" class="date-column">
+		                                    {{eachUnitData.controls.updatedDate.value}}
+		                                </td>
+		                                <td  [formGroupName]="i">
+		                                    {{eachUnitData.controls.lastUpdatedBy.value}}
+		                                </td>
+		                                <!-- <td class="text-center"  [formGroupName]="i">
+		                                  <mat-radio-group formControlName="status">
+					                            <mat-radio-button value="A">Active</mat-radio-button>
+					                            <mat-radio-button value="D">Disabled</mat-radio-button>
+					                        </mat-radio-group>
+		                                </td> -->
+		                                <!-- <td class="text-center"  [formGroupName]="i">
+		                                  <mat-icon (click)="updateStatus(i,eachUnitData.controls.employeeId.value)">Update</mat-icon>
+		                                   <a (click)="openEmployee(eachUnitData.controls.employeeId.value)">
+		                                    <mat-icon>update</mat-icon>
+		                                  </a> 
+		                                </td> -->
+	                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </form>
+                    </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,169 @@
+<div class="content-panel initiateDueDiligence">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>Due Diligence</label>
+            <span (click)="back()"><mat-icon>arrow_back</mat-icon> <span class="link-button" (click)="back()">Back to Headers</span></span>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex">
+                <form [formGroup]="assessmentForm" autocomplete="off">
+                    <!-- div for m1 only -->
+                    <div class="grid" *ngIf="isM1Module">  
+                        <table formArrayName="dueDeligenceDetails">
+                            <thead>
+                                <tr>
+                                    <th>DD Seq</th>
+                                    <th>DD Parent Seq</th>
+                                    <th>Due Diligence Action Points</th>
+                                    <th>Scheme Norms</th>
+                                    <th>Applicant</th>
+                                    <th>Co-Applicant 1</th>
+                                    <th>Co-Applicant 2</th>
+                                    <th>Co-Applicant 3</th>
+                                    <th>Co-Applicant 4</th>
+                                    <th>Co-Applicant 5</th>
+                                    <th>Guarantor 1</th>
+                                    <th>Guarantor 2</th>
+                                    <th>Guarantor 3</th>
+                                    <th>Guarantor 4</th>
+                                    <th>Guarantor 5</th>
+                                    <!-- <th>Comments</th> -->
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="dueDiligenceCount ==true">
+                                <ng-container *ngFor="let eachDueDeligence of getDueDeligenceArrayControl(); let i=index">
+                                <tr [formGroupName]="i">
+                                    <td>{{eachDueDeligence.controls.ddSequence.value}}</td>
+                                    <td>{{eachDueDeligence.controls.ddParentSequence.value}}</td>
+                                    <td>{{eachDueDeligence.controls.ddData.value}}</td>
+                                    <td class="schemaColor" >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #schemaNormVal matInput placeholder="{{eachDueDeligence.controls.schmemaNormPlaceHolderValues.value}}" style="background: {{eachDueDeligence.controls.schmemaNormColor.value}}; border-color: {{eachDueDeligence.controls.schmemaNormColor.value}} !important;" [value]="eachDueDeligence.controls.schmemaNormUiValidValue.value" [disabled]="eachDueDeligence.controls.isSchemeDisabled.value">
+                                        </mat-form-field>
+                                    </td>
+                                    <td  >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #applicantVal matInput placeholder="{{eachDueDeligence.controls.applicantPlaceHolderValues.value}}" style="background: {{eachDueDeligence.controls.applicantColor.value}}; border-color: {{eachDueDeligence.controls.applicantColor.value}} !important;" [value]="eachDueDeligence.controls.applicantUiValidValue.value" [disabled]="eachDueDeligence.controls.isApplicantDisabled.value">
+                                        </mat-form-field>
+                                    </td>
+                                    <td >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #coAppVal matInput placeholder="{{eachDueDeligence.controls.coapplicantplaceholdervalues.value}}" style="background: {{eachDueDeligence.controls.coapplicantcolor.value}}; border-color: {{eachDueDeligence.controls.coapplicantcolor.value}} !important;" [value]="eachDueDeligence.controls.coapplicantuivalidvalue.value" [disabled]="eachDueDeligence.controls.isCoapplicantDisabled.value">
+                                        </mat-form-field>
+                                    </td>
+                                    <td >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #coApp1Val matInput placeholder="{{eachDueDeligence.controls.coapplicant1placeholdervalues.value}}" style="background: {{eachDueDeligence.controls.coapplicant1color.value}}; border-color: {{eachDueDeligence.controls.coapplicant1color.value}} !important;" [value]="eachDueDeligence.controls.coapplicant1uivalidvalue.value" [disabled]="eachDueDeligence.controls.isCoapplicant1Disabled.value">
+                                        </mat-form-field>
+                                    </td>
+                                    <td  >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #coApp2Val matInput placeholder="{{eachDueDeligence.controls.coapplicant2placeholdervalues.value}}" style="background: {{eachDueDeligence.controls.coapplicant2color.value}}; border-color: {{eachDueDeligence.controls.coapplicant2color.value}} !important;" [value]="eachDueDeligence.controls.coapplicant2uivalidvalue.value" [disabled]="eachDueDeligence.controls.isCoapplicant2Disabled.value">
+                                        </mat-form-field>
+                                    </td>
+                                    <td  >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #coApp3Val matInput placeholder="{{eachDueDeligence.controls.coapplicant3placeholdervalues.value}}" style="background: {{eachDueDeligence.controls.coapplicant3color.value}}; border-color: {{eachDueDeligence.controls.coapplicant3color.value}} !important;" [value]="eachDueDeligence.controls.coapplicant3uivalidvalue.value" [disabled]="eachDueDeligence.controls.isCoapplicant3Disabled.value">
+                                        </mat-form-field>
+                                    </td>
+                                    <td  >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #coApp4Val matInput placeholder="{{eachDueDeligence.controls.coapplicant4placeholdervalues.value}}" style="background: {{eachDueDeligence.controls.coapplicant4color.value}}; border-color: {{eachDueDeligence.controls.coapplicant4color.value}} !important;" [value]="eachDueDeligence.controls.coapplicant4uivalidvalue.value" [disabled]="eachDueDeligence.controls.isCoapplicant4Disabled.value">
+                                        </mat-form-field>
+                                    </td>
+                                    <td  >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #gurantorVal matInput placeholder="{{eachDueDeligence.controls.guarantorplaceholdervalues.value}}" style="background: {{eachDueDeligence.controls.guarantorcolor.value}}; border-color: {{eachDueDeligence.controls.guarantorcolor.value}} !important;" [value]="eachDueDeligence.controls.guarantoruivalidvalue.value" [disabled]="eachDueDeligence.controls.isGurantorDisabled.value">
+                                        </mat-form-field>
+                                    </td>
+                                    <td  >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #gurantor1Val matInput placeholder="{{eachDueDeligence.controls.guarantor1placeholdervalues.value}}" style="background: {{eachDueDeligence.controls.guarantor1color.value}}; border-color: {{eachDueDeligence.controls.guarantor1color.value}} !important;"  [value]="eachDueDeligence.controls.guarantor1uivalidvalue.value" [disabled]="eachDueDeligence.controls.isGurantor1Disabled.value">
+                                        </mat-form-field>
+                                    </td>
+                                     <td  >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #gurantor2Val matInput placeholder="{{eachDueDeligence.controls.guarantor2placeholdervalues.value}}" style="background: {{eachDueDeligence.controls.guarantor2color.value}}; border-color: {{eachDueDeligence.controls.guarantor2color.value}} !important;" [value]="eachDueDeligence.controls.guarantor2uivalidvalue.value" [disabled]="eachDueDeligence.controls.isGurantor2Disabled.value">
+                                        </mat-form-field>
+                                    </td>
+                                    <td >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #gurantor3Val matInput placeholder="{{eachDueDeligence.controls.guarantor3placeholdervalues.value}}" style="background: {{eachDueDeligence.controls.guarantor3color.value}}; border-color: {{eachDueDeligence.controls.guarantor3color.value}} !important;" [value]="eachDueDeligence.controls.guarantor3uivalidvalue.value" [disabled]="eachDueDeligence.controls.isGurantor3Disabled.value">
+                                        </mat-form-field>
+                                    </td>
+                                    <td >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #gurantor4Val matInput placeholder="{{eachDueDeligence.controls.guarantor4placeholdervalues.value}}" style="background: {{eachDueDeligence.controls.guarantor4color.value}}; border-color: {{eachDueDeligence.controls.guarantor4color.value}} !important;"  [value]="eachDueDeligence.controls.guarantor4uivalidvalue.value" [disabled]="eachDueDeligence.controls.isGurantor4Disabled.value">
+                                        </mat-form-field>
+                                    </td>
+                                    <!-- <td >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #compliance matInput placeholder="{{eachDueDeligence.controls.compliancePlaceholdervalues.value}}" style="background: {{eachDueDeligence.controls.complianceColor.value}}; border-color: {{eachDueDeligence.controls.complianceColor.value}} !important;"  [value]="eachDueDeligence.controls.complianceUivalidvalue.value">
+                                        </mat-form-field>
+                                    </td> -->
+                                    <!-- <td>{{eachDueDeligence.controls.comment.value}}</td> -->
+                                    <td class="text-center">
+                                        <a (click)="saveViewDD(eachDueDeligence.controls.ddSequence.value, eachDueDeligence.controls.ddParentSequence.value, 
+                                        eachDueDeligence.controls.schmemaNormPlaceHolderValues.value,schemaNormVal, 
+                                        eachDueDeligence.controls.applicantPlaceHolderValues.value, applicantVal, 
+                                        eachDueDeligence.controls.coapplicantplaceholdervalues.value, coAppVal, 
+                                        eachDueDeligence.controls.coapplicant1placeholdervalues.value, coApp1Val, 
+                                        eachDueDeligence.controls.coapplicant2placeholdervalues.value, coApp2Val, 
+                                        eachDueDeligence.controls.coapplicant3placeholdervalues.value, coApp3Val, 
+                                        eachDueDeligence.controls.coapplicant4placeholdervalues.value, coApp4Val, 
+                                        eachDueDeligence.controls.guarantorplaceholdervalues.value, gurantorVal, 
+                                        eachDueDeligence.controls.guarantor1placeholdervalues.value, gurantor1Val, 
+                                        eachDueDeligence.controls.guarantor2placeholdervalues.value, gurantor2Val, 
+                                        eachDueDeligence.controls.guarantor3placeholdervalues.value, gurantor3Val, 
+                                        eachDueDeligence.controls.guarantor4placeholdervalues.value, gurantor4Val)">
+                                            <mat-icon>save</mat-icon>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- div for other than m1 -->
+                    <div class="grid" *ngIf="!isM1Module">
+                        <table formArrayName="dueDeligenceDetails">
+                            <thead>
+                                <tr>
+                                    <th>DD Seq</th>
+                                    <th>DD Parent Seq</th>
+                                    <th>Due Diligence Action Points</th>
+                                    <th>Compliance</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="dueDiligenceCount ==true">
+                                <ng-container *ngFor="let eachDueDeligence of getDueDeligenceArrayControl(); let i=index">
+                                <tr [formGroupName]="i">
+                                    <td>{{eachDueDeligence.controls.ddSequence.value}}</td>
+                                    <td>{{eachDueDeligence.controls.ddParentSequence.value}}</td>
+                                    <td>{{eachDueDeligence.controls.ddData.value}}</td>
+                                    
+                                    <td >
+                                        <mat-form-field appearance="outline" floatlabel="never">
+                                            <input #compliance matInput placeholder="{{eachDueDeligence.controls.compliancePlaceholdervalues.value}}" style="background: {{eachDueDeligence.controls.complianceColor.value}}; border-color: {{eachDueDeligence.controls.complianceColor.value}} !important;"  [value]="eachDueDeligence.controls.complianceUivalidvalue.value">
+                                        </mat-form-field>
+                                    </td>
+                                    <!-- <td>{{eachDueDeligence.controls.comment.value}}</td> -->
+                                    <td class="text-center">
+                                        <a (click)="saveViewDDNonM1(eachDueDeligence.controls.ddSequence.value, eachDueDeligence.controls.ddParentSequence.value, compliance)">
+                                            <mat-icon>save</mat-icon>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,451 @@
+<div class="content-panel">
+    <button class="icon-button mbot-20" color="primary" mat-raised-button (click)="goBackToEditTemplateScreen()">
+        <mat-icon>arrow_back</mat-icon> Back to header
+    </button>
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>grading</mat-icon> Due Diligence
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex">
+                <form [formGroup]="dueDiligenceForm">
+                    
+                    <div class="alert alert-danger mtop-20" role="alert" *ngIf="isError">
+	                    {{ errorMessage }}
+	                </div>
+                    <div class="grid mtop-20" *ngIf="!isAdmin">
+                        <table formArrayName="dueDeligenceDetails" class="dueDiligenceDetails">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">DD Sequence</th>
+                                    <th class="text-center">DD Parent Sequence</th>
+                                    <th class="text-center">Header Sequence</th>
+                                    <th class="dd-data">DD Data</th>
+                                    <th *ngIf="!isNonM1Module">SCHEME NORMS</th>
+                                    <th *ngIf="!isNonM1Module">Applicant Options</th>
+                                    <th *ngIf="!isNonM1Module">Co-applicant Options</th>
+                                    <th *ngIf="!isNonM1Module">Guarantor Options</th>
+                                    <th *ngIf="isNonM1Module">Compliance</th>
+                                    <th>Conditions</th>
+                                    <th>Credit Sector ID</th>
+                                    <th>Loan Scheme Id</th>
+                                    <th>Loan Variant KeyWord</th>
+                                    <th>R-Residential Status</th>
+                                    <th>Criticality Factor</th>
+                                    <th>T-Applicant's Occupation</th>
+                                    <th>U-Fresh / Take Over</th>
+                                    <th>W-Security Type</th>
+                                    <th>V-Secured / Unsecured</th>
+                                    <th>Y-Common/Co-Applicant/Guarantor</th>
+                                    <th>Z-Standard Assets / NPA  Asset</th>
+                                    <th class="dd-data">Remarks</th>
+                                    <th class="text-center" *ngIf="templateStatus != 'FREEZED' && templateStatus != 'Freezed'">Save</th>
+                                    <th class="text-center" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                 <tr *ngFor="let eachDueDeligence of getDueDeligenceArrayControl(); let i=index">
+                                    <td [formGroupName]="i">
+                                      {{eachDueDeligence.controls.ddSequence.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed' && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                        <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="ddParentSequence">
+                                        </mat-form-field>
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed' || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                        {{eachDueDeligence.controls.ddParentSequence.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed' && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                       <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="headerSequence">
+                                        </mat-form-field>
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                       {{eachDueDeligence.controls.headerSequence.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed' && templateStatus != 'FREEZED' && templateStatus != 'Freezed'" class="dd-data">
+                                        <textarea formControlName="ddData"></textarea>
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.ddData.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="!isNonM1Module">
+                                         <mat-form-field appearance="outline" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                             <input matInput  placeholder="" formControlName="generalOption">
+                                        </mat-form-field>
+                                        <span *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">{{eachDueDeligence.controls.generalOption.value}}</span>
+                                    </td>
+                                    
+                                    <td [formGroupName]="i" *ngIf="!isNonM1Module">
+                                         <mat-form-field appearance="outline" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                             <input matInput  placeholder="" formControlName="applicantOption">
+                                        </mat-form-field>
+                                        <span *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">{{eachDueDeligence.controls.applicantOption.value}}</span>
+                                    </td>
+                                   
+                                    <td [formGroupName]="i" *ngIf="!isNonM1Module">
+                                         <mat-form-field appearance="outline" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                             <input matInput  placeholder="" formControlName="coApplicantOption">
+                                        </mat-form-field>
+                                        <span *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">{{eachDueDeligence.controls.coApplicantOption.value}}</span>
+                                    </td>
+                                    
+                                     <td [formGroupName]="i" *ngIf="!isNonM1Module">
+                                         <mat-form-field appearance="outline" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                             <input matInput  placeholder="" formControlName="guarantorOption">
+                                        </mat-form-field>
+                                        <span *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">{{eachDueDeligence.controls.guarantorOption.value}}</span>
+                                    </td>
+                                    
+                                   
+                                    <td [formGroupName]="i" *ngIf="isNonM1Module">
+                                         <mat-form-field appearance="outline" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                             <input matInput  placeholder="" formControlName="complianceOption">
+                                        </mat-form-field>
+                                        <span *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">{{eachDueDeligence.controls.complianceOption.value}}</span>
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="conditions">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin ||  templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.conditions.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="creditSectorId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.creditSectorId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="loanSchemeId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.loanSchemeId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="loanVariant_keyword">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.loanVariant_keyword.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="borrowerTypeId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.borrowerTypeId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="criticaltyFactor">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.criticaltyFactor.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="professionId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.professionId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="loanApplicationTypeId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.loanApplicationTypeId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="securityId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin ||  templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.securityId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="securityTypeId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.securityTypeId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="applicationTypeId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.applicationTypeId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="assetTypeId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.assetTypeId.value}}
+                                    </td>
+                                    
+                                    <td [formGroupName]="i" class="dd-data" *ngIf="templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                            <textarea formControlName="remarks" ></textarea>
+                                    </td>
+                                    <td [formGroupName]="i" class="dd-data" *ngIf="templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                            {{eachDueDeligence.controls.remarks.value}}
+                                    </td>
+                                    
+                                    <td [formGroupName]="i" class="text-center" *ngIf="getDueDeligenceArrayControl().length > 0 && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+	                                    <mat-icon (click)="saveUnit(i)">save</mat-icon>
+	                                </td>
+                                    <td class="text-center actions" [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                        <mat-icon (click)="removeDueDeligence(i)" *ngIf="getDueDeligenceArrayControl().length > 1">delete</mat-icon>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mtop-20" *ngIf="templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                            <button mat-raised-button color="primary" (click)="addDueDeligence()"><mat-icon>add</mat-icon>Add Due Diligence</button>
+                        </div>
+                    </div>
+
+                    <div class="grid mtop-20" *ngIf="isAdmin">
+                        <table formArrayName="dueDeligenceDetails" class="dueDiligenceDetails">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">DD Sequence</th>
+                                    <th class="text-center">DD Parent Sequence</th>
+                                    <th class="text-center">Header Sequence</th>
+                                    <th class="dd-data">DD Data</th>
+                                    <th *ngIf="!isNonM1Module">SCHEME NORMS</th>
+                                    <th *ngIf="!isNonM1Module">Applicant Options</th>
+                                    <th *ngIf="!isNonM1Module">Co-applicant Options</th>
+                                    <th *ngIf="!isNonM1Module">Guarantor Options</th>
+                                    <th *ngIf="isNonM1Module">Compliance</th>
+                                    <th>Conditions</th>
+                                    <!-- <th>Credit Sector ID</th>
+                                    <th>Loan Scheme Id</th>
+                                    <th>Loan Variant KeyWord</th>
+                                    <th>Borrower Type Id</th>
+                                    <th>Criticality Factor</th>
+                                    <th>Profession Id</th>
+                                    <th>Loan Application Type Id</th>
+                                    <th>Security Id</th>
+                                    <th>Security Type Id</th>
+                                    <th>Applicant Type Id</th>
+                                    <th>Asset Type Id</th> -->
+                                    <th class="dd-data">Remarks</th>
+                                    <th class="text-center" *ngIf="templateStatus != 'FREEZED' && templateStatus != 'Freezed'">Save</th>
+                                    <th class="text-center" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                 <tr *ngFor="let eachDueDeligence of getDueDeligenceArrayControl(); let i=index">
+                                    <td [formGroupName]="i">
+                                      {{eachDueDeligence.controls.ddSequence.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed' && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                        <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="ddParentSequence">
+                                        </mat-form-field>
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed' || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                        {{eachDueDeligence.controls.ddParentSequence.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed' && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                       <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="headerSequence">
+                                        </mat-form-field>
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                       {{eachDueDeligence.controls.headerSequence.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed' && templateStatus != 'FREEZED' && templateStatus != 'Freezed'" class="dd-data">
+                                        <textarea formControlName="ddData"></textarea>
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.ddData.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="!isNonM1Module">
+                                         <mat-form-field appearance="outline" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                             <input matInput  placeholder="" formControlName="generalOption">
+                                        </mat-form-field>
+                                        <span *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">{{eachDueDeligence.controls.generalOption.value}}</span>
+                                    </td>
+                                    
+                                    <td [formGroupName]="i" *ngIf="!isNonM1Module">
+                                         <mat-form-field appearance="outline" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                             <input matInput  placeholder="" formControlName="applicantOption">
+                                        </mat-form-field>
+                                        <span *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">{{eachDueDeligence.controls.applicantOption.value}}</span>
+                                    </td>
+                                   
+                                    <td [formGroupName]="i" *ngIf="!isNonM1Module">
+                                         <mat-form-field appearance="outline" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                             <input matInput  placeholder="" formControlName="coApplicantOption">
+                                        </mat-form-field>
+                                        <span *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">{{eachDueDeligence.controls.coApplicantOption.value}}</span>
+                                    </td>
+                                    
+                                     <td [formGroupName]="i" *ngIf="!isNonM1Module">
+                                         <mat-form-field appearance="outline" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                             <input matInput  placeholder="" formControlName="guarantorOption">
+                                        </mat-form-field>
+                                        <span *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">{{eachDueDeligence.controls.guarantorOption.value}}</span>
+                                    </td>
+                                    
+                                   
+                                    <td [formGroupName]="i" *ngIf="isNonM1Module">
+                                         <mat-form-field appearance="outline" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                             <input matInput  placeholder="" formControlName="complianceOption">
+                                        </mat-form-field>
+                                        <span *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">{{eachDueDeligence.controls.complianceOption.value}}</span>
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="conditions">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin ||  templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.conditions.value}}
+                                    </td>
+                                    <!-- <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="creditSectorId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.creditSectorId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="loanSchemeId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.loanSchemeId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="loanVariant_keyword">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.loanVariant_keyword.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="borrowerTypeId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.borrowerTypeId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="criticaltyFactor">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.criticaltyFactor.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="professionId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.professionId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="loanApplicationTypeId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.loanApplicationTypeId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="securityId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin ||  templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.securityId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="securityTypeId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.securityTypeId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="applicationTypeId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.applicationTypeId.value}}
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                         <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="assetTypeId">
+                                        </mat-form-field> 
+                                    </td>
+                                    <td [formGroupName]="i" *ngIf="isBankAdmin || templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                         {{eachDueDeligence.controls.assetTypeId.value}}
+                                    </td> -->
+                                    
+                                    <td [formGroupName]="i" class="dd-data" *ngIf="templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                            <textarea formControlName="remarks" ></textarea>
+                                    </td>
+                                    <td [formGroupName]="i" class="dd-data" *ngIf="templateStatus == 'FREEZED' || templateStatus == 'Freezed'">
+                                            {{eachDueDeligence.controls.remarks.value}}
+                                    </td>
+                                    
+                                    <td [formGroupName]="i" class="text-center" *ngIf="getDueDeligenceArrayControl().length > 0 && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+	                                    <mat-icon (click)="saveUnit(i)">save</mat-icon>
+	                                </td>
+                                    <td class="text-center actions" [formGroupName]="i" *ngIf="isBankMitraAdmin && templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                                        <mat-icon (click)="removeDueDeligence(i)" *ngIf="getDueDeligenceArrayControl().length > 1">delete</mat-icon>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mtop-20" *ngIf="templateStatus != 'FREEZED' && templateStatus != 'Freezed'">
+                            <button mat-raised-button color="primary" (click)="addDueDeligence()"><mat-icon>add</mat-icon>Add Due Diligence</button>
+                        </div>
+                    </div>
+                    <div class="clear">
+                        <mat-divider></mat-divider>
+                    </div>
+                    <div class="form-actions">
+                        <!-- <button mat-raised-button color="primary" (click)="performSubmit('Pending Approval')" >Review</button> -->
+                        <button mat-raised-button color="primary" (click)="performSubmit('Pending Approval')" *ngIf="showSubmitButton">Submit</button>
+                        <button mat-raised-button color="primary" (click)="performSubmit('Approved')" *ngIf="showApproveButton">Approve</button>
+                        <button mat-raised-button color="primary" (click)="performSubmit('Freezed')" *ngIf="showFreezeButton">Freeze</button>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

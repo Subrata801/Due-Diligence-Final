@@ -1,0 +1,119 @@
+<div class="content-panel">
+    <button class="icon-button mbot-20" color="primary" mat-raised-button (click)="goBackToSearchScreen()">
+        <mat-icon>arrow_back</mat-icon> Back to Search
+    </button>
+    <mat-card>
+        <mat-card-title><mat-icon>subscriptions</mat-icon> SaaS Subscriptions</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="saasSubscriptionForm" autocomplete="off">
+                <div class="alert alert-danger mbot-20" role="alert" *ngIf="isError">
+                    {{ errorMessage }}
+                </div>
+                <!-- <div class="alert alert-success mbot-20" role="alert" *ngIf="isSuccess">
+                    Subscription is successful
+                </div> -->
+                <div class="form-group">
+                    <div class="form-field w-100">
+                        <mat-label>Product</mat-label>
+                        <mat-radio-group formControlName="productTypeId">
+                            <mat-radio-button value="1">e 2 e Solution</mat-radio-button>
+                            <mat-radio-button value="2">c n c Solution in Audit</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error>{{pageErrors.productTypeId}}</mat-error>
+                    </div>
+                    <div class="clear mtop-20"></div>
+                    <div class="form-field w-100">
+                        <mat-label>Subscription Type</mat-label>
+                        <mat-radio-group formControlName="subscriptionTypeId" *ngIf="isE2E">
+                            <mat-radio-button value="1">BM Trial</mat-radio-button>
+                            <mat-radio-button value="2">BM Standard</mat-radio-button>
+                            <mat-radio-button value="3">BM Std With Customized DDAPs</mat-radio-button>
+                            <mat-radio-button value="4">BM Client Exclusive</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-radio-group formControlName="subscriptionTypeId" *ngIf="isCNC">
+                            <mat-radio-button value="5">BM Trial</mat-radio-button>
+                            <mat-radio-button value="6">BM Standard</mat-radio-button>
+                            <mat-radio-button value="7">BM Std With Customized DDAPs</mat-radio-button>
+                            <mat-radio-button value="8">BM Client Exclusive</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error>{{pageErrors.subscriptionTypeId}}</mat-error>
+                    </div>
+                    <div class="clear mtop-20"></div>
+                    <div class="form-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Subscription SubType</mat-label>
+                            <mat-select placeholder="Subscription SubType" formControlName="subscriptionSubTypeId">
+                                <mat-option *ngFor="let eachOption of subscrptionSubTypeOptions"
+                                    [value]="eachOption.subscriptionSubTypeId">
+                                    {{eachOption.subscriptionSubTypeName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Subscription Name</mat-label>
+                            <input matInput placeholder="Subscription Name" formControlName="subscriptionName">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.subscriptionName}}</mat-error>
+                    </div>
+                    <div class="form-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Subscription Period (in days)</mat-label>
+                            <input matInput placeholder="Subscription Period (in days)" formControlName="subscriptionPeriod">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.subscriptionPeriod}}</mat-error>
+                    </div>
+                    <div class="form-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label>(e2e) Max no. of Branches</mat-label>
+                            <input matInput placeholder="(e2e) Max no. of Branches" formControlName="maxBranches" pattern="[0-9]*" [readonly]="isCNC">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.maxBranches}}</mat-error>
+                    </div>
+                    <div class="form-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label>(e2e) Max no. of Loan Schemes</mat-label>
+                            <input matInput placeholder="(e2e) Max no. of Loan Schemes" formControlName="maxNumOfLoanSchemes" pattern="[0-9]*" [readonly]="isCNC">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.maxNumOfLoanSchemes}}</mat-error>
+                    </div>
+                    <div class="form-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label>(CnC) Max no. of Banks</mat-label>
+                            <input matInput placeholder="(CnC) Max no. of Banks" formControlName="maxBanks" pattern="[0-9]*" [readonly]="isE2E">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.maxBanks}}</mat-error>
+                    </div>
+                    <div class="form-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Renewal Reminder Activation (In Days)</mat-label>
+                            <input matInput placeholder="Renewal Reminder Activation (In Days)" formControlName="renewalReminderDate">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.renewalReminderDate}}</mat-error>
+                    </div>
+                    <div class="form-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Data Validity Period (In Days)</mat-label>
+                            <input matInput placeholder="Data Validity Period (In Days)" formControlName="dataValidityPeriod">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.dataValidityPeriod}}</mat-error>
+                    </div>
+                    <div class="form-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Price / Month</mat-label>
+                            <input matInput placeholder="Price / Month" formControlName="pricePerMonth" pattern="^-?\d+(?:\.\d+)?$">
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.pricePerMonth}}</mat-error>
+                    </div>
+                    <div class="clear"><mat-divider></mat-divider></div>
+                </div>
+                <div class="form-actions mtop-20">
+                    <button mat-raised-button color="primary" (click)="performSubmit()">Submit</button>
+                    <button mat-raised-button color="primary" (click)="clearAllData()">Cancel</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

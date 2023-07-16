@@ -1,0 +1,128 @@
+<div class="content-panel">
+	<mat-card> <mat-card-title> <mat-icon>score</mat-icon>
+	Risk Score </mat-card-title> <mat-divider></mat-divider> <mat-card-content>
+	<div class="alert alert-danger mbot-20" role="alert"
+		*ngIf="isSearchResultFailed">{{ errorMessage }}</div>
+	<div class="v-flex">
+		<form [formGroup]="riskScoreForm" autocomplete="off">
+			<div class="v-flex">
+				<div class="form-group">
+					<div class="form-field w-100">
+						<mat-label>Select Client Type</mat-label>
+						<mat-radio-group formControlName="clientTypeId">
+						<mat-radio-button value="2">Client Bank</mat-radio-button> <mat-radio-button
+							value="3">Audit Firm</mat-radio-button> </mat-radio-group>
+						<mat-error>{{pageErrors.clientTypeId}}</mat-error>
+					</div>
+					<div class="form-field" *ngIf="isClientTypeAuditFirm">
+						<mat-form-field appearance="fill"> <mat-select
+							placeholder="Select Firm"
+							formControlName="selectedFirm"> <mat-option
+							*ngFor="let eachOption of clientOptions"
+							[value]="eachOption.clientId">
+						{{eachOption.clientName}} </mat-option> </mat-select> </mat-form-field>
+					</div>
+					<div class="form-field">
+						<mat-form-field appearance="fill" *ngIf="isClientTypeAuditFirm">
+						<mat-select placeholder="Select Bank"  formControlName="selectedBank">
+						<mat-option *ngFor="let eachOption of auditFirmOptions"
+							[value]="eachOption.unitId"> {{eachOption.unitName}}
+						</mat-option> </mat-select> </mat-form-field>
+						<mat-form-field appearance="fill" *ngIf="isClientTypeBank">
+						<mat-select placeholder="Select Bank" formControlName="selectedBank">
+						<mat-option *ngFor="let eachOption of clientOptions"
+							[value]="eachOption.clientId">
+						{{eachOption.clientName}} </mat-option> </mat-select> </mat-form-field>
+					</div>
+
+					<div class="form-field" *ngIf="showCategory">
+						<mat-form-field appearance="fill"> <mat-select
+							placeholder="Select Category" formControlName="selectedCategory">
+						<mat-option value="1">Scheme Norm</mat-option> <mat-option
+							value="2">Applicant</mat-option> <mat-option value="3">Co-applicant</mat-option>
+						<mat-option value="4">Guarantor</mat-option> </mat-select> </mat-form-field>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div *ngIf="getRiskDataArrayControl().length > 1">
+		<form [formGroup]="searchResultRiskForm" autocomplete="off">
+			<div>
+				<div class="grid risk-score" *ngIf="showSearchResults">
+					<table formArrayName="riskScoreList">
+						<thead>
+							<tr>
+								<th rowspan="2" class="text-center">S.No</th>
+								<th rowspan="2">Response</th>
+								<th rowspan="2">Response Description</th>
+								<th rowspan="2">Score</th>
+								<th rowspan="2">Response<br>Hex Code
+								</th>
+								<th colspan="4" class="groupHeader">Risk Evaluation Score</th>
+							</tr>
+							<tr>
+								<th>Scheme Norms</th>
+								<th>Applicant</th>
+								<th>Co-Applicant</th>
+								<th>Guarantor</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr
+								*ngFor="let eachUnitData of getRiskDataArrayControl(); let i=index">
+								<td [formGroupName]="i" class="text-center">
+									{{eachUnitData.controls.responseId.value}}</td>
+								<td [formGroupName]="i" class="text-center">
+									{{eachUnitData.controls.responseKey.value}}</td>
+								<td [formGroupName]="i" class="text-center">
+									{{eachUnitData.controls.responseDesc.value}}</td>
+								<td class="text-center" *ngIf="eachUnitData.controls.colorCode.value == '#00B050'"><span class="score c1"></span></td>
+								<td class="text-center" *ngIf="eachUnitData.controls.colorCode.value == '#E7E6E6'"><span class="score c4"></span></td>
+								<td class="text-center" *ngIf="eachUnitData.controls.colorCode.value == '#FBE5D5'"><span class="score c2"></span></td>
+								<td class="text-center" *ngIf="eachUnitData.controls.colorCode.value == '#FFC000'"><span class="score c3"></span></td>
+								<td class="text-center" *ngIf="eachUnitData.controls.colorCode.value == '#FF0000'"><span class="score c5"></span></td>
+								<td class="text-center" *ngIf="eachUnitData.controls.colorCode.value == '#0070C0'"><span class="score c8"></span></td>
+								<td class="text-center" *ngIf="eachUnitData.controls.colorCode.value == '#000000'"><span class="score c7"></span></td>
+								<td class="text-center" *ngIf="eachUnitData.controls.colorCode.value == '#FFFFFF'"><span class="score c6"></span></td>
+								<td [formGroupName]="i" class="text-center">
+									{{eachUnitData.controls.colorCode.value}}</td>
+								<!-- <td class="text-center"><span class="score c1"></span></td>
+                                        <td>#008050</td> -->
+								<td [formGroupName]="i" class="text-center" *ngIf="isEditGeneralScore">
+								    <mat-form-field appearance="outline">
+                                         <input matInput  placeholder="" formControlName="generalScore">
+                                     </mat-form-field>
+								</td>
+								<td [formGroupName]="i" class="text-center" *ngIf="!isEditGeneralScore">{{eachUnitData.controls.generalScore.value}}</td>
+								<td [formGroupName]="i" class="text-center"  *ngIf="isEditApplicantScore">
+								  <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="applicantScore">
+                                       </mat-form-field></td>
+                                <td [formGroupName]="i" class="text-center" *ngIf="!isEditApplicantScore">{{eachUnitData.controls.applicantScore.value}}</td>
+								<td [formGroupName]="i" class="text-center" *ngIf="isEditCoApplicantScore">
+									<mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="coApplicantScore">
+                                       </mat-form-field></td>
+                                <td [formGroupName]="i" class="text-center" *ngIf="!isEditCoApplicantScore">{{eachUnitData.controls.coApplicantScore.value}}</td>
+								<td [formGroupName]="i" class="text-center" *ngIf="isEditGuarantorScore">
+								   <mat-form-field appearance="outline">
+                                             <input matInput  placeholder="" formControlName="guarantorScore">
+                                       </mat-form-field></td>
+                                <td [formGroupName]="i" class="text-center" *ngIf="!isEditGuarantorScore">{{eachUnitData.controls.guarantorScore.value}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+			<div class="form-actions" *ngIf="showSearchResults">
+				<button class="icon-button" color="primary" mat-raised-button (click)="performSubmit()">
+					<mat-icon>save</mat-icon>
+					Save
+				</button>
+			</div>
+		</form>
+	</div>
+	</mat-card-content> </mat-card>
+</div>

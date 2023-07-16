@@ -1,0 +1,147 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>account_circle</mat-icon> Create / Edit / Search Client
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex">
+            <div class="alert alert-danger mtop-20" role="alert" *ngIf="isError">
+                {{ errorMessage }}
+            </div>
+            <form [formGroup]="clientSearch" autocomplete="off">
+                <div class="mtop-20 filter-panel">
+                    <div class="h-flex flex-wrap">
+                         <div class="form-field w-100 mbot-20">
+                             <mat-radio-group formControlName="keywordType">
+                                 <mat-radio-button value="clientnamesearch">Create/Search by Client</mat-radio-button>
+                                 <mat-radio-button value="templatesearch">Search by template</mat-radio-button>
+                             </mat-radio-group>
+                         </div>
+                        <div class="form-field" *ngIf="isClientNameSearch">
+                            <mat-label>Client Type</mat-label>
+                            <mat-radio-group required formControlName="clientTypeId">
+                                <mat-radio-button value="2">Client Bank</mat-radio-button>
+                                <mat-radio-button value="3">Client Audit Firm</mat-radio-button>
+                            </mat-radio-group>
+
+                            <mat-error>{{pageErrors.clientTypeId}}</mat-error>
+                        </div>
+                        <div class="form-field" *ngIf="isClientNameSearch">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Client Name</mat-label>
+                                <input matInput placeholder="Client Name" formControlName="clientName">
+                            </mat-form-field>
+                            <mat-error>{{pageErrors.clientName}}</mat-error>
+                        </div>
+                        
+                        <div class="form-field" *ngIf="isTemplateSearch">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Client Name</mat-label>
+                                <mat-select placeholder="ClientName" formControlName="clientId" name="Select Client">
+                                    <mat-option *ngFor="let eachOption of activeClientOptions" [value]="eachOption.clientId">
+                                        {{eachOption.clientName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field" *ngIf="isTemplateSearch">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Template Status</mat-label>
+                                <mat-select placeholder="Template Status" formControlName="templateStatus">
+                                       <mat-option value="Draft">Draft</mat-option>
+                                       <mat-option value="Pending Approval">Pending Approval</mat-option>
+                                       <mat-option value="Freezed">Freezed</mat-option>
+                                       <mat-option value="Approved">Approved</mat-option>
+									   <mat-option value="Superseded">Superseded</mat-option>
+                                   </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-actions" *ngIf="isClientNameSearch">
+                            <button color="primary" mat-raised-button (click)="createNew()">Create New Client</button>
+                            <button color="secondary" mat-raised-button (click)="searchClients()" *ngIf="!search">Search
+                                Client</button>
+                            <button color="secondary" mat-raised-button (click)="clearSearchClients()" *ngIf="search">Clear
+                                Search</button>
+                        </div>
+                        
+                        <div class="form-actions" *ngIf="isTemplateSearch">
+                            <button color="primary" mat-raised-button (click)="searchTemplateClients()" >Search
+                                Client</button>
+                            <button color="primary" mat-raised-button (click)="clearSearchClients()" >Clear
+                                Search</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </mat-card-content>
+</mat-card>
+<div class="clear mbot-20" *ngIf="search"></div>
+<div *ngIf="isSearchResult">
+<mat-card *ngIf="search">
+    <mat-card-title>
+        <mat-icon>search</mat-icon> Search Results
+    </mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-card-content >
+        <form [formGroup]="searchResults" autocomplete="off">
+            <div class="grid header-data">
+                <table formArrayName="searchResultData">
+                    <thead>
+                        <tr>
+                            <th>Client Id</th>
+                            <!-- <th>Client Type</th> -->
+                            <th>Client Name</th>
+                            <!-- <th *ngIf="!isTemplateSearch">Client Prefix</th> -->
+                            <th>Client Status</th>
+                            <th *ngIf="isTemplateSearch">Loan Scheme Name</th>
+                            <th *ngIf="isTemplateSearch">Template Status</th>
+                            <th class="date-column">Last Modified Date</th>
+                            <th>Updated By</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let eachData of getSearchDataArrayControl(); let i=index">
+                            <td [formGroupName]="i">                                
+                                {{eachData.controls.clientId.value}}
+                            </td>
+                            <!-- <td [formGroupName]="i">
+                                {{eachData.controls.clientType.value}}
+                            </td> -->
+                            <td [formGroupName]="i">
+                                {{eachData.controls.clientName.value}}
+                            </td>
+                            <!-- <td [formGroupName]="i" *ngIf="!isTemplateSearch">
+                                {{eachData.controls.clientPrefix.value}}
+                            </td> -->
+                            
+                            <td [formGroupName]="i">
+                                {{eachData.controls.subscriptionStatus.value}}
+                            </td>
+                            <td [formGroupName]="i" *ngIf="isTemplateSearch">
+                                {{eachData.controls.clientLoanSchemeName.value}}
+                            </td>
+                            <td [formGroupName]="i" *ngIf="isTemplateSearch">
+                                {{eachData.controls.clientTemplateStatus.value}}
+                            </td>
+                            <td [formGroupName]="i" class="date-column">
+                                {{eachData.controls.lastUpdatedDate.value}}
+                            </td>
+                            <td [formGroupName]="i">
+                                {{eachData.controls.updatedBy.value}}
+                            </td>
+                            <td class="text-center" [formGroupName]="i">
+                                <a (click)="openClient(eachData.controls.clientType.value,eachData.controls.clientName.value,eachData.controls.clientId.value,eachData.controls.subscriptionStatus.value)">
+                                    <mat-icon>edit</mat-icon>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
+</div>

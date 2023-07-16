@@ -1,0 +1,75 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title><mat-icon>import_export</mat-icon> Import Templates</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="importTemplateForm" autocomplete="off">
+                <div class="form-group">
+                    <div class="form-field w-50">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Language Template</mat-label>
+                            <mat-select formControlName="importTemplateName" placeholder="Available Template Name">
+                                <mat-option *ngFor="let eachOption of templateOptions" [value]="eachOption.importTemplateName">
+                                    {{eachOption.importTemplateName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>{{pageErrors.importTemplateName}}</mat-error>
+                    </div>
+                    <div class="v-flex form-field">
+                        <div class="h-flex file-upload">
+                            <input type="file" (change)="selectFile($event)">
+                            <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+                        </div>
+                        <div *ngIf="currentFile" class="progress">
+                            <div class="progress-bar progress-bar-info progress-bar-striped"
+                                role="progressbar"
+                                attr.aria-valuenow="{{ progress }}"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                                [ngStyle]="{ width: progress + '%' }">{{ progress }}%</div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button color="primary" mat-raised-button (click)="viewRecords()">Import</button>
+                    </div>
+                </div>
+                <div class="clear" *ngIf="view"><mat-divider></mat-divider></div>
+                <div class="v-flex" *ngIf="view">
+                    <div class="grid mtop-20">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No of Loan schemess</th>
+                                    <th>Failure Report</th>
+                                    <th class="text-center">No Of DDAPs</th>
+                                    <th class="text-center">Success</th>
+                                    <th class="text-center">Failed</th>
+                                    <th class="text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td>BnkImpHomeLoan</td>
+                                    <td class="text-center">50</td>
+                                    <td class="text-center">47</td>
+                                    <td class="text-center">3</td>
+                                    <td class="text-center">Success</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td>BnkImpVehicalLoan</td>
+                                    <td class="text-center">50</td>
+                                    <td class="text-center">20</td>
+                                    <td class="text-center">3</td>
+                                    <td class="text-center">Fail</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

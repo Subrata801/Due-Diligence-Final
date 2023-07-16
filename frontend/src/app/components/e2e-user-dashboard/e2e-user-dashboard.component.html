@@ -1,0 +1,462 @@
+<div class="content-panel dashboard-grid">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>score</mat-icon> <label>Dashboard</label>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex e2eUserDashboard">
+                <div class="form-group h-flex nowrap">
+                    <div class="form-field w-25">
+                        <label>Bank Name</label>
+                        <input matInput placeholder={{bankName}} readonly>
+                    </div>
+                    <div class="form-field w-25">
+                        <label>Branch Name</label>
+                        <input matInput placeholder={{branchName}} readonly>
+                    </div>
+                    <div class="form-field w-25">
+                        <label>IFSC Code</label>
+                        <input matInput placeholder={{ifscCode}} readonly>
+                    </div>
+                </div>
+                <div>
+                    <mat-divider></mat-divider>
+                    <div class="alert alert-danger mbot-20" role="alert" *ngIf="isSearchResultFailed">
+	                    {{ errorMessage }}
+	           		 </div>
+                    <mat-tab-group (selectedTabChange)="selectedModule($event,null,null,null)">
+                    <!-- <mat-tab-group> -->
+                      <form [formGroup]="e2eDashboardForm" autocomplete="off">
+                        <mat-tab label="Module 1 (M1)">
+                            <div class="tab-content">
+                                <div class="grid" *ngIf="searchResultsM1">
+                                    <table formArrayName="unitM1Data">
+                                        <!-- <tr>
+                                            <th colspan="3" class="groupHeader">Module 1 (M1) Dashboard</th>
+                                            <th colspan="6" class="groupHeader">(M1) - Application Scrutiny &amp; Sanction</th>
+                                        </tr> -->
+                                        <tr>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <th class="acc-number-column">CIF No</th>
+                                            <th>Loan Application No</th>
+                                            <th class="date-column">Review Scheduled Date</th>
+                                            <th>Application Status</th>
+                                            <th class="name-column">User Name</th>
+                                            <th>Application Final Status</th>
+                                        </tr>
+                                        <tr>
+                                            
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column"></td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr *ngFor="let eachUnitData of gete2eDataM1ArrayControl(); let i=index">
+                                          <td [formGroupName]="i" class="date-column">
+                                            {{eachUnitData.controls.date.value}}
+                                          </td>
+                                          <td [formGroupName]="i">
+                                            <a [routerLink]="['../initiate-due-diligence', eachUnitData.controls.e2eNum.value]"
+   [routerLinkActive]='eachUnitData.controls.e2eNum.value'>{{eachUnitData.controls.e2eNum.value}}</a>
+                                          </td>
+                                          <td [formGroupName]="i" class="name-column">
+                                            {{eachUnitData.controls.borrowerName.value}}
+                                          </td>
+                                          <td [formGroupName]="i" class="name-column">
+                                            {{eachUnitData.controls.cifNum.value}}
+                                          </td>
+                                          <td [formGroupName]="i" class="name-column">
+                                            {{eachUnitData.controls.loanApplicationNum.value}}
+                                          </td>
+                                          <td [formGroupName]="i" class="date-column">
+                                            {{eachUnitData.controls.reviewScheduleDate.value}}
+                                          </td>
+                                          <td [formGroupName]="i" class="name-column">
+                                            {{eachUnitData.controls.applicationStatus.value}}
+                                          </td>
+                                          <td [formGroupName]="i" class="name-column">
+                                            {{eachUnitData.controls.userName.value}}
+                                          </td>
+                                          <td [formGroupName]="i" class="name-column">
+                                            {{eachUnitData.controls.applicationFinalStatus.value}}
+                                          </td>
+                                      </tr>
+                                        <!-- <tr>
+                                            
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <a class="link" routerLink="../initiate-due-diligence">e2eSBI00001-001</a>
+                                            </td>
+                                            <td class="name-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column"></td>
+                                            <td>&nbsp;</td>
+                                        </tr> --> 
+                                    </table>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module 2 (M2)">
+                            <div class="tab-content">
+                                <div class="grid" *ngIf="searchResultsM2">
+                                    <table formArrayName="unitM2Data">
+                                        <!-- <tr>
+                                            <th colspan="3" class="groupHeader">Module 2 (M2) Dashboard</th>
+                                            <th colspan="6" class="groupHeader">(M2) - Documentation, Insurance &amp; Loan Disbursement</th>
+                                        </tr> -->
+                                        <tr>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <th class="acc-number-column">CIF No</th>
+                                            <th>Loan Application No</th>
+                                            <th class="date-column">Review Scheduled Date</th>
+                                            <th>Application Status (AS)</th>
+                                            <th class="name-column">User Name</th>
+                                            <th>Application Final Status</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column"></td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr *ngFor="let eachUnitData of gete2eDataM2ArrayControl(); let i=index">
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.date.value}}
+			                                </td>
+			                                <td [formGroupName]="i">
+                                        <a [routerLink]="['../initiate-due-diligence', eachUnitData.controls.e2eNum.value]"
+                                        [routerLinkActive]='eachUnitData.controls.e2eNum.value'>{{eachUnitData.controls.e2eNum.value}}</a>
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.borrowerName.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.cifNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.loanApplicationNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.reviewScheduleDate.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.applicationStatus.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.userName.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.applicationFinalStatus.value}}
+			                                </td>
+			                            </tr> 
+                                    </table>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module 3 (M3)">
+                            <div class="tab-content">
+                                <div class="grid" *ngIf="searchResultsM3">
+                                    <table formArrayName="unitM3Data">
+                                        <!-- <tr>
+                                            <th colspan="3" class="groupHeader">Module 3 (M3) Dashboard</th>
+                                            <th colspan="6" class="groupHeader">(M3) - Confirmation of Securities obtained, to be done within 1 month of Loan Disbursement</th>
+                                        </tr> -->
+                                        <tr>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <th class="acc-number-column">CIF No</th>
+                                            <th>Account Number</th>
+                                            <th class="date-column">Review Scheduled Date</th>
+                                            <th>Application Status (AS)</th>
+                                            <th class="name-column">User Name</th>
+                                            <th>Application Final Status</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column"></td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr *ngFor="let eachUnitData of gete2eDataM3ArrayControl(); let i=index">
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.date.value}}
+			                                </td>
+			                                <td [formGroupName]="i">
+                                        <a [routerLink]="['../initiate-due-diligence', eachUnitData.controls.e2eNum.value]"
+                                        [routerLinkActive]='eachUnitData.controls.e2eNum.value'>{{eachUnitData.controls.e2eNum.value}}</a>
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.borrowerName.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.cifNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.loanApplicationNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.reviewScheduleDate.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.applicationStatus.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.userName.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.applicationFinalStatus.value}}
+			                                </td>
+			                            </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module 4 (M4)">
+                            <div class="tab-content">
+                                <div class="grid" *ngIf="searchResultsM4">
+                                    <table formArrayName="unitM4Data">
+                                        <!-- <tr>
+                                            <th colspan="3" class="groupHeader">Module 4 (M4) Dashboard</th>
+                                            <th colspan="7" class="groupHeader">(M4) - Periiodic Monitoring &amp; Follow-up</th>
+                                        </tr> -->
+                                        <tr>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th>Review No.</th>
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <th class="acc-number-column">CIF No</th>
+                                            <th>Account Number</th>
+                                            <th class="date-column">Review Scheduled Date</th>
+                                            <th>Application Status (AS)</th>
+                                            <th class="name-column">User Name</th>
+                                            <th>Application Final Status</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column"></td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr *ngFor="let eachUnitData of gete2eDataM4ArrayControl(); let i=index">
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.date.value}}
+			                                </td>
+			                                <td [formGroupName]="i">
+                                        <a [routerLink]="['../initiate-due-diligence', eachUnitData.controls.e2eNum.value]"
+                                        [routerLinkActive]='eachUnitData.controls.e2eNum.value'>{{eachUnitData.controls.e2eNum.value}}</a>
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.reviewNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.borrowerName.value}}
+			                                </td>
+			                                
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.cifNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.loanApplicationNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.reviewScheduleDate.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.applicationStatus.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.userName.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.applicationFinalStatus.value}}
+			                                </td>
+			                            </tr> 
+                                    </table>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module 5 (M5)">
+                            <div class="tab-content">
+                                <div class="grid" *ngIf="searchResultsM5">
+                                    <table formArrayName="unitM5Data">
+                                        <!-- <tr>
+                                            <th colspan="3" class="groupHeader">Module 5 (M5) Dashboard</th>
+                                            <th colspan="7" class="groupHeader">(M5) - Release of Securities on closure of Account OR Facility/ies</th>
+                                        </tr> -->
+                                        <tr>
+                                            <th class="date-column">Date</th>
+                                            <th>e2e No</th>
+                                            <th>Security Release No.</th>
+                                            <th class="name-column">Name of the Borrower</th>
+                                            <th class="acc-number-column">CIF No</th>
+                                            <th>Account Number</th>
+                                            <th class="date-column">Review Scheduled Date</th>
+                                            <th>Application Status (AS)</th>
+                                            <th class="name-column">User Name</th>
+                                            <th>Application Final Status</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="date-column">&nbsp;</td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="name-column">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput placeholder="">
+                                                </mat-form-field>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td class="name-column"></td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr *ngFor="let eachUnitData of gete2eDataM5ArrayControl(); let i=index">
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.date.value}}
+			                                </td>
+			                                <td [formGroupName]="i">
+                                        <a [routerLink]="['../initiate-due-diligence', eachUnitData.controls.e2eNum.value]"
+                                        [routerLinkActive]='eachUnitData.controls.e2eNum.value'>{{eachUnitData.controls.e2eNum.value}}</a>
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.reviewNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.borrowerName.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.cifNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.loanApplicationNum.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="date-column">
+			                                  {{eachUnitData.controls.reviewScheduleDate.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.applicationStatus.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.userName.value}}
+			                                </td>
+			                                <td [formGroupName]="i" class="name-column">
+			                                  {{eachUnitData.controls.applicationFinalStatus.value}}
+			                                </td>
+			                            </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        </form>
+                    </mat-tab-group>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

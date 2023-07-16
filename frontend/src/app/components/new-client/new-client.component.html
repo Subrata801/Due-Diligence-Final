@@ -1,0 +1,848 @@
+<div class="content-panel">
+    <button class="icon-button mbot-20" color="primary" mat-raised-button (click)="goBackToSearchScreen()">
+        <mat-icon>arrow_back</mat-icon> Back to Search
+    </button>
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>account_circle</mat-icon> Client Creation ({{clientTypeName}})
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="alert alert-danger mtop-20" role="alert" *ngIf="isError">
+                {{ errorMessage }}
+            </div>
+            <div class="mtop-20">
+                <mat-horizontal-stepper [linear]="action" #stepper (selectionChange) = "selectionChange($event)">
+                    <mat-step [stepControl]="newClientForm" label="Client Information">
+                        <form [formGroup]="newClientForm" autocomplete="off">
+                            <div class="v-flex">
+                                <div class="h-flex">
+                                    <!-- <div class="client-logo">
+                                        <input type="file">
+                                        <span>Add Firm logo</span>
+                                        <mat-icon>add</mat-icon>
+                                    </div> -->
+                                    <div class="v-flex mtop-20">
+                                        <div class="form-group">
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Client Prefix</mat-label>
+                                                    <input matInput placeholder="Client Prefix"
+                                                        formControlName="clientPrefix">
+                                                    <mat-error>{{pageErrors.clientPrefix}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <!-- <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Client Type</mat-label>
+                                                    <input matInput placeholder="Client Type"
+                                                        formControlName="clientTypeId">
+                                                    <mat-error>{{pageErrors.clientTypeId}}</mat-error>
+                                                </mat-form-field>
+                                            </div> -->
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Client Name</mat-label>
+                                                    <input matInput placeholder="Client Name"
+                                                        formControlName="clientName">
+                                                </mat-form-field>
+                                                <mat-error>{{pageErrors.clientName}}</mat-error>
+                                            </div>
+
+                                            <div class="form-field" [formGroup]="getAddressInfoControl()">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Address</mat-label>
+                                                    <input matInput placeholder="Address" formControlName="address">
+                                                </mat-form-field>
+                                                <mat-error>{{pageErrors.address}}</mat-error>
+                                            </div>
+                                            <div class="form-field" [formGroup]="getAddressInfoControl()">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>City</mat-label>
+                                                    <input matInput placeholder="City" formControlName="city">
+                                                </mat-form-field>
+                                                <mat-error>{{pageErrors.city}}</mat-error>
+                                            </div>
+                                            <div class="form-field" [formGroup]="getAddressInfoControl()">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Pin Code</mat-label>
+                                                    <input matInput placeholder="Pin Code" formControlName="pincode"
+                                                        pattern="[0-9]*">
+                                                </mat-form-field>
+                                                <mat-error>{{pageErrors.pincode}}</mat-error>
+                                            </div>
+                                            <div class="form-field" [formGroup]="getAddressInfoControl()">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>State</mat-label>
+                                                    <input matInput placeholder="State" formControlName="state">
+                                                </mat-form-field>
+                                                <mat-error>{{pageErrors.state}}</mat-error>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>GSTIN.No</mat-label>
+                                                    <input matInput placeholder="GSTIN.No" formControlName="gstNum">
+                                                </mat-form-field>
+                                                <mat-error>{{pageErrors.gstNum}}</mat-error>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Language Template</mat-label>
+                                                    <mat-select formControlName="languageId"
+                                                        placeholder="Language Template" name="Select Language Template">
+                                                        <mat-option *ngFor="let eachOption of languageOptions"
+                                                            [value]="eachOption.languageId">
+                                                            {{eachOption.languageName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <mat-error>{{pageErrors.languageId}}</mat-error>
+                                            </div>
+                                            <div class="form-field">
+				                                <mat-label>Template Option</mat-label>
+				                                <mat-radio-group formControlName="riskTypeId">
+				                                    <mat-radio-button value="1" [disabled]= "isTemplatewithOutRiskDisable">Template W/o Risk Score</mat-radio-button>
+				                                    <mat-radio-button value="2" [checked]="isTemplatewithRisk">Template with Risk Score</mat-radio-button>
+				                                </mat-radio-group>
+				                                <mat-error>{{pageErrors.riskTypeId}}</mat-error>
+				                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="v-flex">
+                                    <div class="mtop-20">
+                                        <h2>Contact Information</h2>
+                                        <p>Please fill in all the details as Mobile number will be used for all
+                                            communications and Email will be used for Notifications. Atleast one
+                                            Point of
+                                            Contact is Mandatory for further communications.</p>
+                                    </div>
+
+                                    <mat-divider *ngIf="getContactInfoArrayControl().length > 1"></mat-divider>
+                                    <div class="grid">
+                                        <table formArrayName="contactInfo">
+                                            <thead>
+                                                <tr>
+                                                    <th>Point of Contact</th>
+                                                    <th>Designation</th>
+                                                    <th>Mobile Number</th>
+                                                    <th>Email</th>
+                                                    <!-- <th>Status</th> -->
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let eachContactData of getContactInfoArrayControl(); let i=index">
+                                                    <td [formGroupName]="i">
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput formControlName="pointOfContact">
+                                                        </mat-form-field>
+                                                        <mat-error>{{pageErrors.pointOfContact}}</mat-error>
+                                                    </td>
+                                                    <td [formGroupName]="i">
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput formControlName="designation">
+                                                        </mat-form-field>
+                                                        <mat-error>{{pageErrors.designation}}</mat-error>
+                                                    </td>
+                                                    <td [formGroupName]="i">
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput formControlName="mobileNum"
+                                                                pattern="[0-9]*">
+                                                        </mat-form-field>
+                                                        <mat-error>{{pageErrors.mobileNum}}</mat-error>
+                                                    </td>
+                                                    <td [formGroupName]="i">
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput formControlName="officialEmailId">
+                                                        </mat-form-field>
+                                                        <mat-error>{{pageErrors.officialEmailId}}</mat-error>
+                                                    </td>
+                                                     <!--<td [formGroupName]="i">
+                                                        <div class="slide-toggle">
+                                                            <mat-slide-toggle required (change)="toggleStatus(i)" formControlName="contactStatus">
+                                                                {{labelHelper[i] ? 'Active' : 'Inactive'}}
+                                                            </mat-slide-toggle>
+                                                        </div> 
+                                                        <mat-radio-group formControlName="contactStatus">
+                                                            <mat-radio-button value="true">Active</mat-radio-button>
+                                                            <mat-radio-button value="false">Inactive</mat-radio-button>
+                                                        </mat-radio-group>
+                                                        <mat-error>{{pageErrors.contactStatus}}</mat-error>
+                                                    </td>-->
+                                                    <td [formGroupName]="i">
+                                                        <mat-icon (click)="removeContactInfo(i)" *ngIf="getContactInfoArrayControl().length > 1">delete</mat-icon>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="mtop-20">
+                                            <button mat-raised-button color="primary"
+                                                *ngIf="getContactInfoArrayControl().length <= 1"
+                                                (click)="addContactInfo()">
+                                                <mat-icon>add</mat-icon>Add Secondary Contact Info
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stepper-actions">
+                                <!-- (click)="performNewClientDataSubmit()" -->
+                                <button color="secondary" class="next steps-button" mat-raised-button  (click)="performNewClientDataSubmit()">
+                                    Next<mat-icon>chevron_right</mat-icon>
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="clientSubscriptionForm" label="Subscriptions" >
+                        <form [formGroup]="clientSubscriptionForm">
+                            <div *ngIf="action">
+                                <div class="clearfix">
+                                    <div class="form-group">
+                                        <div class="form-field">
+                                            <mat-label>Client ID</mat-label>
+                                            <input matInput placeholder={{clientId}} readonly>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-label>Client Name</mat-label>
+                                            <input matInput placeholder={{clientName}} readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-field w-100">
+                                        <mat-label>Product</mat-label>
+                                        <mat-radio-group formControlName="productTypeId">
+                                            <mat-radio-button *ngFor="let eachOption of productTypeOptions"
+                                            [value]="eachOption.productTypeId">
+                                            {{eachOption.productTypename}}
+                                        </mat-radio-button>
+                                        </mat-radio-group>
+                                        <mat-error>{{pageErrors.productTypeId}}</mat-error>
+                                    </div>
+                                    <div class="clear mtop-20"></div>
+                                    <div class="form-field w-100">
+                                        <mat-label>Subscription Type</mat-label>
+                                        <mat-radio-group formControlName="subscriptionTypeId">
+                                            <mat-radio-button *ngFor="let eachOption of subscriptionTypeOptions"
+                                                [value]="eachOption.subscriptionTypeId">
+                                                {{eachOption.subscriptionTypeName}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                        <mat-error>{{pageErrors.subscriptionTypeId}}</mat-error>
+                                    </div>
+                                    <div class="clear mtop-20"></div>
+                                    <div class="form-field w-100" *ngIf="subscriptionSubTypeOptions">
+                                        <mat-label>Subscription Sub Type</mat-label>
+                                        <mat-radio-group formControlName="subscriptionSubTypeId">
+                                            <mat-radio-button *ngFor="let eachOption of subscriptionSubTypeOptions"
+                                                [value]="eachOption.subscriptionSubTypeId">
+                                                {{eachOption.subscriptionSubTypeName}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                        <mat-error>{{pageErrors.subscriptionSubTypeName}}</mat-error>
+                                    </div>
+                                    <div class="form-field">
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Subscription Model</mat-label>
+                                            <mat-select formControlName="subscriptionModelId" placeholder="Subscription Model"
+                                                appearance="outline" floatlabel="never">
+                                                <mat-option *ngFor="let eachOption of subscriptionModelOptions"
+                                                    [value]="eachOption.subscriptionModelId">
+                                                    {{eachOption.subscriptionModeDesc}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-error>{{pageErrors.subscriptionModeDesc}}</mat-error>
+                                    </div>
+                                </div>
+                                <div class="stepper-actions">
+                                    <button color="secondary" class="prev steps-button" mat-raised-button matStepperPrevious>
+                                        <mat-icon>chevron_left</mat-icon>Back
+                                    </button>
+                                    <button color="primary" class="next steps-button" mat-raised-button  (click)="performClientSubcriptionSubmit()">
+                                        Next <mat-icon>chevron_right</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mtop-20" *ngIf="action !=true">
+                                <mat-accordion>
+                                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                View Subscriptions History
+                                            </mat-panel-title>
+                                        </mat-expansion-panel-header>
+                                        <mat-divider *ngIf="subscriptionHistCount == true"></mat-divider>
+                                        <div class="grid">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Subscription Name</th>
+                                                        <th class="text-right">Price</th>
+                                                        <th class="text-right">GST</th>
+                                                        <th class="text-right">Tax</th>
+                                                        <th class="text-right">Total Amount</th>
+                                                        <th class="text-center">Start Date</th>
+                                                        <th class="text-center">End Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody *ngIf="subscriptionHistCount == true">
+                                                    <tr *ngFor="let eachHistDtls of getSubscriptionHistArrayControl(); let i=index">
+                                                        <td  class="text-center">
+                                                    		{{eachHistDtls.controls.subscriptionName.value}}
+	                                                    </td>
+	                                                    <td  class="text-center">
+                                                    		{{eachHistDtls.controls.price.value}}
+	                                                    </td>
+	                                                    <td  class="text-center">
+                                                    		{{eachHistDtls.controls.gst.value}}
+	                                                    </td>
+	                                                    <td  class="text-center">
+                                                    		{{eachHistDtls.controls.tax.value}}
+	                                                    </td>
+	                                                    <td  class="text-center">
+                                                    		{{eachHistDtls.controls.totalAmount.value}}
+	                                                    </td>
+	                                                    <td  class="text-center">
+                                                    		{{eachHistDtls.controls.startDate.value}}
+	                                                    </td>
+	                                                    <td  class="text-center">
+                                                    		{{eachHistDtls.controls.endDate.value}}
+	                                                    </td>
+	                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </mat-expansion-panel>
+                                </mat-accordion>
+                                <div class="h-flex">
+                                    <div class="subscriptions-note">
+                                        <h3>NOTE</h3>
+                                        <ul>
+                                            <li><b>RENEWAL:</b> You may be able to Renew the Subscription when you change the Subscription Start date.</li>
+                                            <li><b>SWITCH:</b> You may be able to Renew the Subscription when you change the Subscription Name, Subscription Type and Subscription Sub-Type.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="subscriptions-form">
+                                        <div class="form-group">
+                                            <div class="form-field">
+                                                <mat-label>Client ID</mat-label>
+                                                <input matInput placeholder={{clientId}} readonly>
+                                            </div>
+                                            <div class="form-field">
+                                                <mat-label>Client Name</mat-label>
+                                                <input matInput placeholder={{clientName}} readonly>
+                                            </div>
+                                            <div class="form-field w-100">
+		                                        <mat-label>Product</mat-label>
+		                                        <mat-radio-group formControlName="productTypeId">
+		                                            <mat-radio-button *ngFor="let eachOption of productTypeOptions"
+		                                            [value]="eachOption.productTypeId">
+		                                            {{eachOption.productTypename}}
+		                                        </mat-radio-button>
+		                                        </mat-radio-group>
+		                                        <mat-error>{{pageErrors.productTypeId}}</mat-error>
+		                                    </div>
+		                                    <div class="clear mtop-20"></div>
+		                                    <div class="form-field w-100">
+		                                        <mat-label>Subscription Type</mat-label>
+		                                        <mat-radio-group formControlName="subscriptionTypeId">
+		                                            <mat-radio-button *ngFor="let eachOption of subscriptionTypeOptions"
+		                                                [value]="eachOption.subscriptionTypeId">
+		                                                {{eachOption.subscriptionTypeName}}
+		                                            </mat-radio-button>
+		                                        </mat-radio-group>
+		                                        <mat-error>{{pageErrors.subscriptionTypeId}}</mat-error>
+		                                    </div>
+		                                    <div class="clear mtop-20"></div>
+		                                    <div class="form-field w-100" *ngIf="subscriptionSubTypeOptions">
+		                                        <mat-label>Subscription Sub Type</mat-label>
+		                                        <mat-radio-group formControlName="subscriptionSubTypeId">
+		                                            <mat-radio-button *ngFor="let eachOption of subscriptionSubTypeOptions"
+		                                                [value]="eachOption.subscriptionSubTypeId">
+		                                                {{eachOption.subscriptionSubTypeName}}
+		                                            </mat-radio-button>
+		                                        </mat-radio-group>
+		                                        <mat-error>{{pageErrors.subscriptionSubTypeName}}</mat-error>
+		                                    </div>
+		                                    <div class="form-field">
+		                                        <mat-form-field appearance="fill">
+		                                            <mat-label>Subscription Model</mat-label>
+		                                            <mat-select formControlName="subscriptionModelId" placeholder="Subscription Model"
+		                                                appearance="outline" floatlabel="never">
+		                                                <mat-option *ngFor="let eachOption of subscriptionModelOptions"
+		                                                    [value]="eachOption.subscriptionModelId">
+		                                                    {{eachOption.subscriptionModeDesc}}
+		                                                </mat-option>
+		                                            </mat-select>
+		                                        </mat-form-field>
+		                                        <mat-error>{{pageErrors.subscriptionModeDesc}}</mat-error>
+		                                    </div>
+		                                    <div class="clear"></div>
+                                            <div class="form-field">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Subscription Start Date</mat-label>
+                                                    <input matInput [matDatepicker]="picker3"
+                                                        formControlName="subscriptionStartDate" [min]="minDate">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker3">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker3></mat-datepicker>
+                                                    <mat-error>{{pageErrors.subscriptionStartDate}}</mat-error>
+                                                </mat-form-field>
+	                                        </div>
+                                            <div class="form-field">
+                                                <mat-label>Subscription End Date</mat-label>
+                                                <input matInput formControlName="subscriptionEndDate" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="stepper-actions">
+			                                <button color="secondary" class="prev steps-button" mat-raised-button matStepperPrevious>
+			                                    <mat-icon>chevron_left</mat-icon>Back
+			                                </button>
+			                                <button color="primary" class="next steps-button" mat-raised-button  (click)="performClientSubcriptionSubmit()" >
+			                                    Next <mat-icon>chevron_right</mat-icon>
+			                                </button>
+			                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="bankDetailsForm" label="Bank Details" *ngIf="isClientTypeAuditFirm ==true">
+                        <form [formGroup]="bankDetailsForm">
+                            <div class="v-flex mtop-20">
+                                <div class="v-flex w-100 col-md-12">
+                                    <div class="form-group">
+                                        <div class="form-field">
+                                            <mat-label>Client ID</mat-label>
+                                            <input matInput placeholder={{clientId}} readonly>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-label>Client Name</mat-label>
+                                            <input matInput placeholder={{clientName}} readonly>
+                                        </div>
+                                    </div>
+                                    <mat-divider *ngIf="getBankDetailsArrayControl().length > 1"></mat-divider>
+                                    <div class="grid">
+                                        <table formArrayName="bankInfo">
+                                            <thead>
+                                                <tr>
+                                                    <th>Bank-Branch Name</th>
+                                                    <th>Branch IFSC Code</th>
+                                                    <th>City</th>
+                                                    <th>Pincode</th>
+                                                    <th>State</th>
+                                                    <!-- <th>Status</th> -->
+                                                    <th class="text-center">Actions</th> 
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let eachBankDetals of getBankDetailsArrayControl(); let i=index">
+                                                    <td [formGroupName]="i">
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput placeholder="" formControlName="bankName">
+                                                        </mat-form-field>
+                                                        <mat-error>{{pageErrors.bankName}}</mat-error>
+                                                    </td>
+                                                    <td [formGroupName]="i">
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput placeholder="" formControlName="address">
+                                                        </mat-form-field>
+                                                        <mat-error>{{pageErrors.address}}</mat-error>
+                                                    </td>
+                                                    <td [formGroupName]="i">
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput placeholder="" formControlName="city">
+                                                        </mat-form-field>
+                                                        <mat-error>{{pageErrors.city}}</mat-error>
+                                                    </td>
+                                                    <td [formGroupName]="i">
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput placeholder="" formControlName="pincode"
+                                                                pattern="[0-9]*">
+                                                        </mat-form-field>
+                                                        <mat-error>{{pageErrors.pincode}}</mat-error>
+                                                    </td>
+                                                    <td [formGroupName]="i">
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput placeholder="" formControlName="state">
+                                                        </mat-form-field>
+                                                        <mat-error>{{pageErrors.state}}</mat-error>
+                                                    </td>
+                                                    <!-- <td [formGroupName]="i">
+                                                        <div class="slide-toggle">
+                                                            <mat-slide-toggle required formControlName="status" (change)="changed()"></mat-slide-toggle>
+                                                        </div>
+                                                    </td> -->
+                                                    <td [formGroupName]="i">
+                                                        <mat-icon (click)="removeBankDetails(i)" *ngIf="getBankDetailsArrayControl().length > 1">delete</mat-icon>
+                                                    </td> 
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="mtop-20">
+                                            <button mat-raised-button color="primary" (click)="addBankDetails()">
+                                                <mat-icon>add</mat-icon>Add Bank-Branch Details
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="stepper-actions">
+                                <button color="secondary" class="prev steps-button" mat-raised-button matStepperPrevious (click)="loadSubscriptionHistory()">
+                                    <mat-icon>chevron_left</mat-icon>Back
+                                </button>
+                                <button color="primary" class="next steps-button" mat-raised-button  (click)="performBankDetailsSubmit()" >
+                                    Next <mat-icon>chevron_right</mat-icon>
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="loanSchemeForm" label="Loan Schemes">
+                        <form [formGroup]="loanSchemeForm">
+                            <div class="v-flex mtop-20">
+                                <div class="form-group">
+                                    <div class="form-field">
+                                        <mat-label>Client ID</mat-label>
+                                        <input matInput placeholder={{clientId}} readonly>
+                                    </div>
+                                    <div class="form-field">
+                                        <mat-label>Client Name</mat-label>
+                                        <input matInput placeholder={{clientName}} readonly>
+                                    </div>
+                                </div>
+                                <mat-divider *ngIf="getLoanSchemeArrayControl().length > 1"></mat-divider>
+                                <div class="grid">
+                                    <table formArrayName="loanSchemeDetails">
+                                        <thead>
+                                            <tr>
+                                                <th *ngIf="isEditMode  && clientTypeId ==3">Bank Name</th>
+                                                <th style="min-width:250px">BM Loan Scheme</th>
+                                                <th style="width:100px">Keyword</th>
+                                                <th>Preferred Loan Scheme Name</th>
+                                                <th class="text-center">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let eachLoanScheme of getLoanSchemeArrayControl(); let i=index">
+                                                <td [formGroupName]="i" *ngIf="isEditMode && clientTypeId ==3">
+                                                   {{eachLoanScheme.controls.loanSchemeName.value}}
+                                                    <!-- <mat-form-field appearance="outline">
+                                                        <input matInput placeholder="" formControlName="loanSchemeName" readonly>
+                                                    </mat-form-field> -->
+                                                </td>
+                                                <td [formGroupName]="i">
+                                                    <mat-select formControlName="loanSchemeId" placeholder="Loan Scheme"
+                                                        appearance="outline" floatlabel="never">
+                                                        <mat-option
+                                                            *ngFor="let eachOption of availableLoanSchemeOptions"
+                                                            [value]="eachOption.loanSchemeId">
+                                                            {{eachOption.loanSchemeName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error>{{pageErrors.loanSchemeId}}</mat-error>
+                                                </td>
+                                                <td [formGroupName]="i" >
+                                                    <mat-form-field appearance="outline">
+                                                        <input matInput placeholder="" formControlName="loanSchemeNameKeyword">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.loanSchemeNameKeyword}}</mat-error>
+                                                </td>
+                                                <td [formGroupName]="i">
+                                                    <mat-form-field appearance="outline">
+                                                        <input matInput placeholder="" formControlName="clientLoanSchemeName">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.clientLoanSchemeName}}</mat-error>
+                                                </td>
+                                                <td [formGroupName]="i" class="text-center">
+                                                    <mat-icon (click)="removeLoanScheme(i)" *ngIf="getLoanSchemeArrayControl().length > 0">delete</mat-icon>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="mtop-20">
+                                        <button mat-raised-button color="primary" (click)="addLoanSchemeDetails()">
+                                            <mat-icon>add</mat-icon>Add Loan Scheme
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="stepper-actions">
+                                <button color="secondary" class="prev steps-button" mat-raised-button matStepperPrevious (click)="loadSubscriptionHistory()">
+                                    <mat-icon>chevron_left</mat-icon>Back
+                                </button>
+                                <button color="primary" class="next steps-button" mat-raised-button  (click)="performLoanSchemeSubmit()">
+                                    Next <mat-icon>chevron_right</mat-icon>
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="loanVariantForm" label="Loan Variants">
+                        <form [formGroup]="loanVariantForm">
+                            <div class="v-flex mtop-20">
+                                <div class="form-group">
+                                    <div class="form-field">
+                                        <mat-label>Client ID</mat-label>
+                                        <input matInput placeholder={{clientId}} readonly>
+                                    </div>
+                                    <div class="form-field">
+                                        <mat-label>Client Name</mat-label>
+                                        <input matInput placeholder={{clientName}} readonly>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <table formArrayName="loanSchemeVariantDetails">
+                                        <thead>
+                                            <tr>
+                                                <th *ngIf="isEditMode  && clientTypeId ==3">Bank Name</th>
+                                                <th style="min-width:250px">Loan Scheme Name</th>
+                                                <th style="min-width:250px">Loan Variant Name</th>
+                                                <th style="width:100px">Loan Variant Keyword</th>
+                                                <th>Preferred Loan Variant Name</th>
+                                                <th class="text-center">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let eachLoanSchemeVariant of getLoanSchemeVariantArrayControl(); let i=index">
+                                                <td [formGroupName]="i" *ngIf="isEditMode && clientTypeId ==3">
+                                                    <!-- <mat-form-field appearance="outline">
+                                                        <input matInput placeholder="" formControlName="loanSchemeName" readonly>
+                                                    </mat-form-field> -->
+                                                    {{eachLoanSchemeVariant.controls.loanSchemeName.value}}
+                                                </td>
+                                                <td [formGroupName]="i"  >
+                                                    <mat-select formControlName="loanSchemeId" placeholder="Loan Scheme"
+                                                        appearance="outline" floatlabel="never">
+                                                        <mat-option 
+                                                            *ngFor="let eachOption of availableLoanSchemeOptions"
+                                                            [value]="eachOption.loanSchemeId">
+                                                            {{eachOption.loanSchemeName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error>{{pageErrors.loanSchemeId}}</mat-error>
+                                                </td>
+                                                <td [formGroupName]="i" >
+                                                    <mat-select formControlName="loanVariantId"
+                                                        placeholder="Loan Scheme" appearance="outline"
+                                                        floatlabel="never">
+                                                        <mat-option
+                                                            *ngFor="let eachOption of getLoanSchemeVariantArrayControl()[i].get('availableLoanSchemeVariantOptions').value"
+                                                            [value]="eachOption.loanVariantId">
+                                                            {{eachOption.loanVariantName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error>{{pageErrors.loanVariantName}}</mat-error>
+                                                </td>
+                                                <td [formGroupName]="i" >
+                                                    <mat-form-field appearance="outline">
+                                                        <input matInput placeholder="" formControlName="loanVariantKeyword">
+                                                    </mat-form-field>
+                                                    <mat-error>{{pageErrors.loanVariantKeyword}}</mat-error>
+                                                </td>
+                                                <td [formGroupName]="i">
+                                                    <mat-form-field appearance="outline">
+                                                        <input matInput placeholder="" formControlName="preferredLoanVariantName">
+                                                    </mat-form-field>
+                                                    <!-- <mat-error>{{pageErrors.preferefLoanVariantName}}</mat-error> -->
+                                                </td>
+                                                <td [formGroupName]="i" class="text-center">
+                                                    <mat-icon (click)="removeLoanSchemeVariant(i)" *ngIf="getLoanSchemeVariantArrayControl().length > 1">delete</mat-icon>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="mtop-20">
+                                        <button mat-raised-button color="primary"
+                                            (click)="addLoanSchemeVariantDetails()">
+                                            <mat-icon>add</mat-icon>Add Loan Variant
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stepper-actions">
+                                <button color="secondary" class="prev steps-button" mat-raised-button matStepperPrevious>
+                                    <mat-icon>chevron_left</mat-icon>Back
+                                </button>
+                                <button color="primary" class="next steps-button" mat-raised-button  (click)="performLoanVariantSubmit()">
+                                    Next <mat-icon>chevron_right</mat-icon>
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="V1TemplatesForm" label="V1 Templates" *ngIf="action !=true" >
+                        <form [formGroup]="V1TemplatesForm" autocomplete="off">
+                            <div class="form-group">
+                                <h2 class="mtop-20">Available Loan Schemes</h2>
+                                <div class="grid">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Loan Scheme Name</th>
+                                                <th class="date-column">Start Date</th>
+                                                <th class="date-column">End Date</th>
+                                                <th class="text-center">Status</th>
+                                                <th colspan="2" class="text-center">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf="v1TemplateCount ==true">
+                                            <tr *ngFor="let eachAvailableV1Template of getAvailableV1TemplateControl(); let i=index">
+                                                <td class="text-center">
+                                                    {{eachAvailableV1Template.controls.clientLoanSchemeName.value}}
+                                                </td>
+                                                <td class="date-column">
+                                                    {{eachAvailableV1Template.controls.startDate.value}}
+                                                </td>
+                                                <td class="date-column">
+                                                    {{eachAvailableV1Template.controls.endDate.value}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{eachAvailableV1Template.controls.templateStatus.value}}
+                                                </td>
+                                                <td class="text-center" *ngIf="eachAvailableV1Template.controls.templateStatus.value!='FREEZED' && eachAvailableV1Template.controls.templateStatus.value!='Freezed'">
+                                                    <span class="link" (click)="openEditTemplate(eachAvailableV1Template.controls.ddId.value,eachAvailableV1Template.controls.templateStatus.value)">
+                                                        <mat-icon>edit</mat-icon> Edit Template
+                                                    </span>
+                                                </td>
+                                                <td class="text-center" *ngIf="eachAvailableV1Template.controls.templateStatus.value=='FREEZED' || eachAvailableV1Template.controls.templateStatus.value=='Freezed'">
+                                                    <span class="link" (click)="openEditTemplate(eachAvailableV1Template.controls.ddId.value,eachAvailableV1Template.controls.templateStatus.value)">
+                                                        <mat-icon>edit</mat-icon> View Template
+                                                    </span>
+                                                </td>
+                                                <td class="text-center" *ngIf="eachAvailableV1Template.controls.templateStatus.value == 'Freezed' || eachAvailableV1Template.controls.templateStatus.value == 'FREEZED'">
+                                                    <span class="link" (click)="createNewVersion(i,eachAvailableV1Template.controls.ddId.value)"><mat-icon>add</mat-icon> Create New Version</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="subscriptionDetailsForm" label="Subscription Details" >
+                        <form [formGroup]="subscriptionDetailsForm">
+                            <div class="v-flex mtop-20">
+                                <div class="form-group">
+                                    <div class="h-flex subsDetails">
+                                        <div class="form-field">
+                                            <mat-label>Subscription Name</mat-label>
+                                            <input matInput formControlName="subscriptionName" readonly>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-label>Subscription Period in Days</mat-label>
+                                            <input matInput formControlName="subscriptionPeriod" readonly>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-label *ngIf="clientTypeId==3">Maximum Bank</mat-label>
+                                            <mat-label *ngIf="clientTypeId!=3">Maximum Branch</mat-label>
+                                            <input matInput formControlName="maxNumberOfBranches" readonly>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-label>Maximum Loan Schemes</mat-label>
+                                            <input matInput formControlName="maxLoanSchemeAllowed" readonly>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-label>Renewal Reminder Activation in Days</mat-label>
+                                            <input matInput formControlName="renewalReminderActivation" readonly>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-label>Data Validity Period in Days</mat-label>
+                                            <input matInput formControlName="dataValidityPeriod" readonly>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-label>Price/Month</mat-label>
+                                            <input matInput formControlName="pricePerMonth" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="h-flex subsDetailsForm">
+                                        <div class="form-field">
+                                            <mat-form-field appearance="fill" >
+                                                <mat-label>Price / Package</mat-label>
+                                                <input matInput formControlName="price" pattern="^-?\d+(?:\.\d+)?$" >
+                                            </mat-form-field>
+                                           
+                                            <mat-error>{{pageErrors.price}}</mat-error>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Tax %</mat-label>
+                                                <input matInput formControlName="tax" pattern="^-?\d+(?:\.\d+)?$">
+                                            </mat-form-field>
+                                            
+                                            <mat-error>{{pageErrors.tax}}</mat-error>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-form-field appearance="fill" >
+                                                <mat-label>GST %</mat-label>
+                                                <input matInput formControlName="gst" pattern="^-?\d+(?:\.\d+)?$" >
+                                            </mat-form-field>
+                                            
+                                            <mat-error>{{pageErrors.gst}}</mat-error>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Subscription Total Amount</mat-label>
+                                                <input matInput formControlName="totalAmount"
+                                                    pattern="^-?\d+(?:\.\d+)?$">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="h-flex subsDetailsForm">
+                                        <div class="form-field">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Subscription Start Date</mat-label>
+                                                <input matInput formControlName="subscriptionStartDate" readonly *ngIf="isEditMode">
+                                                <input matInput [matDatepicker]="pickerStartDate"
+                                                            formControlName="subscriptionStartDate" [min]="minDate" *ngIf="!isEditMode">
+                                                <mat-datepicker-toggle matSuffix [for]="pickerStartDate" *ngIf="!isEditMode">
+                                                    </mat-datepicker-toggle>
+                                                <mat-datepicker #pickerStartDate *ngIf="!isEditMode"></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field" *ngIf="isEditMode">
+                                            <mat-label>Subscription End Date</mat-label>
+                                            <input matInput formControlName="subscriptionEndDate" readonly>
+                                        </div>
+                                        <div class="form-field" *ngIf="!isEditMode">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Subscription End Date</mat-label>
+                                                <input matInput [matDatepicker]="pickerEndDate"
+                                                            formControlName="subscriptionEndDate" [min]="minDate">
+                                                <mat-datepicker-toggle matSuffix [for]="pickerEndDate">
+                                                    </mat-datepicker-toggle>
+                                                <mat-datepicker #pickerEndDate ></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Subscription Renewal Date</mat-label>
+                                                <input matInput [matDatepicker]="pickerRenewalDate"
+                                                            formControlName="renewalReminderDate" [min]="minDate">
+                                                <mat-datepicker-toggle matSuffix [for]="pickerRenewalDate">
+                                                    </mat-datepicker-toggle>
+                                                <mat-datepicker #pickerRenewalDate></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stepper-actions">
+                                <button color="secondary" class="prev steps-button" mat-raised-button matStepperPrevious>
+                                    <mat-icon>chevron_left</mat-icon>Back
+                                </button>
+                                <button color="primary" class="next steps-button" mat-raised-button  (click)="performSubscriptionDetailsSubmit()">
+                                    Next <mat-icon>chevron_right</mat-icon>
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <ng-template matStepperIcon="number" let-index="index">
+                        <mat-icon>{{index === 0 ? 'account_balance' : index === 1 ? 'subscriptions' : 'done'}}
+                        </mat-icon>
+                    </ng-template>
+                </mat-horizontal-stepper>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

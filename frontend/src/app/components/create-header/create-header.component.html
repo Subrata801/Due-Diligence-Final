@@ -1,0 +1,101 @@
+<!---->
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>add_location</mat-icon> Headers
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div class="v-flex">
+                <form [formGroup]="addHeaderForm" autocomplete="off">
+                    <div class="alert alert-danger mbot-20" role="alert" *ngIf="isAddHeaderFailed">
+	                    {{ errorMessage }}
+	                </div>
+                    <div class="mtop-20 filter-panel">
+                        <div class="h-flex nowrap">
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Header Key</mat-label>
+                                    <input matInput placeholder="Header Key" formControlName="headerKey">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.headerKey}}</mat-error>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>English Description</mat-label>
+                                    <input matInput placeholder="English Description" formControlName="englishDescription">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.englishDescription}}</mat-error>
+                            </div>
+                            <div class="form-field">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Non-English Description</mat-label>
+                                    <input matInput placeholder="Non-English Description" formControlName="nonEnglishDescription">
+                                </mat-form-field>
+                                <mat-error>{{pageErrors.nonEnglishDescription}}</mat-error>
+                            </div>
+                            <div class="mtop-5">
+                                <mat-icon (click)="performSubmit()" class="button">add</mat-icon>
+                                <mat-icon (click)="performSearch()" class="button">search</mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="clear mbot-20" *ngIf="getHeaderDataArrayControl().length > 0"></div>
+    <mat-card *ngIf="getHeaderDataArrayControl().length > 0">
+        <mat-card-title>
+            <mat-icon>manage_search</mat-icon> Search Results
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content *ngIf="getHeaderDataArrayControl().length > 0">
+            <form [formGroup]="updateHeaderForm" autocomplete="off">
+            	<div class="alert alert-danger mbot-20" role="alert" *ngIf="isEditHeaderFailed">
+	                    {{ errorMessage }}
+	            </div>
+                <div class="grid header-data">
+                    <table formArrayName="headerData">
+                        <thead>
+                            <tr>
+                               <!--  <th class="text-center">#</th> -->
+                                <th>Header Key</th>
+                                <th>English Description</th>
+                                <th>Non-English Description</th>
+                                <th class="text-center">Save</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let eachHeaderData of getHeaderDataArrayControl(); let i=index">
+                                <!-- <td [formGroupName]="i" class="text-center">{{i}}</td> -->
+                                <td [formGroupName]="i">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="" formControlName="headerKey">
+                                    </mat-form-field>
+                                    <mat-error>{{pageErrors.headerKey}}</mat-error>
+                                </td>
+                                <td [formGroupName]="i">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="" formControlName="englishDescription">
+                                    </mat-form-field>
+                                    <mat-error>{{pageErrors.englishDescription}}</mat-error>
+                                </td>
+                                <td [formGroupName]="i">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="" formControlName="nonEnglishDescription">
+                                    </mat-form-field>
+                                    <mat-error>{{pageErrors.nonEnglishDescription}}</mat-error>
+                                </td>
+                                <td [formGroupName]="i" class="text-center" *ngIf="getHeaderDataArrayControl().length > 0">
+                                    <mat-icon (click)="saveUnit(i)">save</mat-icon>
+                                    <!-- <mat-icon (click)="deleteUnit(i)">delete</mat-icon> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

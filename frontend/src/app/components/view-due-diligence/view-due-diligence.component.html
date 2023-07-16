@@ -1,0 +1,94 @@
+<div class="content-panel">
+    <mat-card>
+        <mat-card-title>
+            <mat-icon>grading</mat-icon> {{moduleDesc}}
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <div class="alert alert-danger mtop-20" role="alert" *ngIf="isError">
+            {{ errorMessage }}
+        </div>
+        <mat-card-content>
+            <!-- <div class="mtop-20 h-flex module-cards">
+                <div class="module-card" (click)="loadHeadersList()">
+                    <div class="icon">
+                        <mat-icon>view_module</mat-icon>
+                    </div>
+                    <div class="title">MODULE 1 - SCRUTINY OF APPLICATION</div>
+                </div>
+                <div class="module-card" (click)="loadHeadersList()">
+                    <div class="icon">
+                        <mat-icon>view_module</mat-icon>
+                    </div>
+                    <div class="title">MODULE 2 -  DOCUMENTATION, CREATION OF SECURITIES, INSURANCE AND  LOAN DISBURSEMENT</div>
+                </div>
+                <div class="module-card" (click)="loadHeadersList()">
+                    <div class="icon">
+                        <mat-icon>view_module</mat-icon>
+                    </div>
+                    <div class="title">MODULE 3 - CONFIRMATION OF SECURITIES OBTAINED, TO BE DONE WITHIN 1 MONTH OF LOAN DISBURSEMENT</div>
+                </div>
+                <div class="module-card" (click)="loadHeadersList()">
+                    <div class="icon">
+                        <mat-icon>view_module</mat-icon>
+                    </div>
+                    <div class="title">MODULE 4 - PERIODIC MONITORING & FOLLOW UP</div>
+                </div>
+                <div class="module-card" (click)="loadHeadersList()">
+                    <div class="icon">
+                        <mat-icon>view_module</mat-icon>
+                    </div>
+                    <div class="title">MODULE 5  -  RELEASE OF SECURITIES ON CLOSURE OF ACCOUNT</div>
+                </div>
+            </div> -->
+            <div class="mtop-20 v-flex" *ngIf="loadHeaders">
+                <div class="h-flex flex-wrap mod-headers">
+                    <div *ngFor="let item of headerObj | keyvalue: asIsOrder">
+                      <div class="api-headers-card">
+                        <div class="icon">
+                            <mat-icon>view_in_ar</mat-icon>
+                        </div>
+					    <div class="title"><span>{{item.value}}</span></div>
+					    <button class="btn btn-primary" (click)="viewDD(item.key)">View Due Diligence</button>
+					  </div>
+					</div>
+                    
+                </div>
+            </div>
+            <!-- <div class="mtop-20 v-flex">
+                <div class="h-flex flex-wrap mod-headers">
+                    <div class="api-headers-card">
+                        <div class="icon">
+                            <mat-icon>view_in_ar</mat-icon>
+                        </div>
+                        <div class="title"><span>Headers for Module</span></div>
+                        <button class="btn btn-primary" (click)="viewDD()">View Due Diligence</button>
+                    </div>
+                    <div class="api-headers-card">
+                        <div class="icon">
+                            <mat-icon>view_in_ar</mat-icon>
+                        </div>
+                        <div class="title"><span>Headers for Module</span></div>
+                        <button class="btn btn-primary" (click)="viewDD()">View Due Diligence</button>
+                    </div>
+                    <div class="api-headers-card">
+                        <div class="icon">
+                            <mat-icon>view_in_ar</mat-icon>
+                        </div>
+                        <div class="title"><span>Headers for Module</span></div>
+                        <button class="btn btn-primary" (click)="viewDD()">View Due Diligence</button>
+                    </div>
+                    <div class="api-headers-card">
+                        <div class="icon">
+                            <mat-icon>view_in_ar</mat-icon>
+                        </div>
+                        <div class="title"><span>Headers for Module</span></div>
+                        <button class="btn btn-primary" (click)="viewDD()">View Due Diligence</button>
+                    </div>
+                </div>
+            </div> -->
+            <div class="mtop-20">
+                <router-outlet></router-outlet>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
